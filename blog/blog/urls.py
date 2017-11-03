@@ -21,4 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^tracking_home/', include('home.url')),
     url(r'^tracking/', include('home.url')),
+    url(r'^creditCard/', include('home.url')),
+    url(r'^confirmation/', include ('home.url')),
+    url(r'^search_result/', include ('home.url')),
 ]

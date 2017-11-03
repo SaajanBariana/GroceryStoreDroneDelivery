@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method ="post" action="confirmation/">
+  {% csrf_token %}
+  {{ form.as_p}}
+
+    <legend>Credit Card Information:</legend>
+    <br>
+    Credit Card Number:<br>
+    <input type="text" name="Credit_Card_Number" value="">
+    <br>
+
+    CSV:<br>
+    <input type="text" name="CSV" value="">
+    <br>
+
+    Expiration Date:<br>
+    <input type="date" name="ExpirationDate" value="">
+    <br>
+
+    Name On Card:<br>
+    <input type="text" name="NameOnCard" value="">
+    <br>
+
+    Zip Code:<br>
+    <input type="text" name="Card_Zipcode" value="">
+    <br>
+
+    <br>
+    <input type="submit" name="submit_payment" value="submit payment">
+
+</form>
+<p>
+  this is the result {{name5}}
+</p>
+</body>
+
+
+</html>

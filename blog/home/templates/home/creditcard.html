@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Credit card validation with card.js</title>
+
+
+
+      <link rel="stylesheet" href="../../static/credit_card_div.css">
+
+
+</head>
+
+<body>
+  <div class="body-text">Please enter Shipping and Payment Information.</div>
+  <form>
+    <div class="form-container">
+      <div class="personal-information">
+        <h1>Payment Information</h1>
+      </div> <!-- end of personal-information -->
+
+      <input id="input-field" type="text" name="streetaddress" required="required" autocomplete="on" maxlength="45" placeholder="Streed Address"/>
+      <input id="column-left" type="text" name="city" required="required" autocomplete="on" maxlength="20" placeholder="City"/>
+      <input id="column-right" type="text" name="zipcode" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
+      <input id="input-field" type="email" name="email" required="required" autocomplete="on" maxlength="40" placeholder="Email"/>
+
+        <div class="card-wrapper"></div>
+          <input id="column-left" type="text" name="NameOnCard" placeholder="Name"/>
+          <input id="column-right" type="text" name="Card_Zipcode" placeholder="Zip Code"/>
+          <input id="input-field" type="text" name="Credit_Card_Number" placeholder="Card Number"/>
+          <input id="column-left" type="text" name="ExpirationDate" placeholder="Expiration"/>
+          <input id="column-right" type="text" name="CSV" placeholder="CCV"/>
+          <input id="input-button" type="submit" value="Submit"/>
+  </form>
+</div>
+
+  <script src="../../static/creditcardvalidation.js"></script>
+
+</body>
+</html>
+
+
+
+
+<!-- First run through of HTML for Credit Card format -->
+<!-- <!DOCTYPE html>
+<html>
+<body>
+<form method ="post" action="confirmation/">
+  {% csrf_token %}
+  {{ form.as_p}}
+    <legend>Credit Card Information:</legend>
+
+    <br>
+    Credit Card Number:<br>
+    <input type="text" name="Credit_Card_Number" value="">
+    <br>
+
+    CSV:<br>
+    <input type="text" name="CSV" value="">
+    <br>
+
+    Expiration Date:<br>
+    <input type="date" name="ExpirationDate" value="">
+    <br>
+
+    Name On Card:<br>
+    <input type="text" name="NameOnCard" value="">
+    <br>
+
+    Zip Code:<br>
+    <input type="text" name="Card_Zipcode" value="">
+    <br>
+
+    <br>
+    <input type="submit" name="submit_payment" value="submit_payment">
+
+</form>
+<p>
+  this is the result {{name12}}
+</p>
+
+ <! <script src="../../static/creditcardvalidation.js"></script> -->
+<!-- </body>
+
+
+</html> -->
+
+
+
+<!--
+THIS IS FOR THE SCRIPT -->
+ <!-- <script src="../../static/creditcardvalidation.js"></script> -->

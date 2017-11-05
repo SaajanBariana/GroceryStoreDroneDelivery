@@ -90,7 +90,7 @@ def search_result(request):
     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password1234', db='grocery_store')
     cur = conn.cursor()
 
-    query = 'SELECT * FROM fruit WHERE fruit_id = 2'
+    query = 'SELECT * FROM fruit WHERE price = 2'
     # return HttpResponse(query)
     cur.execute(query)
 
@@ -98,15 +98,11 @@ def search_result(request):
 
     for r in cur.fetchall():
         info.append(("name", r[1]))
-# info = {"name", "Apple"}
+# info = {"name", "Apple"} if fruit_id = 0
 
     cur.close()
     conn.close()
 
-    # if(info != ""):
-    #     dictionary = {info}
-    # else:
-    #     return("0", "error")
 
     template = loader.get_template('home/search_result.html')
     context = dict(info)
@@ -122,30 +118,25 @@ def search_result(request):
     # context = {}
     # return HttpResponse(template.render(context, request))
 
-def get_search(request):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password1234', db='grocery_store')
-    cur = conn.cursor()
-
-    query = 'SELECT name FROM fruit WHERE fruit_id = 1'
-    #return HttpResponse(query)
-    cur.execute(query)
-
-    info = []
-
-    for r in cur.fetchall():
-        info.append(( "name", r[2]))
-
-    cur.close()
-    conn.close()
-
-
-    # if(info != ""):
-    #     dictionary = {info}
-    # else:
-    #     return("0", "error")
-
-    template = loader.get_template('home/search_result.html')
-    context = dict(info)
-    return HttpResponse(template.render(context, request))
+# def get_search(request):
+#     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password1234', db='grocery_store')
+#     cur = conn.cursor()
+#
+#     #query = 'SELECT name FROM fruit'# WHERE price = 3'
+#     #cur.execute(query)
+#
+#     info = []
+#
+#     for r in cur.fetchall():
+#         info.append(( "name", r[0]))
+#
+#     cur.close()
+#     conn.close()
+#
+#
+#
+#     template = loader.get_template('home/search_result.html')
+#     context = dict(info)
+#     return HttpResponse(template.render(context, request))
 
 # Create your views here.

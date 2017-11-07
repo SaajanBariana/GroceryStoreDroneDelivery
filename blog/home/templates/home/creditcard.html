@@ -16,19 +16,23 @@
   <form>
     <div class="form-container">
       <div class="personal-information">
-        <h1>Payment Information</h1>
+        <h1>Shipping Information</h1>
       </div> <!-- end of personal-information -->
 
-      <input id="input-field" type="text" name="streetaddress" required="required" autocomplete="on" maxlength="45" placeholder="Streed Address"/>
-      <input id="column-left" type="text" name="city" required="required" autocomplete="on" maxlength="20" placeholder="City"/>
-      <input id="column-right" type="text" name="zipcode" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
-      <input id="input-field" type="email" name="email" required="required" autocomplete="on" maxlength="40" placeholder="Email"/>
+      <input id="input-field" type="text" name="Street_Name" required="required" autocomplete="on" maxlength="45" placeholder="Street Address"/>
+      <input id="column-left" type="text" name="City" required="required" autocomplete="on" maxlength="20" placeholder="City"/>
+      <input id="column-right" type="text" name="Zip_Code" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
+      <input id="input-field" type="text" name="State" required="required" autocomplete="on" maxlength="10" placeholder="State"/>
+      <input id="input-field" type="email" name="email" required="required" autocomplete="on" maxlength="40" placeholder="Email Address"/>
+      <!-- <input id="column-right" type="email" name="email" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="email"/> -->
 
-        <div class="card-wrapper"></div>
+      <div class="personal-information">
+        <h1>Credit Card Information</h1>
+      </div> <!-- end of Credit Card-information -->
           <input id="column-left" type="text" name="NameOnCard" placeholder="Name"/>
           <input id="column-right" type="text" name="Card_Zipcode" placeholder="Zip Code"/>
           <input id="input-field" type="text" name="Credit_Card_Number" placeholder="Card Number"/>
-          <input id="column-left" type="text" name="ExpirationDate" placeholder="Expiration"/>
+          <input id="column-left" type="text" name="ExpirationDate" placeholder="Expiration-MM/YY"/>
           <input id="column-right" type="text" name="CSV" placeholder="CCV"/>
           <input id="input-button" type="submit" value="Submit"/>
   </form>

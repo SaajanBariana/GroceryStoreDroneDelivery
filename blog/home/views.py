@@ -67,7 +67,7 @@ def creditcard(request):
         if request.POST['submit_payment'] == "submit_payment":
             conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='', db='grocery_store')
             cur = conn.cursor()
-
+# Credit Card Submission form
             CreditCardNumber = request.POST['Credit_Card_Number']
             try:
                 CreditCardNumber = "'" + CreditCardNumber + "'"
@@ -98,6 +98,43 @@ def creditcard(request):
             except ValueError:
                 pass  # it was a string, not an int.
 
+# Address Information
+            StreetName = request.POST['Street_Name']
+            try:
+                StreetName = "'" + Street_Name + "'"
+            except ValueError:
+                pass  # it was a string, not an int.
+
+            State = request.POST['State']
+            try:
+                State = "'" + State + "'"
+            except ValueError:
+                pass  # it was a string, not an int.
+
+            City = request.POST['City']
+            try:
+                City =  "'" + City + "'"
+            except ValueError:
+                pass  # it was a string, not an int.
+
+            Zip_Code = request.POST['Zip_Code']
+            try:
+                NameOnCard = "'" + NameOnCard + "'"
+            except ValueError:
+                pass  # it was a string, not an int.
+
+
+            query = "INSERT INTO User Info (Street_Name, State, City, Zip_Code) VALUES (" + StreetName + ", " + State+ ", " + City + ", " + Zip_Code + ")"
+            try:
+                cur.execute(query)
+                conn.commit()
+                response = ("1",UserID)
+
+
+            except Exception as e:
+                response = ("0",e)
+
+                
 #            query = "DROP Table if exists Payments;"
             query = "INSERT INTO Payments (Credit_Card_Number, CSV, Expiration_Date, Name_on_Card, Card_Zipcode) VALUES (" + CreditCardNumber + ", " + CSV+ ", " + ExpirationDate + ", " + NameOnCard + ", " + CardZipcode + ")"
             try:
@@ -116,8 +153,10 @@ def creditcard(request):
             for row in cur.fetchall():
                 items.append(("name" + str(i), str(row[4])))
                 i = i + 1
+                #items.append(("name0", alvin)
             context = dict(items)
-            #return HttpResponse(template.render(context, request))
+
+            # return HttpResponse(template.render(context, request))
 
             return HttpResponse("hello post from inside method")
     elif request.method == 'GET':

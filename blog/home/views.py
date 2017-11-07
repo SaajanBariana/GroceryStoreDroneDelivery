@@ -87,26 +87,37 @@ def search_bar(request):
     return HttpResponse(template.render(context, request))
 
 def search_result(request):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password1234', db='grocery_store')
-    cur = conn.cursor()
+    if request.method == 'GET':
+        conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password1234', db='grocery_store')
+        cur = conn.cursor()
 
-    query = 'SELECT * FROM fruit WHERE price = 2'
-    # return HttpResponse(query)
-    cur.execute(query)
+        user_search_input = request.GET.get('search_bar', None)
+        # Change fruit to whatever table we want to search
+        #query = 'SELECT * FROM fruit WHERE name = ' + '"' + user_search_input + '"'
+            # SELECT * FROM fruit WHERE name = "user_input"; gives us exact result of input
 
-    info = []
+        query = 'SELECT * FROM fruit WHERE name LIKE ' + '"%' + user_search_input + '%"'
 
-    for r in cur.fetchall():
-        info.append(("name", r[1]))
-# info = {"name", "Apple"} if fruit_id = 0
+        #query = 'SELECT * FROM fruit WHERE LOCATE(' + "'" + 'name' + "', '{$" + user_search_input + "}') > 0"
+        #query = "SELECT * FROM fruit WHERE LOCATE('{$" + str(user_search_input) + "}','name') > 0"
+        #print(query)
 
-    cur.close()
-    conn.close()
+        cur.execute(query)
+
+        info = []
+
+        for r in cur.fetchall():
+            info.append(("name", r[1]))
+            print(r[1])
+        # info = {"name", "Apple"} if fruit_id = 0
+
+        cur.close()
+        conn.close()
 
 
-    template = loader.get_template('home/search_result.html')
-    context = dict(info)
-    return HttpResponse(template.render(context, request))
+        template = loader.get_template('home/search_result.html')
+        context = dict(info)
+        return HttpResponse(template.render(context, request))
 
 
 

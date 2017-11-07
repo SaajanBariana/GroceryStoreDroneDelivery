@@ -62,9 +62,11 @@
 
           <!--- Search Bar is Here you Dumbass --->
           <ul class="navbar-nav ml-auto">
-              <form action = "">
-                    <input type = "text" placeholder = "Search..." maxlength = "20" id="search" class = "round">
-                    <a href="search_result.html" class="btn btn-primary">Go</a>
+              <form action = "search_result.html" type = "get">
+                  <input id="search_bar" type = "text" name = "search_bar" placeholder = "Search..." class = "round">
+                  <!--<a href="search_result.html" class="btn btn-primary">Go</a>-->
+                  <button id = "search_submit" type = "submit">Go</button>
+
               </form>
             <li class="nav-item">
               <a class="nav-link" href="about.html">About</a>

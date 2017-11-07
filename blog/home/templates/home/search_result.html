@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <h1> Hello </h1>
-    <p> Result: {{name}} </p>
 
 
 </head>
 <body>
-    <p>Whuddup <br/></p>
-    <!--{% for obj in info %}-->
 
-    <!--{{name}}<br/>-->
+{% for item in items %}
+<p> Name: {{item.name}} </p>
+{% endfor %}
 
-    <!--{% endfor %}-->
 
-    {{name}}
 </body>
 </html>

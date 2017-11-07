@@ -93,10 +93,12 @@ def search_result(request):
 
         user_search_input = request.GET.get('search_bar', None)
         # Change fruit to whatever table we want to search
+
         #query = 'SELECT * FROM fruit WHERE name = ' + '"' + user_search_input + '"'
             # SELECT * FROM fruit WHERE name = "user_input"; gives us exact result of input
 
         query = 'SELECT * FROM fruit WHERE name LIKE ' + '"%' + user_search_input + '%"'
+        # SELECT * FROM fruit WHERE name LIKE "%user_input%"
 
         #query = 'SELECT * FROM fruit WHERE LOCATE(' + "'" + 'name' + "', '{$" + user_search_input + "}') > 0"
         #query = "SELECT * FROM fruit WHERE LOCATE('{$" + str(user_search_input) + "}','name') > 0"
@@ -104,30 +106,28 @@ def search_result(request):
 
         cur.execute(query)
 
-        info = []
-
-        for r in cur.fetchall():
-            info.append(("name", r[1]))
-            print(r[1])
-        # info = {"name", "Apple"} if fruit_id = 0
+        items = []
+        """ Hello """
+        for row in cur.fetchall():
+            fruit = {"name": str(row[1]),
+                    # "weight": str(row[2]),
+                    # "cost": str(row[3]),
+                    # "quantity": str(row[4]),
+                    # "tags": str(row[5]),
+                    # "image": str(row[6]),
+                    # "description": str(row[7])
+                     }
+            items.append(fruit)
 
         cur.close()
         conn.close()
 
 
         template = loader.get_template('home/search_result.html')
-        context = dict(info)
+        context = {"items":items}
         return HttpResponse(template.render(context, request))
 
 
-
-
-
-
-
-    # template = loader.get_template('home/search_result.html')
-    # context = {}
-    # return HttpResponse(template.render(context, request))
 
 # def get_search(request):
 #     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password1234', db='grocery_store')

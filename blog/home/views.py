@@ -88,24 +88,20 @@ def search_bar(request):
 
 def search_result(request):
     if request.method == 'GET':
-        conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='HelloThisIsAnAI', db='grocery_store')
+        # password1234 HelloThisIsAnAI
+        conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password1234', db='grocery_store')
         cur = conn.cursor()
 
-        user_filter_choice = request.GET.get('drop_down_filter', None)
+        user_filter_choice = request.GET['drop_down_filter']
         user_search_input = request.GET.get('search_bar', None)
         # Change fruit to whatever table we want to search
 
-        print(str(user_filter_choice))
 
-        #query = 'SELECT * FROM fruit WHERE name = ' + '"' + user_search_input + '"'
-            # SELECT * FROM fruit WHERE name = "user_input"; gives us exact result of input
+        #query = 'SELECT * FROM fruit WHERE name = ' + '"' + user_search_input + '"'  # SELECT * FROM fruit WHERE name = "user_input"; gives us exact result of input
 
-        query = 'SELECT * FROM fruit WHERE name LIKE ' + '"%' + user_search_input + '%"'
-            # SELECT * FROM fruit WHERE name LIKE "%user_input%"
+        query = 'SELECT * FROM fruit WHERE name LIKE ' + '"%' + user_search_input + '%"' # SELECT * FROM fruit WHERE name LIKE "%user_input%"0
 
-        #query = 'SELECT * FROM fruit WHERE LOCATE(' + "'" + 'name' + "', '{$" + user_search_input + "}') > 0"
-        #query = "SELECT * FROM fruit WHERE LOCATE('{$" + str(user_search_input) + "}','name') > 0"
-        #print(query)
+        #TODO: Use the filter in the query to filter through results
 
         cur.execute(query)
 

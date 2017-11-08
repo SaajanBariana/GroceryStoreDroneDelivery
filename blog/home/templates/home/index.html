@@ -3,7 +3,6 @@
             #search_bar{
                 border: 1px solid #000000;
                 border-right: none;
-                border-left: none;
                 font-size: 16px;
                 width: 200px;
                 padding: 10px;
@@ -34,6 +33,41 @@
                 width: 100%;
                 z-index: 5;
             }
+
+            #drop_down_filter {
+                margin-right: 1px;
+                margin-top: 1px;
+                height: 50%
+                border: 1px solid #000000;
+                background-color: #FFFFFF;
+                color: black;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                outline: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             /*Drop down button filter*/
             .dropbtn {
@@ -146,15 +180,24 @@ function getFilter() {
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
               <!--- Drop down bar for filter--->
-            <div class="dropdown">
-                <button onclick="toggleDropDown()" class="dropbtn">Category</button>
-                <div id="myDropdown" class="dropdown-content" type = "text">
-                    <a href="#fruit">Disgusting Fruits</a>
-                    <a href="#vegetables">Dirty Vegetables</a>
-                    <a href="#meat">Spoiled Meat</a>
-                    <a href="#other">Artificially Packaged Bad Stuff</a>
-                </div>
-            </div>
+            <!--<div class="dropdown">-->
+                <!--<button onclick="toggleDropDown()" class="dropbtn">Category</button>-->
+                <!--<div id="myDropdown" class="dropdown-content" type = "text">-->
+                    <!--<a href="#fruit">Disgusting Fruits</a>-->
+                    <!--<a href="#vegetables">Dirty Vegetables</a>-->
+                    <!--<a href="#meat">Spoiled Meat</a>-->
+                    <!--<a href="#other">Artificially Packaged Bad Stuff</a>-->
+                <!--</div>-->
+            <!--</div>-->
+
+              <select id = "drop_down_filter" name = "drop_down_filter">
+                  <option value = "Categories">Categories</option>
+                  <option value = "Fruit" >Disgusting Fruit</option>
+                  <option value = "Vegetables">Dirty Vegetables</option>
+                  <option value = "Meat">Spoiled Meat</option>
+                  <option value = "Other">Other Stuffs</option>
+
+              </select>
 
 
           <!--- Search Bar --->

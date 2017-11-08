@@ -91,7 +91,7 @@ def search_result(request):
         conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='HelloThisIsAnAI', db='grocery_store')
         cur = conn.cursor()
 
-        user_filter_choice = request.GET.get('myDropdown', None)
+        user_filter_choice = request.GET.get('drop_down_filter', None)
         user_search_input = request.GET.get('search_bar', None)
         # Change fruit to whatever table we want to search
 

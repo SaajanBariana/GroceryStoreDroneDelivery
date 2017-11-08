@@ -9,8 +9,12 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+
+import random
+import time
 import pymysql
 @api_view(['GET', 'POST'])
+
 
 def index(request):
     template = loader.get_template('home/index.html')
@@ -119,9 +123,32 @@ def creditcard(request):
 
             Zip_Code = request.POST['Zip_Code']
             try:
-                NameOnCard = "'" + NameOnCard + "'"
+                Zip_Code = "'" + Zip_Code + "'"
             except ValueError:
                 pass  # it was a string, not an int.
+
+            StoreID = request.POST['store_id']
+            try:
+                StoreID = "'" + StoreID + "'"
+            except ValueError:
+                pass  # it was a string, not an int.
+
+            ran = (str(int(time.time())))
+            try:
+                ran = "'" + ran + "'"
+            except ValueError:
+                pass  # it was a string, not an int.
+
+
+            #print ("STORE VALUE: " + StoreID)
+
+            query = "INSERT INTO tracking (track_id, destination, store_id) VALUES (" + ran + ", " + StreetName+ ", " + StoreID + ")"
+            try:
+                cur.execute(query)
+                conn.commit()
+                response = ("1",UserID)
+            except Exception as e:
+                response = ("0",e)
 
 
             query = "INSERT INTO User Info (Street_Name, State, City, Zip_Code) VALUES (" + StreetName + ", " + State+ ", " + City + ", " + Zip_Code + ")"
@@ -134,7 +161,7 @@ def creditcard(request):
             except Exception as e:
                 response = ("0",e)
 
-                
+
 #            query = "DROP Table if exists Payments;"
             query = "INSERT INTO Payments (Credit_Card_Number, CSV, Expiration_Date, Name_on_Card, Card_Zipcode) VALUES (" + CreditCardNumber + ", " + CSV+ ", " + ExpirationDate + ", " + NameOnCard + ", " + CardZipcode + ")"
             try:
@@ -167,14 +194,25 @@ def confirmation(request):
     template = loader.get_template('home/confirmation.html')
     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='', db='grocery_store')
     cur = conn.cursor()
+
+    ran = (str(int(time.time())))
+    query = "INSERT INTO tracking (track_id, ) VALUES (" + ran +  ")"
+    try:
+        cur.execute(query)
+        conn.commit()
+        response = ("1",UserID)
+
+    except Exception as e:
+        response = ("0",e)
+        #raise
     items = [];
     i = 0
-    cur.execute("SELECT * FROM Payments")
+    cur.execute("SELECT * FROM tracking")
     for row in cur.fetchall():
-        item.append(("name" + str(i), str(row[4])))
+        items.append(("name" + str(i), str(row[4])))
         i = i + 1
 
     context = dict(items)
-    return HttpResponse(template.render(context, request))
-
+    # return HttpResponse(template.render(context, request))
+    return HttpResponse("Random Value: " + ran)
 # Create your views here.

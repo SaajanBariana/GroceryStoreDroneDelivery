@@ -2,10 +2,12 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Credit card validation with card.js</title>
+  <title>Credit card validation with card</title>
 
-
-
+  <form action="/home/confirmation/" method="post" class="credit-card-div">
+      {% csrf_token %}
+        {{ form.as_p }}
+      <!-- <script src="../../static/Total_Amount_Payment_Cookie.js"></script> -->
       <link rel="stylesheet" href="../../static/credit_card_div.css">
 
 
@@ -24,7 +26,8 @@
       <input id="column-right" type="text" name="Zip_Code" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
       <input id="input-field" type="text" name="State" required="required" autocomplete="on" maxlength="10" placeholder="State"/>
       <input id="input-field" type="email" name="email" required="required" autocomplete="on" maxlength="40" placeholder="Email Address"/>
-      <!-- <input id="column-right" type="email" name="email" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="email"/> -->
+
+
 
       <div class="personal-information">
         <h1>Credit Card Information</h1>
@@ -35,60 +38,75 @@
           <input id="column-left" type="text" name="ExpirationDate" placeholder="Expiration-MM/YY"/>
           <input id="column-right" type="text" name="CSV" placeholder="CCV"/>
           <input id="input-button" type="submit" value="Submit"/>
+          <button onclick="CreateStoreCookie()"> CLICK TO CREATE COOKIE </button>
+          <button onclick="ShowStoreCookie()"> CLICK TO SHOW COOKIE </button>
+          <button onclick="DeleteStoreCookie()"> CLICK TO DELETE COOKIE </button>
+          <input id="store" type="hidden" name="store_id" required="required" autocomplete="on" pattern=[0-9]* placeholder="store id, Select 1 or 2"
+
+
   </form>
 </div>
 
   <script src="../../static/creditcardvalidation.js"></script>
 
+  <script>
+
+
+  function SetStoreID()
+  {
+    var input = document.getElementById("store");
+    input.value = readCookie("Store");
+  }
+
+  function ShowStoreCookie()
+  {
+    alert("Store Cookie: " + readCookie("Store"));
+  }
+
+  function DeleteStoreCookie()
+  {
+    createCookie("Store", "", -1);
+  }
+
+  function CreateStoreCookie()
+  {
+    createCookie("Store", "1", 1);
+  }
+
+  function createCookie(name,value,days)
+  {
+        if (days)
+        {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+            var expires = "; expires=" + date.toGMTString();
+        }
+        else
+        {
+            var expires = "";
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+  }
+
+  function readCookie(name)
+    {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') {
+              c = c.substring(1,c.length);
+          }
+          if (c.indexOf(nameEQ) == 0) {
+              return c.substring(nameEQ.length,c.length);
+          }
+      }
+      return null;
+    }
+  </script>
+
 </body>
 </html>
-
-
-
-
-<!-- First run through of HTML for Credit Card format -->
-<!-- <!DOCTYPE html>
-<html>
-<body>
-<form method ="post" action="confirmation/">
-  {% csrf_token %}
-  {{ form.as_p}}
-    <legend>Credit Card Information:</legend>
-
-    <br>
-    Credit Card Number:<br>
-    <input type="text" name="Credit_Card_Number" value="">
-    <br>
-
-    CSV:<br>
-    <input type="text" name="CSV" value="">
-    <br>
-
-    Expiration Date:<br>
-    <input type="date" name="ExpirationDate" value="">
-    <br>
-
-    Name On Card:<br>
-    <input type="text" name="NameOnCard" value="">
-    <br>
-
-    Zip Code:<br>
-    <input type="text" name="Card_Zipcode" value="">
-    <br>
-
-    <br>
-    <input type="submit" name="submit_payment" value="submit_payment">
-
-</form>
-<p>
-  this is the result {{name12}}
-</p>
-
- <! <script src="../../static/creditcardvalidation.js"></script> -->
-<!-- </body>
-
-
-</html> -->
 
 
 

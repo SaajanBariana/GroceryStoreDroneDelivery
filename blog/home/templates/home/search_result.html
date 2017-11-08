@@ -10,7 +10,15 @@
 <body>
 
 {% for item in items %}
-<p> Name: {{item.name}} </p>
+<p> Name: {{item.name}} <br/>
+    Weight: {{item.weight}}<br/>
+    Cost: {{item.cost}}<br/>
+    Quantity: {{item.quantity}}<br/>
+    Tags: {{item.tags}} <br/>
+    Image: {{item.image}} <br/>
+    Description: {{item.description}} <br/>
+</p>
+
 {% endfor %}
 
 

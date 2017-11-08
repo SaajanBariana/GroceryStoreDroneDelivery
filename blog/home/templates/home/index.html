@@ -1,32 +1,117 @@
 <!DOCTYPE html>
 <style type = "text/css">
-            #search{
+            #search_bar{
+                border: 1px solid #000000;
+                border-right: none;
+                border-left: none;
+                font-size: 16px;
                 width: 200px;
-                padding: 7px;
+                padding: 10px;
+                border: none;
             }
-            #submit{
-                height = 2px;
-                width: 40px;
-                padding: 8px;
+            #search_submit{
+                border: 1px solid #000000;
+                border-left: none;
+                font-size: 16px;
+                padding: 10px;
                 background: #607d8b;
-                border: 1px solid #607d8b;
                 color: white;
-                margin-left: 5px;
+                outline: none;
                 cursor: pointer;
+                -webkit-border-top-right radius: 10px;
+                -webkit-border-bottom-right radius: 10px;
+                -moz-border-radius-topRight: 10px;
+                -moz-border-radius-bottomRight: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                margin-left: -4px;
             }
-            #submit:hover{
+            #search_submit:hover{
                 background: #333;
                 transition: all 0.40s;
             }
             .round {
                 width: 100%;
-                border-radius: 15px;
-                border: 1px #000 solid;
-                padding: 5px 5px 5px 25px;
                 z-index: 5;
             }
 
-        </style>
+            /*Drop down button filter*/
+            .dropbtn {
+                margin-top: 1px;
+                border: 1px solid #000000;
+                border-right: none;
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                outline: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: #3e8e41;
+                transition: all 0.40s;
+            }
+
+            .dropdown {
+                float: left;
+                position: relative;
+                display: inline-block;
+
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #767777;
+                min-width: 160px;
+                overflow: auto;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                left: 0;
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown a:hover {background-color: #f1f1f1}
+
+            .show {display:block;}
+
+
+</style>
+<!--- Drop down bar JS --->
+<script>
+function toggleDropDown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+  }
+}
+
+function getFilter() {
+    document.getElementById("");
+}
+</script>
+
 <html lang="en">
 
 
@@ -59,28 +144,26 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-
-          <!--- Search Bar is Here you Dumbass --->
           <ul class="navbar-nav ml-auto">
-              <form action = "search_result.html" type = "get">
-                  <input id="search_bar" type = "text" name = "search_bar" placeholder = "Search..." class = "round">
-                  <!--<a href="search_result.html" class="btn btn-primary">Go</a>-->
-                  <button id = "search_submit" type = "submit">Go</button>
+              <!--- Drop down bar for filter--->
+            <div class="dropdown">
+                <button onclick="toggleDropDown()" class="dropbtn">Category</button>
+                <div id="myDropdown" class="dropdown-content" type = "text">
+                    <a href="#fruit">Disgusting Fruits</a>
+                    <a href="#vegetables">Dirty Vegetables</a>
+                    <a href="#meat">Spoiled Meat</a>
+                    <a href="#other">Artificially Packaged Bad Stuff</a>
+                </div>
+            </div>
 
-              </form>
+
+          <!--- Search Bar --->
+            <form action = "search_result.html" type = "get">
+              <input id="search_bar" type = "text" name = "search_bar" placeholder = "Search..." class = "round">
+                <button id = "search_submit" type = "submit">Go</button>
+            </form>
             <li class="nav-item">
               <a class="nav-link" href="about.html">About</a>
-            </li>
-            <!--- THIS IS MY STUFF APSODFJOIA JWE9A0W EHJF9AWSEHJF90- QV83H49-08V HQ90PEWH VP934 VQOI3F4
-            A
-            WER4 YN
-            W45Y N
-            4W5YN
-            W45
-            M 7W4
-            5W45M7W4576MW456P97B YUW34095-8UVQ0983H VY0Q93Y9P8QH V9P8QHJTP98QV JMP098TQA JMP94PV0 9QOJ--->
-            <li class = "nav-item">
-              <a class="nav-link" href="shopping_cart.html"> Shopping Cart</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tracking_home">Tracking</a>

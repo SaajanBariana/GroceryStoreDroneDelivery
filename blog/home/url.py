@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^contact_us', views.contact_us, name='contact_us'),
     url(r'^login_register', views.login_register, name='login_register'),
     url(r'^login_register_request/$', views.login_register_request, name='login_register_request'),
+    url(r'^search', views.search, name = 'search_result')
 ]

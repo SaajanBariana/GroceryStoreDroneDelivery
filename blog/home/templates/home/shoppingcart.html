@@ -14,32 +14,15 @@
     <link href="../../static/shoppingcart.css" rel="stylesheet">
 </head>
 <body>
+<script>parseMainCookie();</script>
 <div class="content" data-content>
     <div class="container">
         <div class="main" role="main">
             <h1 style=>My Cart</h1>
             <a href="../home/" class="continue">Continue Shopping</a> <!--need redirect link-->
         </div>
-        <div class="cart">
-            {% for cart in data %}
-                <ul class="cartWrap">
-                    <li class="items"> <!--adds the container for the item-->
-                        <div id="info-wrap">
-                            <div id="cart-section">
-                                <img src="../../static/{{ cart.itemImg }}.jpg" alt="" class="itemImg" />
-                                <p class="item-weight">Product Weight: {{ cart.weight }}lbs</p>
-                                <h3>{{ cart.itemName }}</h3>
-                                <p class="qty-price"> <input type="number" class="qty" id="qtyIn {{ forloop.counter0 }}" value="{{ cart.qty }}"/> x $</p>
-                                <p class="qty-price" id="qtyPrice">{{ cart.price }}</p>
-                                <p class="stock-status"> In Stock</p>
-                            </div>
-                            <div id="prodTotal">
-                                <p class="prodTotalCalc" id="pTotal"><script>getProductTotal({{ forloop.counter0 }});</script></p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            {% endfor %}
+        <div class="cart" id=myCart>
+        <script>getProductList();</script>
         </div>
         <div class="weightChecker"><label for="w">Weight Checker</label>
             <p id="weight" name="w"><script>getWeight();</script></p>
@@ -54,7 +37,6 @@
             </ul>
         </div>
     </div>
-
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

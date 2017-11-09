@@ -1,4 +1,111 @@
 <!DOCTYPE html>
+<style type="text/css">
+#search_bar{
+    border: 1px solid #000000;
+    border-right: none;
+    font-size: 16px;
+    width: 200px;
+    padding: 10px;
+    border: none;
+    -webkit-border-top-left radius: 10px;
+    -webkit-border-bottom-left radius: 10px;
+    -moz-border-radius-topLeft: 10px;
+    -moz-border-radius-bottomLeft: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+#search_submit{
+    border: 1px solid #000000;
+    border-left: none;
+    font-size: 16px;
+    padding: 10px;
+    background: #167FFC;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    -webkit-border-top-right radius: 10px;
+    -webkit-border-bottom-right radius: 10px;
+    -moz-border-radius-topRight: 10px;
+    -moz-border-radius-bottomRight: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-left: -4px;
+}
+#search_submit:hover{
+
+    background: #333;
+    transition: all 0.40s;
+}
+.round {
+    width: 100%;
+    z-index: 5;
+}
+#drop_down_filter {
+    margin-right: 1px;
+    margin-top: 1px;
+    height: 92%;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    color: black;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    -webkit-border-top-left radius: 10px;
+    -webkit-border-bottom-left radius: 10px;
+    -moz-border-radius-topLeft: 10px;
+    -moz-border-radius-bottomLeft: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+
+            </style>
+            <!--- Drop down bar JS --->
+            <script>
+            function toggleDropDown() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(e) {
+              if (!e.target.matches('.dropbtn')) {
+                var myDropdown = document.getElementById("myDropdown");
+                  if (myDropdown.classList.contains('show')) {
+                    myDropdown.classList.remove('show');
+                  }
+              }
+            }
+
+            function getFilter() {
+                document.getElementById("");
+            }
+
+</style>
+
+<script>
+  function toggleDropDown() {
+      document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(e) {
+    if (!e.target.matches('.dropbtn')) {
+      var myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+    }
+  }
+
+  function getFilter() {
+      document.getElementById("");
+  }
+
+
+</script>
+
+
 <html lang="en">
 
   <head>
@@ -16,10 +123,10 @@
     <!-- Custom styles for this template -->
     <link href="../../static/modern-business.css" rel="stylesheet">
 
+
+
+
   </head>
-
-  <body>
-
     <!-- Navigation -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
@@ -29,6 +136,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+
+            <!--- Search Bar --->
+             <form action="search.html" type="get">
+                 <select id="drop_down_filter" name="drop_down_filter">
+                     <option value="Categories">Categories</option>
+                     <option value="Fruit">Disgusting Fruit</option>
+                     <option value="Vegetables">Dirty Vegetables</option>
+                     <option value="Meat">Spoiled Meat</option>
+                     <option value="Other">Other Stuffs</option>
+                 </select>
+                 <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                 <button id="search_submit" type="submit">Go</button>
+             </form>
+
+
+
             <li class="nav-item">
               <a class="nav-link" href="about.html">About</a>
             </li>
@@ -36,7 +159,7 @@
               <a class="nav-link" href="tracking_home">Tracking</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="contact_us">Contact</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,14 +185,11 @@
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Other Pages
+                Login/Register
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="full-width.html">Full Width Page</a>
-                <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
-                <a class="dropdown-item" href="faq.html">FAQ</a>
-                <a class="dropdown-item" href="404.html">404</a>
-                <a class="dropdown-item" href="pricing.html">Pricing Table</a>
+                <a class="dropdown-item" href="login_register">Login/register</a>
+
               </div>
             </li>
           </ul>
@@ -77,146 +197,94 @@
       </div>
     </nav>
 
-    <header>
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-          <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('http://vunature.com/wp-content/uploads/2017/01/fruits-pear-apple-happiness-contentment-poverty-table-housewife-nature-picture-amazing-1920x1080.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Wanna eat some pears and apples?</h3>
-              <p>WE GOT THAT</p>
-            </div>
-          </div>
-          <!-- Slide Two - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>We got some beans and some more apples</h3>
-              <p>You know you want them</p>
-            </div>
-          </div>
-          <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Ever tried chopping tomatoes and bellpeppers with wooden spoons?</h3>
-              <p>Me neither</p>
-            </div>
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
-    </header>
-
     <!-- Page Content -->
     <div class="container">
 
-      <h1 class="my-4">Welcome to Group 1's Grocery Service</h1>
+      <h3 align="left" class="my-4">Search Results For: {{search}}</h3>
 
-      <!-- Marketing Icons Section -->
-      <div class="row">
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Shipping</h4>
-            <div class="card-body">
-              <p class="card-text">We got some crazy shipping. We use DRONES!!!</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Groceries</h4>
-            <div class="card-body">
-              <p class="card-text">Want some of the best groceries you've ever eaten? We got them all!! Click here!</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Registration</h4>
-            <div class="card-body">
-              <p class="card-text">Want us to store your credit card information? ;) Click here!!
-              white space
-            white space
-          white space white space
-        white space shhh, we are not here</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- /.row -->
 
       <!-- Portfolio Section -->
-      <h2>Featured Products</h2>
+      <!-- <h2>Featured Products</h2> -->
 
       <div class="row">
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="https://qph.ec.quoracdn.net/main-qimg-9da8a03415319f50782a1a7a48d9828b-c" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Apples</a>
-              </h4>
-              <p class="card-text">Cost : $0.75 each</p>
-              <p class="card-text">Weight : 0.25 pounds </p>
-              <p class="card-text">Amount Left : 150 </p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Add to Cart</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="https://wikihomenutrition.com/wp-content/uploads/2016/06/banana-4.jpg" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Bananas</a>
-              </h4>
-              <p class="card-text">Cost : $1.50 for 5</p>
-              <p class="card-text">Weight : 1.50 pounds </p>
-              <p class="card-text">Amount Left : 75 </p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Add to Cart</a>
+      {% for item in items %}
+
+
+        {% if item.quantity > 0 %}
+          <div id = "item.name" class="col-lg-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+              <img class="card-img-top" src = "{{item.image}}">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="#">{{item.name}}</a>
+                </h4>
+                <p> Cost : {{item.cost}} each</p>
+                <p> Weight : {{item.weight}} pounds </p>
+                <p> Amount Left : {{item.quantity}} </p>
+                <p> {{item.description}} </p>
+              </div>
+              <div class="card-footer">
+                <div>
+                  Quantity:
+                  <input id="{{item.name}}" type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 5em; height: 40px; font-size: 18px; padding-top = 100px" >
+                  <button class="btn btn-primary" onclick= "openWindow(this, '{{item.name}}', '{{item.cost}}', '{{item.weight}}', '{{item.quantity}}', '{{item.image}}')" >
+                    Add to Cart
+                </button>
+              </div>
+
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
+        {% endif %}
+
+
+        {% endfor %}
+      </div>
+
+      <div class="row">
           <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://s3.amazonaws.com/cme_public_images/www_livestrong_com/photos.demandstudios.com/218/221/fotolia_4923797_XS.jpg" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Chicken Breast</a>
-              </h4>
-              <p class="card-text">Cost : $2.00 each</p>
-              <p class="card-text">Weight : 1.25 pounds </p>
-              <p class="card-text">Amount Left : 27 </p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Add to Cart</a>
-            </div>
+            <button class="btn btn-primary" onclick= "DeleteAllCookies()" >
+              Delete All Cookies
+            </button>
           </div>
-        </div>
+
+          <div class="card h-100">
+              <button class="btn btn-primary" onclick= "ShowAllCookies()" >
+              Show All Cookies
+            </button>
+          </div>
+
+          <div class="card h-100">
+            <button class="btn btn-primary" onclick= "ShowAllCurrentTotal()" >
+              Show All Current Number of Items
+            </button>
+          </div>
+
+          <div class="card h-100">
+            <button class="btn btn-primary" onclick= "ShowAllCosts()" >
+              Show All Costs
+            </button>
+          </div>
+
+          <div class="card h-100">
+            <button class="btn btn-primary" onclick= "ShowAllWeights()" >
+              Show All Weights
+            </button>
+          </div>
+
+          <div class="card h-100">
+            <button class="btn btn-primary" onclick= "ShowAllQuantities()" >
+              Show All Current Quantities in the Database
+            </button>
+          </div>
+
+          <div class="card h-100">
+            <button class="btn btn-primary" onclick= "ShowAllImages()" >
+              Show All Image URLs
+            </button>
+          </div>
+      </div>
 
       <!-- /.row -->
 
@@ -236,9 +304,277 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+
+    /*
+    Creates a new cookies or updates an old one when you click on the add to cart button
+    Also updates the MainCookie to include this cookie we just added
+    */
+    function openWindow(obj, name, cost, weight, quantity, image)
+    {
+
+      var result = document.getElementById(name).value //recieves the input value for how many of that item we want to add to the cart
+      document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
+      console.log("Clicked on the button"); //check to make sure that this function is working
+      if(result > 0) //make sure that you have given a quantity for that item
+      {
+        obj.style.background = 'green'; //change the color of the button to green to confirm that it submitted
+
+        //creating the new cookie for that item
+        var oldCookie = readCookie(name);
+        if (oldCookie != "") //check to see if you have a previous cookie with this name
+        {
+          if(oldCookie == null)
+          {
+            var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
+          }
+          else
+          {
+            var array = oldCookie.split(","); //if you do have an old one, split it and turn it into an array
+            var amount = array[0]; //receive the amount that you previously have for that item
+            var newCookie = createCookie(name, (Number(result) + Number(amount)) + "," + cost + "," + weight + "," + quantity + "," + image, 1); //add the current amount with the previous value to update the total amount of items you want to purchase
+          }
+
+        }
+        else {
+          var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
+        }
+
+        //updating the MainCookie
+        var oldMainCookie = readCookie("MainCookie"); //retrieves the MainCookie
+        if (oldMainCookie != "" && oldMainCookie != null) //checks if it is currently empty
+        {
+
+          var list = oldMainCookie; //if it is not empty, store the previous value into list
+          if(list.indexOf(name) == -1) //check to see if the item already exists in the list
+          {
+            list += name + ","; //if it does not exist, add it into the list
+            var newCookie = createCookie("MainCookie",list, 1); //update the MainCookie with the new value
+          }
+
+        }
+        else {
+          var MainCookie = createCookie("MainCookie", name + ",", 1); //if it is empty, creates a new MainCookie with the new item stored into it
+        }
+
+        var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
+        var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
+        alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
+      }
+      else {
+        obj.style.background = 'red'; //if the value of the input is 0, set the color of the button to red
+        alert("Please enter a value and click again"); //display that they need to enter a value
+      }
+    }
+
+    /*
+    Display all the cookies for the items we currently have selected
+    */
+    function ShowAllCookies()
+    {
+
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+        //for each item in the array of the MainCookie, add its value to message
+        for (var i = 0; i < array.length-1; i++)
+        {
+          message += array[i] + ": " + readCookie(array[i]) + "\n";
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
+    }
+
+    /*
+    Display the URL for the items' pictures
+    */
+    function ShowAllImages()
+    {
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[4] + "\n"; //grab the URL in position 4 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
+    }
+
+    /*
+    Display the total amount of items you have selected
+    */
+    function ShowAllCurrentTotal()
+    {
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[0] + "\n"; //grab the current count in position 0 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
+    }
+
+    /*
+    Display the total amount of each item that is curently available in the Database
+    */
+    function ShowAllQuantities()
+    {
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[3] + "\n"; //grab the total amount in the database in position 3 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
+    }
+
+    /*
+    Display all the weights per Item
+    */
+    function ShowAllWeights()
+    {
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[2] + "\n"; //grab the weight per item in position 2 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
+    }
+
+
+    /*
+    Display all the costs for each item
+    */
+    function ShowAllCosts()
+    {
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[1] + "\n"; //grab the cost per item in position 1 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
+    }
+
+    /*
+    delete all of the cookies currently held by MainCookie while also removing them from MainCookie
+    */
+    function DeleteAllCookies()
+    {
+
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "" && MainCookie != null)
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          eraseCookie(array[i]); //delete that item
+        }
+        createCookie("MainCookie", "", 1); //reset the MainCookie
+
+      }
+      alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+    }
+
+    /*
+    creates a cookie with a given name, a value, and a number of days that it is active for
+    */
+    function createCookie(name,value,days)
+    {
+      if (days)
+      {
+          var date = new Date();
+          date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+          var expires = "; expires=" + date.toGMTString();
+      }
+      else
+      {
+          var expires = "";
+      }
+      document.cookie = name + "=" + value + expires + "; path=/";
+    }
+
+    /*
+    recieve information from a cookie
+    */
+    function readCookie(name)
+    {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') {
+              c = c.substring(1,c.length);
+          }
+          if (c.indexOf(nameEQ) == 0) {
+              return c.substring(nameEQ.length,c.length);
+          }
+      }
+      return null;
+    }
+
+    /*
+    erase a cookie
+    */
+    function eraseCookie(name)
+    {
+      createCookie(name,"",-1);
+    }
+
+    </script>
+    <script src="../../static/jquery.min.js"></script>
+    <script src="../../static/popper.min.js"></script>
+    <script src="../../static/bootstrap.min.js"></script>
 
   </body>
 

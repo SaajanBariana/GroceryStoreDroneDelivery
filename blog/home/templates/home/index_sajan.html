@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<style type="text/css">
+            #search_bar{
+                border: 1px solid #000000;
+                border-right: none;
+                font-size: 16px;
+                width: 200px;
+                padding: 10px;
+                border: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+            #search_submit{
+                border: 1px solid #000000;
+                border-left: none;
+                font-size: 16px;
+                padding: 10px;
+                background: #167FFC;
+                color: white;
+                outline: none;
+                cursor: pointer;
+                -webkit-border-top-right radius: 10px;
+                -webkit-border-bottom-right radius: 10px;
+                -moz-border-radius-topRight: 10px;
+                -moz-border-radius-bottomRight: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                margin-left: -4px;
+            }
+            #search_submit:hover{
+
+                background: #333;
+                transition: all 0.40s;
+            }
+            .round {
+                width: 100%;
+                z-index: 5;
+            }
+            #drop_down_filter {
+                margin-right: 1px;
+                margin-top: 1px;
+                height: 92%;
+                border: 1px solid #000000;
+                background-color: #FFFFFF;
+                color: black;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                outline: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+
+
+            /*Drop down button filter*/
+            .dropbtn {
+                margin-top: 1px;
+                border: 1px solid #000000;
+                border-right: none;
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                outline: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: #3e8e41;
+                transition: all 0.40s;
+            }
+
+            .dropdown {
+                float: left;
+                position: relative;
+                display: inline-block;
+
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #767777;
+                min-width: 160px;
+                overflow: auto;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                left: 0;
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown a:hover {background-color: #f1f1f1}
+
+            .show {display:block;}
+
+
+
+
+</style>
+<!--- Drop down bar JS --->
+<script>
+function toggleDropDown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+  }
+}
+
+function getFilter() {
+    document.getElementById("");
+}
+
+
+</script>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Group 1 Grocery Delivery</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../static/modern-business.css" rel="stylesheet">
+
+
+
+
+  </head>
+
+  <!-- <body onload = "addElement()"> -->
+
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Group 1's project</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+
+            <!--- Search Bar --->
+             <form action="search.html" type="get">
+                 <select id="drop_down_filter" name="drop_down_filter">
+                     <option value="Categories">Categories</option>
+                     <option value="Fruit">Disgusting Fruit</option>
+                     <option value="Vegetables">Dirty Vegetables</option>
+                     <option value="Meat">Spoiled Meat</option>
+                     <option value="Other">Other Stuffs</option>
+                 </select>
+                 <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                 <button id="search_submit" type="submit">Go</button>
+             </form>
+
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tracking_home">Tracking</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact_us">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Portfolio
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Blog
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
+                <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
+                <a class="dropdown-item" href="blog-post.html">Blog Post</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Login/Register
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                <a class="dropdown-item" href="login_register">Login/register</a>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <!-- Slide One - Set the background image for this slide in the line below -->
+          <div class="carousel-item active" style="background-image: url('http://www.dnc.ie/wp-content/uploads/2014/08/chopping-board1.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Wanna eat some pears and apples?</h3>
+              <p>WE GOT THAT</p>
+            </div>
+          </div>
+          <!-- Slide Two - Set the background image for this slide in the line below -->
+          <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>We got some beans and some more apples</h3>
+              <p>You know you want them</p>
+            </div>
+          </div>
+          <!-- Slide Three - Set the background image for this slide in the line below -->
+          <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Ever tried chopping tomatoes and bellpeppers with wooden spoons?</h3>
+              <p>Me neither</p>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <h1 class="my-4">Welcome to Group 1's Grocery Service</h1>
+
+      <!-- Marketing Icons Section -->
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Groceries</h4>
+            <div class="card-body">
+              <p class="card-text">Want some of the best groceries you've ever eaten? We got them all!! Click here!!!</p>Í
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Shipping</h4>
+            <div class="card-body">
+              <p class="card-text">We got some crazy shipping. We use DRONES!!!</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Registration</h4>
+            <div class="card-body">
+              <p class="card-text">Want us to store your credit card information? ;) Click here!!
+              white space
+            white space
+          white space white space
+        white space shhh, we are not here</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <!-- Portfolio Section -->
+      <h2>Featured Products</h2>
+
+      <div class="row">
+      {% for item in items %}
+
+
+        {% if item.quantity > 0 %}
+          <div class="col-lg-4 col-sm-6 portfolio-item">
+            <div
+             class="card h-100">
+              <img class="card-img-top" src = "{{item.image}}">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="#">{{item.name}}</a>
+                </h4>
+                <p> Cost : {{item.cost}} each</p>
+                <p> Weight : {{item.weight}} pounds </p>
+                <p> Amount Left : {{item.quantity}} </p>
+                <p> {{item.description}} </p>
+              </div>
+              <div class="card-footer">
+                <!-- <a href="#" class="btn btn-primary">Add to Cart</a> -->
+                <button class="btn btn-primary" onclick= "openWindow('{{item.name}}' , '{{item.cost}}' , '{{item.weight}}' )" >
+                  Add to Cart
+                </button>
+                <input type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 7em; height: 40px; font-size: 18px; padding-top = 100px" >
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <img class="card-img-top" src="https://wikihomenutrition.com/wp-content/uploads/2016/06/banana-4.jpg" alt="">
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#">{{Name2}}</a>
+              </h4>
+              <p> Cost : $1.50 for 5</p>
+              <p> Weight : 1.50 pounds </p>
+              <p> Amount Left : 75 </p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="https://s3.amazonaws.com/cme_public_images/www_livestrong_com/photos.demandstudios.com/218/221/fotolia_4923797_XS.jpg" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="#">{{Name3}}</a>
+              </h4>
+              <p class="card-text">Cost : $2.00 each</p>
+              <p class="card-text">Weight : 1.25 pounds </p>
+              <p class="card-text">Amount Left : 27 </p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+          </div>
+      </div> -->
+        {% endfor %}
+      </div>
+
+      <style>
+          /* The Modal (background) */
+          .modal {
+              display: none; /* Hidden by default */
+              position: fixed; /* Stay in place */
+              z-index: 1; /* Sit on top */
+              left: 0;
+              top: 0;
+              width: 100%; /* Full width */
+              height: 100%; /* Full height */
+              overflow: auto; /* Enable scroll if needed */
+              background-color: rgb(0,0,0); /* Fallback color */
+              background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+              -webkit-animation-name: fadeIn; /* Fade in the background */
+              -webkit-animation-duration: 0.4s;
+              animation-name: fadeIn;
+              animation-duration: 0.4s
+          }
+
+          /* Modal Content */
+          .modal-content {
+              position: fixed;
+              bottom: 0;
+              background-color: #fefefe;
+              width: 100%;
+              -webkit-animation-name: slideIn;
+              -webkit-animation-duration: 0.4s;
+              animation-name: slideIn;
+              animation-duration: 0.4s
+          }
+
+          /* The Close Button */
+          .close {
+              color: white;
+              float: right;
+              font-size: 28px;
+              font-weight: bold;
+          }
+
+          .close:hover,
+          .close:focus {
+              color: #000;
+              text-decoration: none;
+              cursor: pointer;
+          }
+
+          .modal-header {
+              padding: 2px 16px;
+              background-color: #5cb85c;
+              color: white;
+          }
+
+          .modal-body {padding: 2px 16px;}
+
+          .modal-footer {
+              padding: 2px 16px;
+              background-color: #5cb85c;
+              color: white;
+          }
+
+          /* Add Animation */
+          @-webkit-keyframes slideIn {
+              from {bottom: -300px; opacity: 0}
+              to {bottom: 0; opacity: 1}
+          }
+
+          @keyframes slideIn {
+              from {bottom: -300px; opacity: 0}
+              to {bottom: 0; opacity: 1}
+          }
+
+          @-webkit-keyframes fadeIn {
+              from {opacity: 0}
+              to {opacity: 1}
+          }
+
+          @keyframes fadeIn {
+              from {opacity: 0}
+              to {opacity: 1}
+          }
+    </style>
+
+
+
+
+      <!-- /.row -->
+
+
+      <!-- /.row -->
+
+      <hr>
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Group 1 CS 160 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script>
+    function openWindow(name, cost, weight)
+    {
+      console.log("Clicked on the button");
+       modal.style.display = "block";
+    }
+
+    function addElement () {
+      // create a new div element
+      // and give it some content
+      //for(name in {{Names}})
+      //{
+        var newDiv = document.createElement("div");
+        var newContent = document.createTextNode("This is the a test");
+        newDiv.appendChild(newContent); //add the text node to the newly created div.
+
+        // add the newly created element and its content into the DOM
+        var currentDiv = document.getElementById("div1");
+        document.body.insertBefore(newDiv, currentDiv);
+      //}
+
+    }
+
+    // function setUpDivs()
+    // {
+    //   for (int i = 0; i < 3, i++)
+    //   {
+    //     var div1 = document.createElement("div");
+    //     div1.
+    //   }
+
+
+
+      // <div class="col-lg-4 col-sm-6 portfolio-item">
+      //   <div class="card h-100">
+      //     <a href="#"><img class="card-img-top" src="https://s3.amazonaws.com/cme_public_images/www_livestrong_com/photos.demandstudios.com/218/221/fotolia_4923797_XS.jpg" alt=""></a>
+      //     <div class="card-body">
+      //       <h4 class="card-title">
+      //         <a href="#">{{Name3}}</a>
+      //       </h4>
+      //       <p class="card-text">Cost : $2.00 each</p>
+      //       <p class="card-text">Weight : 1.25 pounds </p>
+      //       <p class="card-text">Amount Left : 27 </p>
+      //     </div>
+      //     <div class="card-footer">
+      //       <a href="#" class="btn btn-primary">Add to Cart</a>
+      //     </div>
+      //   </div>
+      // </div>
+
+      //}
+    </script>
+    <script src="../../static/jquery.min.js"></script>
+    <script src="../../static/popper.min.js"></script>
+    <script src="../../static/bootstrap.min.js"></script>
+
+  </body>
+
+</html>

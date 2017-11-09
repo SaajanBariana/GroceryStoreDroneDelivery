@@ -11,7 +11,7 @@ from rest_framework.response import Response
 import MySQLdb
 import pymysql
 
-db = MySQLdb.connect(host="localhost", user="root", passwd="saajan1", db="grocery_store")   # name of the database
+db = MySQLdb.connect(host="localhost", user="root", passwd="ENTER HERE", db="grocery_store")   # name of the database
 cur = db.cursor() # creates a cursor to execute queries
 
 @api_view(['GET', 'POST'])

@@ -1,0 +1,194 @@
+
+h1 {
+  font-family: FontAwesome;
+  font-size: 2em;
+  display:inline;
+}
+
+.container {
+  width: 75%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 5% 0;
+  margin-bottom: 5em;
+}
+a.continue {
+  font-family: FontAwesome;
+  padding: 1em;
+  font-size: .75em;
+  font-weight: bold;
+  color: #fff;
+  background: #82ca9c;
+  border-radius: 50px;
+  letter-spacing: -.015em;
+  text-decoration: none;
+  float: right;
+}
+.container-text {
+  width: 1000px;
+  height: 40px;
+  border-bottom: 1px solid #D0D0D0;
+  padding: 1em;
+  border-top: 1px solid #D0D0D0;
+}
+
+.cart {
+  padding: 1em 0 ;
+  border-bottom: 1px solid #D0D0D0;
+}
+.cart.items {
+  display: block;
+  width: 100%;
+  vertical-align: middle;
+  padding: 1.5em;
+  border-bottom: 1px solid #fafafa;
+}
+.itemImg {
+  width: 25%;
+  width: 7em;
+  float: left;
+}
+ul {
+  list-style-type: none;
+}
+p {
+  display: inline-block;
+  font-size: .85em;
+  color: #777777;
+  font-family: FontAwesome;
+}
+p.stock-status {
+  color: #82CA9C;
+  font-weight: bold;
+  padding: .5em 0 0 1em;
+  text-transform: uppercase;
+  display: inline;
+  position: relative;
+  left: 10px;
+  top: -20px;
+}
+.qty {
+  font-weight: bold;
+  font-size: 1em;
+  width: 45px;
+  height: 25px;
+  text-align: right;
+  position: relative;
+  top: -.1em;
+}
+.qty-price {
+  font-weight: bold;
+  font-size: 1.25em;
+  width: 20px;
+  height: 20px;
+  display: inline;
+  position: relative;
+  left: 15px;
+  top: -20px;
+}
+
+h3 {
+  font-size: 1em;
+  font-family: FontAwesome;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  padding: 1em;
+  position: relative;
+  top: -25px;
+  left: 15px;
+}
+
+.item-weight {
+  font-size: .75em;
+  color: #777;
+  position: relative;
+  left: 15px;
+}
+#info-wrap {
+  display: table;
+  table-layout: fixed;
+  height:100px;
+  width: 90%;
+  position: relative;
+}
+
+#info-wrap div {
+  display: table-cell;
+  height:100px;
+}
+
+#cart-section {
+  width: 90%;
+}
+
+#prodTotal {
+  position: absolute;
+  bottom: 0;
+  font-size: 1.5em;
+}
+.main {
+  padding-bottom: 1em;
+  border-bottom: 1px solid #D0D0D0;
+}
+
+.subtotal {
+  float: right;
+  width: 35%;
+}
+
+.totalRow {
+  padding: .25em;
+  text-align: right;
+}
+.label {
+  font-family: fontSans;
+  font-size: .85em;
+  text-transform: uppercase;
+  color: #777;
+}
+.value {
+  display: inline-block;
+  padding: 0 0 0 1em;
+  width: 50%;
+  text-align: right;
+}
+
+.final {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.checkout {
+  width: 100%;
+  text-align: center;
+}
+
+.weightChecker {
+  border:2px solid #efefef;
+  float: left;
+  width: 25%;
+  padding: 2%;
+  position: relative;
+  top: .5em;
+  text-align: center;
+}
+
+.weightChecker.label {
+  display: block;
+  width: 100%;
+  font-style: italic;
+  font-size: 1.15em;
+  padding: .5em;
+  margin-bottom: .5em;
+  letter-spacing: -.025em;
+}
+
+
+#weight {
+  width: 85%;
+  font-size: 1em;
+  padding: .5em;
+  border: 1px solid #dadada;
+  text-align: center;
+}

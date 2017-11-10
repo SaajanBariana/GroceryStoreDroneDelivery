@@ -1,4 +1,84 @@
 <!DOCTYPE html>
+<style type="text/css">
+            #search_bar{
+                border: 1px solid #000000;
+                border-right: none;
+                font-size: 16px;
+                width: 200px;
+                padding: 10px;
+                border: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+            #search_submit{
+                border: 1px solid #000000;
+                border-left: none;
+                font-size: 16px;
+                padding: 10px;
+                background: #167FFC;
+                color: white;
+                outline: none;
+                cursor: pointer;
+                -webkit-border-top-right radius: 10px;
+                -webkit-border-bottom-right radius: 10px;
+                -moz-border-radius-topRight: 10px;
+                -moz-border-radius-bottomRight: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                margin-left: -4px;
+            }
+            #search_submit:hover{
+
+                background: #333;
+                transition: all 0.40s;
+            }
+            .round {
+                width: 100%;
+                z-index: 5;
+            }
+            #drop_down_filter {
+                margin-right: 1px;
+                margin-top: 1px;
+                height: 43px;
+                border: 1px solid #000000;
+                background-color: #FFFFFF;
+                color: black;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                outline: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+</style>
+<!--- Drop down bar JS --->
+<script>
+function toggleDropDown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+  }
+}
+function getFilter() {
+    document.getElementById("");
+}
+</script>
+
 <html lang="en">
 
   <head>
@@ -8,11 +88,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Modern Business - Start Bootstrap Template</title>
+    <title>Contact</title>
 
     <!-- Bootstrap core CSS -->
-
-     <link href="../../static/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="../../static/modern-business.css" rel="stylesheet">
@@ -24,21 +103,36 @@
     <!-- Navigation -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand" href="index.html">Contact</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+
+            <!--- Search Bar --->
+             <form action="search.html" type="get">
+                 <select id="drop_down_filter" name="drop_down_filter">
+                     <option value="Categories">Categories</option>
+                     <option value="Fruit">Disgusting Fruit</option>
+                     <option value="Vegetable">Dirty Vegetables</option>
+                     <option value="Meat">Spoiled Meat</option>
+                     <option value="Dairy">Some Dairy</option>
+                 </select>
+                 <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                 <button id="search_submit" type="submit">Go</button>
+             </form>
+
             <li class="nav-item">
               <a class="nav-link" href="about.html">About</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tracking_home">Tracking</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="contact_us">Contact</a>
             </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Portfolio
@@ -51,25 +145,19 @@
                 <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
               </div>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Blog
+
+            <li class="nav-item">
+              <a class="nav-link" href="shoppingcart">
+              <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
               </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-              </div>
+
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+            <li class="nav-item">
+              <a class="nav-link" href="login_register">
                 Login/Register
               </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="full-width.html">Login</a>
-                <a class="dropdown-item" href="sidebar.html">Register</a>
 
-              </div>
             </li>
           </ul>
         </div>
@@ -80,8 +168,8 @@
     <div class="container">
 
       <!-- Page Heading/Breadcrumbs -->
-      <h1 class="mt-4 mb-3">Contact
-        <small>Subheading</small>
+      <h1 class="mt-4 mb-3">
+
       </h1>
 
       <ol class="breadcrumb">

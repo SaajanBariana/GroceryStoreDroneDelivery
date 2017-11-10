@@ -1,115 +1,154 @@
+
 <!DOCTYPE html>
 <html >
 <head>
-  <meta charset="UTF-8">
-  <title>Credit card validation with card</title>
+ <meta charset="UTF-8">
+ <title>Credit card validation with card</title>
 
-  <form action="/home/confirmation/" method="post" class="credit-card-div">
-      {% csrf_token %}
-        {{ form.as_p }}
-      <!-- <script src="../../static/Total_Amount_Payment_Cookie.js"></script> -->
-      <link rel="stylesheet" href="../../static/credit_card_div.css">
+ <form action="/home/confirmation/" method="post" class="credit-card-div">
+     {% csrf_token %}
+       {{ form.as_p }}
+     <!-- <script src="../../static/Total_Amount_Payment_Cookie.js"></script> -->
+
+     </style>
+     <script src="../../home/creditcardvalidator.js" type="text/javascript"></script>
+     <link rel="stylesheet" href="../../static/credit_card_div.css">
+
 
 
 </head>
 
 <body>
-  <div class="body-text">Please enter Shipping and Payment Information.</div>
-  <form>
-    <div class="form-container">
-      <div class="personal-information">
-        <h1>Shipping Information</h1>
-      </div> <!-- end of personal-information -->
-
-      <input id="input-field" type="text" name="Street_Name" required="required" autocomplete="on" maxlength="45" placeholder="Street Address"/>
-      <input id="column-left" type="text" name="City" required="required" autocomplete="on" maxlength="20" placeholder="City"/>
-      <input id="column-right" type="text" name="Zip_Code" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
-      <input id="input-field" type="text" name="State" required="required" autocomplete="on" maxlength="10" placeholder="State"/>
-      <input id="input-field" type="email" name="email" required="required" autocomplete="on" maxlength="40" placeholder="Email Address"/>
 
 
+ <div class="body-text">Please enter Shipping and Payment Information.</div>
+ <form>
+   <div class="form-container">
+     <div class="personal-information">
+       <h1>Shipping Information</h1>
+     </div> <!-- end of personal-information -->
 
-      <div class="personal-information">
-        <h1>Credit Card Information</h1>
-      </div> <!-- end of Credit Card-information -->
-          <input id="column-left" type="text" name="NameOnCard" placeholder="Name"/>
-          <input id="column-right" type="text" name="Card_Zipcode" placeholder="Zip Code"/>
-          <input id="input-field" type="text" name="Credit_Card_Number" placeholder="Card Number"/>
-          <input id="column-left" type="text" name="ExpirationDate" placeholder="Expiration-MM/YY"/>
-          <input id="column-right" type="text" name="CSV" placeholder="CCV"/>
-          <input id="input-button" type="submit" value="Submit"/>
-          <button onclick="CreateStoreCookie()"> CLICK TO CREATE COOKIE </button>
-          <button onclick="ShowStoreCookie()"> CLICK TO SHOW COOKIE </button>
-          <button onclick="DeleteStoreCookie()"> CLICK TO DELETE COOKIE </button>
-          <input id="store" type="hidden" name="store_id" required="required" autocomplete="on" pattern=[0-9]* placeholder="store id, Select 1 or 2"
+     <input id="input-field" type="text" name="Street_Name" required="required" autocomplete="on" maxlength="45" placeholder="Street Address"/>
+     <input id="column-left" type="text" name="City" required="required" autocomplete="on" maxlength="40" placeholder="City"/>
+     <input id="column-right" type="text" name="Zip_Code" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
+     <input id="input-field" type="text" name="State" required="required" autocomplete="on" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
+     <input id="input-field" type="email" name="email" required="required" autocomplete="on" maxlength="40" placeholder="Email Address"/>
 
 
-  </form>
+
+     <div class="personal-information">
+       <h1>Credit Card Information</h1>
+     </div> <!-- end of Credit Card-information -->
+         <input id="column-left" type="text" name="NameOnCard" required="required" placeholder="Name"/>
+         <input id="column-right" type="text" name="Card_Zipcode" required="required" pattern="[0-9]*" minlength="4" maxlength="5" placeholder="Zip Code"/>
+         <input id="checkout_card_number" type="text" size ="19" required="required" minlength="8" maxlength="19" pattern="[0-9]*" name="Credit_Card_Number" placeholder="1234 5678 9012 3456"/>
+         <input id="input-field" type="text" name="CSV" pattern="[0-9]*" required="required" minlength="3" maxlength="4" placeholder="CCV"/>
+         <div class="personal-information" id="expiration-date" required="required" name="ExpirationDate">
+             <label>Expiration Date</label>
+             <select>
+                 <option value="01">January</option>
+                 <option value="02">February </option>
+                 <option value="03">March</option>
+                 <option value="04">April</option>
+                 <option value="05">May</option>
+                 <option value="06">June</option>
+                 <option value="07">July</option>
+                 <option value="08">August</option>
+                 <option value="09">September</option>
+                 <option value="10">October</option>
+                 <option value="11">November</option>
+                 <option value="12">December</option>
+             </select>
+             <select>
+                 <option value="16"> 2016</option>
+                 <option value="17"> 2017</option>
+                 <option value="18"> 2018</option>
+                 <option value="19"> 2019</option>
+                 <option value="20"> 2020</option>
+                 <option value="21"> 2021</option>
+                 <option value="22"> 2022</option>
+                 <option value="23"> 2023</option>
+             </select>
+         </div>
+         <input id="input-button" type="submit" value="Submit"/>
+
+         <!-- <input id="store" type="hidden" name="store_id" required="required" autocomplete="on" pattern=[0-9]* placeholder="store id, Select 1 or 2" -->
+         <input id="store_id" type="hidden" name="store_id" value="1" />
+         <input id="username_id" type="hidden" name="user_id" value="" />
+
+ </form>
+ <button onclick="CreateStoreCookie()"> CLICK TO CREATE COOKIE </button>
+ <button onclick="ShowStoreCookie()"> CLICK TO SHOW COOKIE </button>
+ <button onclick="DeleteStoreCookie()"> CLICK TO DELETE COOKIE </button>
 </div>
 
-  <script src="../../static/creditcardvalidation.js"></script>
-
-  <script>
-
-
-  function SetStoreID()
-  {
-    var input = document.getElementById("store");
-    input.value = readCookie("Store");
-  }
-
-  function ShowStoreCookie()
-  {
-    alert("Store Cookie: " + readCookie("Store"));
-  }
-
-  function DeleteStoreCookie()
-  {
-    createCookie("Store", "", -1);
-  }
-
-  function CreateStoreCookie()
-  {
-    createCookie("Store", "1", 1);
-  }
-
-  function createCookie(name,value,days)
-  {
-        if (days)
-        {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
-            var expires = "; expires=" + date.toGMTString();
-        }
-        else
-        {
-            var expires = "";
-        }
-        document.cookie = name + "=" + value + expires + "; path=/";
-  }
-
-  function readCookie(name)
-    {
-      var nameEQ = name + "=";
-      var ca = document.cookie.split(';');
-      for(var i=0;i < ca.length;i++) {
-          var c = ca[i];
-          while (c.charAt(0)==' ') {
-              c = c.substring(1,c.length);
-          }
-          if (c.indexOf(nameEQ) == 0) {
-              return c.substring(nameEQ.length,c.length);
-          }
-      }
-      return null;
-    }
-  </script>
-
+ <script type="text/javascript">
+ function SetStoreID()
+ {
+   var input = document.getElementById("store");
+   input.value = readCookie("Store");
+ }
+ function ShowStoreCookie()
+ {
+   alert("Store Cookie: " + readCookie("Store"));
+ }
+ function DeleteStoreCookie()
+ {
+   createCookie("Store", "", -1);
+ }
+ function CreateStoreCookie()
+ {
+   createCookie("Store", "1", 1);
+ }
+ function createCookie(name,value,days)
+ {
+       if (days)
+       {
+           var date = new Date();
+           date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+           var expires = "; expires=" + date.toGMTString();
+       }
+       else
+       {
+           var expires = "";
+       }
+       document.cookie = name + "=" + value + expires + "; path=/";
+ }
+ function readCookie(name)
+   {
+     var nameEQ = name + "=";
+     var ca = document.cookie.split(';');
+     for(var i=0;i < ca.length;i++) {
+         var c = ca[i];
+         while (c.charAt(0)==' ') {
+             c = c.substring(1,c.length);
+         }
+         if (c.indexOf(nameEQ) == 0) {
+             return c.substring(nameEQ.length,c.length);
+         }
+     }
+     return null;
+   }
+   function check_login_for_payment() {
+     // alert("This works");
+     if(readCookie("email") != null) {
+     //  alert(readCookie("email")  + " login");
+      document.getElementById('username_id').value=readCookie("email");
+     } else {
+       alert("Login required before purchase");
+       window.location.replace('login_register');
+     }
+   }
+   check_login_for_payment();
+   function sendToHomePage()
+   {
+     window.location.href = '/home/';
+   }
+ </script>
+<script src="../../static/jquery.min.js"></script>
 </body>
 </html>
 
-
-
 <!--
 THIS IS FOR THE SCRIPT -->
- <!-- <script src="../../static/creditcardvalidation.js"></script> -->
+<!-- <script src="../../static/creditcardvalidation.js"></script> -->

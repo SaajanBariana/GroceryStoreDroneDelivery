@@ -19,7 +19,7 @@
 
 </head>
 
-<body onload="CreateAutofillCookie()">
+<body onload="CreateAutofillCreditCardCookie()">
 
 
  <div class="body-text">Please enter Shipping and Payment Information.</div>
@@ -37,7 +37,7 @@
 
      <input id="Street" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
      <input id="City" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
-     <input id="ZipCode" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
+     <input id="ZipCode" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9\s]*" maxlength="6" placeholder="ZIP code"/>
      <input id="State" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
 
 
@@ -45,10 +45,11 @@
      <div class="personal-information">
        <h1>Credit Card Information</h1>
      </div> <!-- end of Credit Card-information -->
-         <input id="column-left" type="text" name="NameOnCard" required="required" placeholder="Name"/>
-         <input id="column-right" type="text" name="Card_Zipcode" required="required" pattern="[0-9]*" minlength="4" maxlength="5" placeholder="Zip Code"/>
-         <input id="checkout_card_number" type="text" size ="19" required="required" minlength="8" maxlength="19" pattern="[0-9]*" name="Credit_Card_Number" placeholder="1234 5678 9012 3456"/>
-         <input id="input-field" type="text" name="CSV" pattern="[0-9]*" required="required" minlength="3" maxlength="4" placeholder="CCV"/>
+      <input type="checkbox" name="creditcard" value="CreditInfo" onclick="AutofillCreditCard()"> To use existing Credit Card<br>
+         <input id="Name" type="text" name="NameOnCard" required="required" placeholder="Name"/>
+         <input id="ZipCode1" type="text" name="Card_Zipcode" required="required" pattern="[0-9\s]*" minlength="4" maxlength="5" placeholder="Zip Code"/>
+         <input id="CreditCardNum" type="text" size ="19" required="required" minlength="8" maxlength="19" pattern="[0-9\s]*" name="Credit_Card_Number" placeholder="1234 5678 9012 3456"/>
+         <input id="ccv" type="text" name="CSV" pattern="[0-9\s]*" required="required" minlength="3" maxlength="5" placeholder="CCV"/>
          <div class="personal-information" id="expiration-date" required="required" name="ExpirationDate">
              <label>Expiration Date of Credit Card</label>
              <select>
@@ -88,6 +89,85 @@
  <button onclick="DeleteStoreCookie()"> CLICK TO DELETE COOKIE </button>
 </div>
 
+
+
+<script type="text/javascript">
+
+function AutofillCreditCard()
+{
+
+  var input = readCookie("CreditInfo");
+  alert("Click Check Box: " + input);
+  if(input != "" && input != null)
+  {
+    var array = input.split(",");
+    var NameonCard1 = array[0];
+    var zipcode1 = array[1];
+    var CreditCardNumber= array[2];
+    var ccv = array[3];
+
+    var NameonCardInput = document.getElementById("Name");
+    NameonCardInput.value = NameonCard1;
+    var zipcodeinput = document.getElementById("ZipCode1");
+    zipcodeinput.value = zipcode1;
+    var CreditCardNumberinput = document.getElementById("CreditCardNum");
+    CreditCardNumberinput.value = CreditCardNumber;
+    var ccvinput = document.getElementById("ccv");
+    ccvinput.value = ccv;
+
+
+
+  }
+}
+
+function ShowAutofillCreditCardCookie()
+{
+  alert("CreditInfo: " + readCookie("CreditInfo"));
+}
+function DeleteAutofillCreditCardCookie()
+{
+  createCookie("CreditInfo", "", -1);
+}
+function CreateAutofillCreditCardCookie()
+{
+  createCookie("CreditInfo", "Test,9342,92830284,8345 ", 1);
+  alert(readCookie("CreditInfo"));
+}
+function createCookie(name,value,days)
+{
+      if (days)
+      {
+          var date = new Date();
+          date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+          var expires = "; expires=" + date.toGMTString();
+      }
+      else
+      {
+          var expires = "";
+      }
+      document.cookie = name + "=" + value + expires + "; path=/";
+}
+function readCookie(name)
+  {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1,c.length);
+        }
+        if (c.indexOf(nameEQ) == 0) {
+            return c.substring(nameEQ.length,c.length);
+        }
+    }
+    return null;
+  }
+</script>
+
+
+
+
+
 <!-- THIS SCRIPT IS FOR AUTOFILLING THE SHIPPING INFORMATION -->
 <script type="text/javascript">
 
@@ -116,7 +196,6 @@ function Autofill()
 
 
   }
-  input.Value= readCookie("Destination");
 }
 
 function ShowAutofillCookie()
@@ -129,7 +208,7 @@ function DeleteAutofillCookie()
 }
 function CreateAutofillCookie()
 {
-  createCookie("Destination", "1234 Main street, San Jose, CA, 94521", 1);
+  createCookie("Destination", "1234 Main street, San Jose, CA,94521", 1);
   alert(readCookie("Destination"));
 }
 function createCookie(name,value,days)
@@ -165,7 +244,7 @@ function readCookie(name)
 
 
 <!--  THIS SCRIPT IS FOR STORE ID-->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 
 
  function SetStoreID()
@@ -230,7 +309,7 @@ function readCookie(name)
      window.location.href = '/home/';
    }
  </script>
-<script src="../../static/jquery.min.js"></script>
+<script src="../../static/jquery.min.js"></script> -->
 </body>
 </html>
 

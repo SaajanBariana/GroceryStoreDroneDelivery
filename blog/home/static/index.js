@@ -51,3 +51,16 @@ function sign_up() {
   alert("Hi sign_up");
   
 };
+
+function buttonCreate() {
+    var a = $(".container");
+    a.height(540);
+    document.getElementById('login-form').style.visibility="hidden";
+    document.getElementById('signup-form').style.visibility="visible";
+}
+function buttonLogin() {
+    var a = $(".container");
+    a.height(400);
+    document.getElementById('signup-form').style.visibility="hidden";
+    document.getElementById('login-form').style.visibility="visible";
+}

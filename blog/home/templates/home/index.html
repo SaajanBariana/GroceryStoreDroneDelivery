@@ -1,110 +1,160 @@
 <!DOCTYPE html>
 <style type="text/css">
-#search_bar{
-    border: 1px solid #000000;
-    border-right: none;
-    font-size: 16px;
-    width: 200px;
-    padding: 10px;
-    border: none;
-    -webkit-border-top-left radius: 10px;
-    -webkit-border-bottom-left radius: 10px;
-    -moz-border-radius-topLeft: 10px;
-    -moz-border-radius-bottomLeft: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-#search_submit{
-    border: 1px solid #000000;
-    border-left: none;
-    font-size: 16px;
-    padding: 10px;
-    background: #167FFC;
-    color: white;
-    outline: none;
-    cursor: pointer;
-    -webkit-border-top-right radius: 10px;
-    -webkit-border-bottom-right radius: 10px;
-    -moz-border-radius-topRight: 10px;
-    -moz-border-radius-bottomRight: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    margin-left: -4px;
-}
-#search_submit:hover{
-
-    background: #333;
-    transition: all 0.40s;
-}
-.round {
-    width: 100%;
-    z-index: 5;
-}
-#drop_down_filter {
-    margin-right: 1px;
-    margin-top: 1px;
-    height: 92%;
-    border: 1px solid #000000;
-    background-color: #FFFFFF;
-    color: black;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    outline: none;
-    -webkit-border-top-left radius: 10px;
-    -webkit-border-bottom-left radius: 10px;
-    -moz-border-radius-topLeft: 10px;
-    -moz-border-radius-bottomLeft: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-
-
-            </style>
-            <!--- Drop down bar JS --->
-            <script>
-            function toggleDropDown() {
-                document.getElementById("myDropdown").classList.toggle("show");
+            #search_bar{
+                border: 1px solid #000000;
+                border-right: none;
+                font-size: 16px;
+                width: 200px;
+                padding: 10px;
+                border: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
             }
-
-            // Close the dropdown if the user clicks outside of it
-            window.onclick = function(e) {
-              if (!e.target.matches('.dropbtn')) {
-                var myDropdown = document.getElementById("myDropdown");
-                  if (myDropdown.classList.contains('show')) {
-                    myDropdown.classList.remove('show');
-                  }
-              }
+            #search_submit{
+                border: 1px solid #000000;
+                border-left: none;
+                font-size: 16px;
+                padding: 10px;
+                background: #167FFC;
+                color: white;
+                outline: none;
+                cursor: pointer;
+                -webkit-border-top-right radius: 10px;
+                -webkit-border-bottom-right radius: 10px;
+                -moz-border-radius-topRight: 10px;
+                -moz-border-radius-bottomRight: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                margin-left: -4px;
             }
+            #search_submit:hover{
 
-            function getFilter() {
-                document.getElementById("");
+                background: #333;
+                transition: all 0.40s;
+            }
+            .round {
+                width: 100%;
+                z-index: 5;
+            }
+            #drop_down_filter {
+                margin-right: 1px;
+                margin-top: 1px;
+                height: 43px;
+                border: 1px solid #000000;
+                background-color: #FFFFFF;
+                color: black;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                outline: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
             }
 
 </style>
-
+<!--- Drop down bar JS --->
 <script>
-  function toggleDropDown() {
-      document.getElementById("myDropdown").classList.toggle("show");
+function toggleDropDown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
   }
-
-  // Close the dropdown if the user clicks outside of it
-  window.onclick = function(e) {
-    if (!e.target.matches('.dropbtn')) {
-      var myDropdown = document.getElementById("myDropdown");
-        if (myDropdown.classList.contains('show')) {
-          myDropdown.classList.remove('show');
-        }
-    }
-  }
-
-  function getFilter() {
-      document.getElementById("");
-  }
-
-
+}
+function getFilter() {
+    document.getElementById("");
+}
 </script>
 
+<script type="text/javascript">
+
+function DeleteAllCookies(){
+
+  var MainCookie = readCookie("MainCookie"); //read the MainCookie
+  if (MainCookie != "" && MainCookie != null)
+  {
+    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+
+    //for each item in the array of the MainCookie
+    for (var i = 0; i < array.length-1; i++)
+    {
+      eraseCookie(array[i]); //delete that item
+    }
+    createCookie("MainCookie", "", 1); //reset the MainCookie
+
+  }
+  //alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+}
+
+function logout() {
+ delete_cookie("username");
+ delete_cookie("email");
+ delete_cookie("tracking_id");
+ DeleteAllCookies();
+
+window.location.href = '/home/';
+
+}
+
+//1510278213
+
+function setCookie(cname, cvalue, exdays) {
+    //alert("setting" + cvalue);
+var d = new Date();
+d.setTime(d.getTime() + (exdays*24*60*60*1000));
+var expires = "expires="+ d.toUTCString();
+document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+var name = cname + "=";
+var decodedCookie = decodeURIComponent(document.cookie);
+var ca = decodedCookie.split(';');
+for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+    }
+}
+return "";
+}
+
+var delete_cookie = function(name) {
+document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function checkCookie() {
+//delete_cookie("username");
+var username = getCookie("username");
+if (username != "") {
+    //alert("Welcome " + username);
+} else {
+    // username = prompt("Please enter your name:", "");
+    // if (username != "" && username != null) {
+    //     setCookie("username", username, 365);
+    // }
+    //alert("No cookies found");
+}
+}
+
+</script>
 
 <html lang="en">
 
@@ -127,10 +177,43 @@
 
 
   </head>
+
+  <!-- <body onload = "addElement()"> -->
+
     <!-- Navigation -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="index.html">Group 1's project</a>
+
+
+        {% if tracking_id %}
+
+        <script type="text/javascript">
+        alert("Tracking ID: " + {{tracking_id}})
+        </script>
+        {% endif %}
+
+
+        {% if username %}
+
+        <script type="text/javascript">
+
+          var username_server = '{{username}}';
+         // alert("data from server :" + username_server);
+
+          setCookie("username", username_server, 365);
+          setCookie("email", '{{email}}', 365);
+
+        </script>
+
+        <a class="navbar-brand" href="/home/"> Hi {{ username }}</a>
+
+        {% else %}
+        <a class="navbar-brand" href="/home/">Hello</a>
+        {% endif %}
+
+
+
+
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -142,26 +225,26 @@
                  <select id="drop_down_filter" name="drop_down_filter">
                      <option value="Categories">Categories</option>
                      <option value="Fruit">Disgusting Fruit</option>
-                     <option value="Vegetables">Dirty Vegetables</option>
+                     <option value="Vegetable">Dirty Vegetables</option>
                      <option value="Meat">Spoiled Meat</option>
-                     <option value="Other">Other Stuffs</option>
+                     <option value="Dairy">Some Dairy</option>
                  </select>
                  <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
                  <button id="search_submit" type="submit">Go</button>
              </form>
 
-
-
-            <li class="nav-item">
+            <li class="nav-item" style="">
               <a class="nav-link" href="about.html">About</a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="tracking_home">Tracking</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="contact_us">Contact</a>
             </li>
-            <li class="nav-item dropdown">
+
+            <!-- <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Portfolio
               </a>
@@ -172,40 +255,131 @@
                 <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
                 <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
               </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Blog
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Login/Register
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="login_register">Login/register</a>
+            </li> -->
 
-              </div>
+            <li class="nav-item">
+              <a class="nav-link" href="shoppingcart">
+              <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
+              </a>
+
             </li>
+
+            <li class="nav-item dropdown">
+
+                  <script type="text/javascript">
+                    if(getCookie("username") != "" && getCookie("username")  != null){
+                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                      // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
+                      document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
+                    //  document.write('</div></li>');
+                    } else {
+
+                       document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                      document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
+                      // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
+
+
+                    }
+
+                  </script>
+
+          </li>
+
           </ul>
         </div>
       </div>
     </nav>
 
+    <header>
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <!-- Slide One - Set the background image for this slide in the line below -->
+          <div class="carousel-item active" style="background-image: url('http://www.dnc.ie/wp-content/uploads/2014/08/chopping-board1.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Wanna eat some pears and apples?</h3>
+              <p>WE GOT THAT</p>
+            </div>
+          </div>
+          <!-- Slide Two - Set the background image for this slide in the line below -->
+          <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>We got some beans and some more apples</h3>
+              <p>You know you want them</p>
+            </div>
+          </div>
+          <!-- Slide Three - Set the background image for this slide in the line below -->
+          <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Ever tried chopping tomatoes and bellpeppers with wooden spoons?</h3>
+              <p>Me neither</p>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </header>
+
     <!-- Page Content -->
     <div class="container">
 
-      <h3 align="left" class="my-4">Search Results For: {{search}}</h3>
+      <h1 class="my-4">Welcome to Group 1's Grocery Service</h1>
 
+      <!-- Marketing Icons Section -->
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Groceries</h4>
+            <div class="card-body">
+              <p class="card-text">Want some of the best groceries you've ever eaten? We got them all!! Click here!!!</p>Í
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Shipping</h4>
+            <div class="card-body">
+              <p class="card-text">We got some crazy shipping. We use DRONES!!!</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Registration</h4>
+            <div class="card-body">
+              <p class="card-text">Want us to store your credit card information? ;) Click here!!
+              white space
+            white space
+          white space white space
+        white space shhh, we are not here</p>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- /.row -->
 
       <!-- Portfolio Section -->
-      <!-- <h2>Featured Products</h2> -->
+      <h2>Featured Products</h2>
 
       <div class="row">
       {% for item in items %}
@@ -242,56 +416,11 @@
         {% endfor %}
       </div>
 
-      <div class="row">
-          <div class="card h-100">
-            <button class="btn btn-primary" onclick= "DeleteAllCookies()" >
-              Delete All Cookies
-            </button>
-          </div>
-
-          <div class="card h-100">
-              <button class="btn btn-primary" onclick= "ShowAllCookies()" >
-              Show All Cookies
-            </button>
-          </div>
-
-          <div class="card h-100">
-            <button class="btn btn-primary" onclick= "ShowAllCurrentTotal()" >
-              Show All Current Number of Items
-            </button>
-          </div>
-
-          <div class="card h-100">
-            <button class="btn btn-primary" onclick= "ShowAllCosts()" >
-              Show All Costs
-            </button>
-          </div>
-
-          <div class="card h-100">
-            <button class="btn btn-primary" onclick= "ShowAllWeights()" >
-              Show All Weights
-            </button>
-          </div>
-
-          <div class="card h-100">
-            <button class="btn btn-primary" onclick= "ShowAllQuantities()" >
-              Show All Current Quantities in the Database
-            </button>
-          </div>
-
-          <div class="card h-100">
-            <button class="btn btn-primary" onclick= "ShowAllImages()" >
-              Show All Image URLs
-            </button>
-          </div>
-      </div>
 
       <!-- /.row -->
 
 
       <!-- /.row -->
-
-      <hr>
     </div>
     <!-- /.container -->
 
@@ -310,8 +439,7 @@
     Creates a new cookies or updates an old one when you click on the add to cart button
     Also updates the MainCookie to include this cookie we just added
     */
-    function openWindow(obj, name, cost, weight, quantity, image)
-    {
+    function openWindow(obj, name, cost, weight, quantity, image){
 
       var result = document.getElementById(name).value //recieves the input value for how many of that item we want to add to the cart
       document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
@@ -370,8 +498,7 @@
     /*
     Display all the cookies for the items we currently have selected
     */
-    function ShowAllCookies()
-    {
+    function ShowAllCookies(){
 
       var MainCookie = readCookie("MainCookie"); //read the MainCookie
       if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
@@ -391,8 +518,7 @@
     /*
     Display the URL for the items' pictures
     */
-    function ShowAllImages()
-    {
+    function ShowAllImages(){
       var MainCookie = readCookie("MainCookie"); //read the MainCookie
       if (MainCookie != "")
       {
@@ -414,8 +540,7 @@
     /*
     Display the total amount of items you have selected
     */
-    function ShowAllCurrentTotal()
-    {
+    function ShowAllCurrentTotal(){
       var MainCookie = readCookie("MainCookie"); //read the MainCookie
       if (MainCookie != "")
       {
@@ -437,8 +562,7 @@
     /*
     Display the total amount of each item that is curently available in the Database
     */
-    function ShowAllQuantities()
-    {
+    function ShowAllQuantities(){
       var MainCookie = readCookie("MainCookie"); //read the MainCookie
       if (MainCookie != "")
       {
@@ -460,8 +584,7 @@
     /*
     Display all the weights per Item
     */
-    function ShowAllWeights()
-    {
+    function ShowAllWeights(){
       var MainCookie = readCookie("MainCookie"); //read the MainCookie
       if (MainCookie != "")
       {
@@ -480,12 +603,10 @@
       alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
     }
 
-
     /*
     Display all the costs for each item
     */
-    function ShowAllCosts()
-    {
+    function ShowAllCosts(){
       var MainCookie = readCookie("MainCookie"); //read the MainCookie
       if (MainCookie != "")
       {
@@ -507,8 +628,7 @@
     /*
     delete all of the cookies currently held by MainCookie while also removing them from MainCookie
     */
-    function DeleteAllCookies()
-    {
+    function DeleteAllCookies(){
 
       var MainCookie = readCookie("MainCookie"); //read the MainCookie
       if (MainCookie != "" && MainCookie != null)
@@ -529,8 +649,7 @@
     /*
     creates a cookie with a given name, a value, and a number of days that it is active for
     */
-    function createCookie(name,value,days)
-    {
+    function createCookie(name,value,days){
       if (days)
       {
           var date = new Date();
@@ -547,8 +666,7 @@
     /*
     recieve information from a cookie
     */
-    function readCookie(name)
-    {
+    function readCookie(name){
       var nameEQ = name + "=";
       var ca = document.cookie.split(';');
       for(var i=0;i < ca.length;i++) {
@@ -566,15 +684,17 @@
     /*
     erase a cookie
     */
-    function eraseCookie(name)
-    {
+    function eraseCookie(name){
       createCookie(name,"",-1);
     }
 
     </script>
+
     <script src="../../static/jquery.min.js"></script>
     <script src="../../static/popper.min.js"></script>
     <script src="../../static/bootstrap.min.js"></script>
+
+
 
   </body>
 

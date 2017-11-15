@@ -1,0 +1,176 @@
+body{
+    margin: 0 auto;
+    background-image: url("../../static/img/loginBackground.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100% 865px;
+    background-color: white;
+}
+
+.container {
+    opacity: 0;
+    width: 500px;
+    height: 400px;
+    text-align: center;
+    background-color: rgba(52, 73, 94, 0.7);
+    border-radius: 4px;
+    margin: auto;
+    margin-top: 125px;
+}
+
+.container img {
+    width: 120px;
+    height: 120px;
+    margin-top: -65px;
+    margin-bottom: 30px;
+}
+
+input[type="text"], input[type="password"] {
+    height: 45px;
+    width: 300px;
+    font-size: 17px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding-left: 40px;
+}
+.form-input::before{
+    content: "\f007";
+    position:absolute;
+    font-family: FontAwesome;
+    padding-left: 10px;
+    padding-top: 9px;
+    color: #696969;
+    font-size: 30px;
+}
+.email::before {
+    content: "\f0e0";
+    font-size: 25px;
+    padding-top: 12px;
+}
+.password::before{
+    content: "\f023";
+}
+.btn-login {
+    padding: 10px 60px;
+    color: #fff;
+    position: relative;
+    top: 30px;
+    border-radius: 10px;
+    border: none;
+    background-color: #2ECC71;
+    width: 175px;
+    height: 40px;
+    font-size: 17px;
+    padding-left: 55px;
+}
+
+.btn-create {
+    color: #fff;
+    position: relative;
+    top: 30px;
+    border-radius: 10px;
+    border: none;
+    background-color: #ff4d4d;
+    width: 175px;
+    height: 40px;
+    font-size: 17px;
+}
+
+p {
+    text-align: center;
+    top: -150px;
+    font-size: 40px;
+    height: 30px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    color: rgba(60, 84, 109, 1);
+    opacity: 0;
+    /*text-shadow: 2px 2px #a6bace;*/
+}
+
+a:link {
+    position: relative;
+    top: 65px;
+    color: white;
+    font-family: FontAwesome;
+    background-color: transparent;
+    text-decoration: none;
+    font-size:
+}
+a:visited {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+    font-family: FontAwesome;
+}
+
+a:hover {
+    color: black;
+    background-color: transparent;
+    text-decoration: underline;
+    font-family: FontAwesome;
+}
+
+a:active {
+    color: white;
+    background-color: transparent;
+    text-decoration: underline;
+    font-family: FontAwesome;
+}
+
+.container-form {
+    position: relative;
+}
+
+.form-item {
+    position: absolute;
+    left: 70px;
+}
+
+.btn:active {
+    transform: translateY(2px);
+}
+p{
+    -webkit-animation: fadein 2s forwards; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 2s forwards; /* Firefox < 16 */
+    -ms-animation: fadein 2s forwards; /* Internet Explorer */
+    -o-animation: fadein 2s forwards; /* Opera < 12.1 */
+    animation: fadein 2s forwards;
+    animation-delay: 1s;
+}
+
+#animation-holder{
+    -webkit-animation: fadein 1.5s forwards; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 1.5s forwards; /* Firefox < 16 */
+    -ms-animation: fadein 1.5s forwards; /* Internet Explorer */
+    -o-animation: fadein 1.5s forwards; /* Opera < 12.1 */
+    animation: fadein 1.5s forwards;
+    animation-delay: 2s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

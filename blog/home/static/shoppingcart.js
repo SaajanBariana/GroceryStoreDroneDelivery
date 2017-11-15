@@ -1,9 +1,9 @@
 var totalPrice;
-var itemQty = [1, 2];
-var itemName = ["Apple", "Banana"];
-var imgSrc = ["../../static/apple.jpg", "../../static/banana.jpg"];
-var itemWeight = [.5, 1];
-var itemPrice = [2.4, 4];
+var itemQty = [];
+var itemName = [];
+var imgSrc = [];
+var itemWeight = [];
+var itemPrice = [];
 var totalQty = [];
 
 function getProductTotal(index) {
@@ -15,7 +15,7 @@ function getProductTotal(index) {
         docNodes = docNodes[1];
     }
     else {
-        docNodes = docNodes[index+(index*2)];
+        docNodes = docNodes[1+(index*2)];
     }
     var priceText = docNodes.innerText;
     priceText = priceText.replace(/^\D+|\D+$/g, "");
@@ -27,7 +27,6 @@ function getProductTotal(index) {
     pTotal[index].innerText = dollar;
     return total
 }
-
 
 function getSubTotal() {
     var prodNodes = document.getElementsByClassName("prodTotalCalc");
@@ -47,7 +46,6 @@ function getSubTotal() {
     pNode[0].innerText = dollar;
     return z;
 }
-
 function getTax() {
     var subTotal = getSubTotal();
     var tax = subTotal * .09;
@@ -76,7 +74,6 @@ function getFinalTotal() {
     pNode[3].innerText = dollar;
     return z;
 }
-
 function getWeight(value) {
     var weightNode = document.getElementsByClassName("item-weight");
     var len = weightNode.length;
@@ -120,7 +117,8 @@ function changeCheckout(color) {
     }
     else {
         button[0].style.backgroundColor = "#82ca9c";
-        button[0].setAttribute("href", "../home/checkout/");
+        button[0].setAttribute("href", "../home/creditcard");
+        
     }
 
 }
@@ -147,7 +145,7 @@ $(document).on('change', 'input', function() {
 });
 
 function getProductList() {
-    for(i = 0; i < itemName.length; i++) {
+    for(i = 0; i < itemName.length-1; i++) {
         var ul = document.createElement("ul");
         ul.className = 'cartWrap';
         document.getElementById("myCart").appendChild(ul);
@@ -186,8 +184,10 @@ function getProductList() {
         inp.type = "number";
         inp.className = "qty";
         inp.id = "qtyIn " + i;
+        inp.min = 1;
         inp.value = itemQty[i];
         p2.appendChild(inp);
+
 
         var p3 = document.createElement("p");
         p3.className = "qty-price";
@@ -215,26 +215,28 @@ function getProductList() {
 
     }
 }
-window.onload = function() {
-    function parseMainCookie() {
-        var MainCookie = readCookie("MainCookie");
-        if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
-        {
-            var array = MainCookie.split(","); //split that result and turn it into an array with all the items
-            itemName = array;                  //put array into global array
-            for (var i = 0; i < array.length-1; i++)
-            {
-                var targetCookie = readCookie(array[i]);    //retrieve each cookie in string format
-                targetCookie = targetCookie.split(',');     //split element into array
-                itemQty[i] = targetCookie[0];               //this is amt customer want
-                itemPrice[i] = targetCookie[1];
-                itemWeight[i] = targetCookie[2];
-                totalQty[i] = targetCookie[3];
-                imgSrc[i] = targetCookie[4];
-            }
-        }
+
+function parseMainCookie() {
+    var MainCookie = readCookie("MainCookie");
+    if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
+    {
+      //alert("MainCookie: " + MainCookie);
+      var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+      itemName = array;                  //put array into global array
+      for (var i = 0; i < array.length-1; i++)
+      {
+          var targetCookie = readCookie(array[i]);    //retrieve each cookie in string format
+          targetCookie = targetCookie.split(',');     //split element into array
+          itemQty.push(targetCookie[0]);               //this is amt customer want
+          itemPrice.push(targetCookie[1]);
+          itemWeight.push(targetCookie[2]);
+          totalQty.push(targetCookie[3]);
+          imgSrc.push(targetCookie[4]);
+          //alert("Current cookie being read\nQty: " + itemQty[i] + "\nPrice: " + itemPrice[i] + "\nWeight: " + itemWeight[i] + "\nTotal Quantity: " + totalQty[i] + "\nImages: " + imgSrc[i] );
+      }
     }
 }
+
 function setCookie(cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -266,4 +268,5 @@ function readCookie(name) {
 $(document).on('click', 'a', function() {
     setCookie(totalPrice, 7);
     alert(getCookie("Total"));
+    console.log(getCookie("Total"));
 });

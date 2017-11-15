@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,900,700,500);
 
+
 body {
   padding: 60px 0px;
   background-color: #B2D1E5;
@@ -42,6 +43,7 @@ input[type="text"]{
   width: 97%;
   border: none;
 }
+
 input[type="email"]{
   display: block;
   height: 50px;
@@ -113,4 +115,10 @@ input[type="submit"]:hover{
   #input-button {
     width: 100%;
   }
+
+
+
+
+
+
 }

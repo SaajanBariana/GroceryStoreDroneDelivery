@@ -6,6 +6,7 @@
  <title>Credit card validation with card</title>
 
  <form action="/home/confirmation/" method="post" class="credit-card-div">
+
      {% csrf_token %}
        {{ form.as_p }}
      <!-- <script src="../../static/Total_Amount_Payment_Cookie.js"></script> -->
@@ -18,7 +19,7 @@
 
 </head>
 
-<body>
+<body onload="CreateAutofillCookie()">
 
 
  <div class="body-text">Please enter Shipping and Payment Information.</div>
@@ -27,12 +28,17 @@
      <div class="personal-information">
        <h1>Shipping Information</h1>
      </div> <!-- end of personal-information -->
+     <input type="checkbox" name="destination" value="Destination" onclick="Autofill()"> To use existing address<br>
+     <!-- <input id="input-field" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/> -->
+     <!-- <input id="column-left" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
+     <input id="column-right" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
+     <input id="input-field" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
+     <input id="input-field" type="email" name="email" required="required" autocomplete="email" maxlength="40" placeholder="Email Address"/> -->
 
-     <input id="input-field" type="text" name="Street_Name" required="required" autocomplete="on" maxlength="45" placeholder="Street Address"/>
-     <input id="column-left" type="text" name="City" required="required" autocomplete="on" maxlength="40" placeholder="City"/>
-     <input id="column-right" type="text" name="Zip_Code" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
-     <input id="input-field" type="text" name="State" required="required" autocomplete="on" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
-     <input id="input-field" type="email" name="email" required="required" autocomplete="on" maxlength="40" placeholder="Email Address"/>
+     <input id="Street" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
+     <input id="City" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
+     <input id="ZipCode" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
+     <input id="State" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
 
 
 
@@ -44,7 +50,7 @@
          <input id="checkout_card_number" type="text" size ="19" required="required" minlength="8" maxlength="19" pattern="[0-9]*" name="Credit_Card_Number" placeholder="1234 5678 9012 3456"/>
          <input id="input-field" type="text" name="CSV" pattern="[0-9]*" required="required" minlength="3" maxlength="4" placeholder="CCV"/>
          <div class="personal-information" id="expiration-date" required="required" name="ExpirationDate">
-             <label>Expiration Date</label>
+             <label>Expiration Date of Credit Card</label>
              <select>
                  <option value="01">January</option>
                  <option value="02">February </option>
@@ -82,7 +88,86 @@
  <button onclick="DeleteStoreCookie()"> CLICK TO DELETE COOKIE </button>
 </div>
 
- <script type="text/javascript">
+<!-- THIS SCRIPT IS FOR AUTOFILLING THE SHIPPING INFORMATION -->
+<script type="text/javascript">
+
+function Autofill()
+{
+
+  var input = readCookie("Destination");
+  alert("Click Check Box: " + input);
+  if(input != "" && input != null)
+  {
+    var array = input.split(",");
+    var streetname1 = array[0];
+    var cityname = array[1];
+    var statename= array[2];
+    var zipcode1 = array[3];
+
+    var streetinput = document.getElementById("Street");
+    streetinput.value = streetname1;
+    var citynameinput = document.getElementById("City");
+    citynameinput.value = cityname;
+    var statenameinput = document.getElementById("State");
+    statenameinput.value = statename;
+    var zipcodeinput = document.getElementById("ZipCode");
+    zipcodeinput.value = zipcode1;
+
+
+
+  }
+  input.Value= readCookie("Destination");
+}
+
+function ShowAutofillCookie()
+{
+  alert("Store Cookie: " + readCookie("Destination"));
+}
+function DeleteAutofillCookie()
+{
+  createCookie("Destination", "", -1);
+}
+function CreateAutofillCookie()
+{
+  createCookie("Destination", "1234 Main street, San Jose, CA, 94521", 1);
+  alert(readCookie("Destination"));
+}
+function createCookie(name,value,days)
+{
+      if (days)
+      {
+          var date = new Date();
+          date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+          var expires = "; expires=" + date.toGMTString();
+      }
+      else
+      {
+          var expires = "";
+      }
+      document.cookie = name + "=" + value + expires + "; path=/";
+}
+function readCookie(name)
+  {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1,c.length);
+        }
+        if (c.indexOf(nameEQ) == 0) {
+            return c.substring(nameEQ.length,c.length);
+        }
+    }
+    return null;
+  }
+</script>
+
+
+<!--  THIS SCRIPT IS FOR STORE ID-->
+<script type="text/javascript">
+
+
  function SetStoreID()
  {
    var input = document.getElementById("store");
@@ -149,6 +234,6 @@
 </body>
 </html>
 
-<!--
-THIS IS FOR THE SCRIPT -->
+
+<!-- THIS IS FOR THE SCRIPT -->
 <!-- <script src="../../static/creditcardvalidation.js"></script> -->

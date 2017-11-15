@@ -195,7 +195,7 @@ def confirmation(request):
     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='', db='grocery_store')
     cur = conn.cursor()
 
-    ran = (str(int(time.time())))
+    #ran = (str(int(time.time())))
     query = "INSERT INTO tracking (track_id, ) VALUES (" + ran +  ")"
     try:
         cur.execute(query)

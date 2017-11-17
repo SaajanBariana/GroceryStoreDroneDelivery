@@ -14,7 +14,7 @@ import MySQLdb
 import time
 import pymysql
 
-dbpswd = "saajan1"
+dbpswd = "enter password"
 db = MySQLdb.connect(host="localhost", user="root", passwd= dbpswd, db="grocery_store")   # name of the database
 cur = db.cursor() # creates a cursor to execute queries
 
@@ -25,8 +25,9 @@ def index(request):
     items = []
     cur.execute("SELECT * FROM Items")
     for row in cur.fetchall():
-        item = {"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
-        items.append(item)
+        if (row[4] > 0):
+            item = {"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
+            items.append(item)
 
     if request.method == 'POST':
         if(request.POST['req_type'] == "Log-in"):
@@ -494,8 +495,9 @@ def search(request):
         items = []
         """ Hello """
         for row in cur.fetchall():
-            item = {"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
-            items.append(item)
+            if(row[4] > 0):
+                item = {"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
+                items.append(item)
         context = {"items" : items, "search" : actual_input}
 
         # for row in cur.fetchall():

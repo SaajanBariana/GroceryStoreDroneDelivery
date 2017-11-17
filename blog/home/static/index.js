@@ -1,10 +1,10 @@
 $(".info-item .btn").click(function(){
   $(".container").toggleClass("log-in");
-  
-  
+
+
 });
 
-//THis is old line 
+//THis is old line
 // $(".container-form .btn").click(function(){
 //  // $(".container").addClass("active");
 
@@ -22,7 +22,7 @@ function login() {
   //console.log(y);
 
   var username = x.value;
-  
+
   $.ajax({
         url: 'login_register_request/',
         data: {
@@ -40,14 +40,25 @@ function login() {
           }
         }
       });
-
-  
 };
+
+function buttonCreate() {
+    var a = $(".container");
+    a.height(540);
+    document.getElementById('login-form').style.visibility="hidden";
+    document.getElementById('signup-form').style.visibility="visible";
+}
+function buttonLogin() {
+    var a = $(".container");
+    a.height(400);
+    document.getElementById('signup-form').style.visibility="hidden";
+    document.getElementById('login-form').style.visibility="visible";
+}
 
 
 
 // This function trigger after click on "Sign up" button
 function sign_up() {
   alert("Hi sign_up");
-  
+
 };

@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-     url(r'^home/', include('home.url')),
+    url(r'^home/', include('home.url')),
     url(r'^tracking_home', include('home.url')),
     url(r'^tracking/', include('home.url')),
     url(r'^contact_us/', include('home.url')),
@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^confirmation/', include('home.url')),
     url(r'^shoppingcart/', include('home.url')),
     url(r'^search', include('home.url')),
+    url(r'^admin/', include('adminFunctionality.url'))
 ]

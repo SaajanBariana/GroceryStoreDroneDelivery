@@ -1,455 +1,485 @@
-
 <!DOCTYPE html>
 <html>
   <head>
     <title>Simple Map</title>
-    
- 
-<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <style>
-
-
       /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+      * element that contains the map. */
       #map {
-        height: 60%;
-        width: 100%;
-        margin-bottom: 5%;
-     
+      height: 60%;
+      width: 100%;
+      margin-bottom: 5%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
-        height: 100%;
-        margin: 1%;
-        padding: 1%;
-        
+      height: 100%;
+      margin: 1%;
+      padding: 1%;
       }
-
-    .input_tracking {
-    width: 60%;
-    
-    margin:1% auto 0 auto;
-   
-}
-
-#fname {
-    width: 100%;
-    padding: 12px 20px;
-    margin:1% auto 0 auto;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-   
-}
-
-.delivery .imgcircle, .dispatch span.line   {
-  background-color:#98D091;
-}
-
-
-body{background-color: #fff;}
-
-.social-icon {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.social-icon li{
-  display: inline-block;
-  text-align: center;
-}
-
-.social-icon a {
-  display: block;
-  width: 44px;
-  height: 44px;
-  line-height: 44px;
-  border-radius: 50%;
-  margin-right: 5px;
-}
-
-.social-icon a {
-  background: rgba(255, 255, 255, 0.85); /* social icon background color */
-  color: #000; /* social icon color */
-}
-
-.social-icon a:hover {
-  background: rgba(255, 255, 255, 0.25); /* social icon hover background color */
-  color: #fff; /* social icon hover color */
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  padding: 1rem;
-  background-color: #343a40;
-  
-}
-
+      .input_tracking {
+      width: 60%;
+      margin:1% auto 0 auto;
+      }
+      #fname {
+      width: 100%;
+      padding: 12px 20px;
+      margin:1% auto 0 auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      }
+      .delivery .imgcircle, .dispatch span.line   {
+      background-color:#98D091;
+      }
+      body{background-color: #fff;}
+      .social-icon {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      }
+      .social-icon li{
+      display: inline-block;
+      text-align: center;
+      }
+      .social-icon a {
+      display: block;
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      border-radius: 50%;
+      margin-right: 5px;
+      }
+      .social-icon a {
+      background: rgba(255, 255, 255, 0.85); /* social icon background color */
+      color: #000; /* social icon color */
+      }
+      .social-icon a:hover {
+      background: rgba(255, 255, 255, 0.25); /* social icon hover background color */
+      color: #fff; /* social icon hover color */
+      }
+      .footer {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      padding: 1rem;
+      background-color: #343a40;
+      }
     </style>
     <!-- Bootstrap core CSS -->
     <link href="../../static/bootstrap.min.css" rel="stylesheet">
     <link href="../../static/bootstrap.min.css" rel="stylesheet">
-
-
-
     <!-- Custom styles for this template -->
     <link href="../../static/modern-business.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="../../static/modern-business.css" rel="stylesheet">
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-<link href="../../static/style2.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../static/style2.css" rel="stylesheet" type="text/css" media="all" />
   </head>
   <body>
-
-
- {% if tracking_error %}
- <script type="text/javascript">
-    alert('{{tracking_error}}');
-    window.location.replace('tracking');
-  </script>
-{% endif %}
-  	<!-- <div class="input_tracking">
-  		<form method="Post" action="tracking_home">
-      {% csrf_token %}
-    
-    <input type="text" id="fname" name="firstname" placeholder="Enter Tracking Number">
-
-</div> -->
-
-  <!--Navigation bar-->
-<script>
- 
-</script>
- <!-- Navigation -->
+    {% if tracking_error %}
+    <script type="text/javascript">
+      alert('{{tracking_error}}');
+      window.location.replace('tracking');
+    </script>
+    {% endif %}
+    <!-- <div class="input_tracking">
+      <form method="Post" action="tracking_home">
+        {% csrf_token %}
+      
+      <input type="text" id="fname" name="firstname" placeholder="Enter Tracking Number">
+      
+      </div> -->
+    <!--Navigation bar-->
+    <script></script>
+    <!-- Navigation -->
     <link href="../../static/bootstrap.min.css" rel="stylesheet">
     <link href="../../static/bootstrap.min.css" rel="stylesheet">
-     
-   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-
         {% if username %}
         <script type="text/javascript">
-
           var username_server = '{{username}}';
-         // alert("data from server :" + username_server);
-         
+          // alert("data from server :" + username_server);
+          
           setCookie("username", username_server, 365);
-
-         
+          
+          
         </script>
         <a class="navbar-brand" href="index.html"> Hi {{ username }}</a>
-
         {% else %}
         <a class="navbar-brand" href="index.html">Hello</a>
         {% endif %}
-
-        
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-           
             <li class="nav-item">
               <a class="nav-link" href="tracking_home" target="_blank">Tracking</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="contact_us">Contact</a>
             </li>
-           
             <li class="nav-item dropdown">
-          
-                <script type="text/javascript">
+              <script type="text/javascript">
 
-                  if(getCookie("username") != "" && getCookie("username")  != null){
-                    document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                    document.write(' <a class="dropdown-item" href="blog-post.html">Shopping Cart</a>');
-                    document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
-                  //  document.write('</div></li>');
-                  } else {
-                    
-                     document.write('<li class="nav-item"><a class="nav-link" href="login_register">Login/Register</a></li>');
-                    
-                  }
+
+                function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+                }
+                return "";
+                }
+                
+                if(getCookie("username") != "" && getCookie("username")  != null){
+                  document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                  document.write(' <a class="dropdown-item" href="blog-post.html">Shopping Cart</a>');
+                  document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
+                //  document.write('</div></li>');
+                } else {
                   
-                </script>
-      
-        </li>
+                   document.write('<li class="nav-item"><a class="nav-link" href="login_register">Login/Register</a></li>');
+                  
+                }
+                
+              </script>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
-
-
-<!--end of Navigation bar-->
-
-<div class="content">
-  <div class="content1">
-    <h2 id="track_id">Tracking No:</h2>
-  </div>
-  <div class="content2">
-    <div class="content2-header1">
-      <p>Estimate time : <span id="estimate_time"></span></p>
-    </div>
-    <div class="content2-header1">
-      <p>Status : <span id="delivery_status">Item Dispatched</span></p>
-    </div>
-    <div class="content2-header1">
-      <p>Expected Date : <span id="delivery_date">7-NOV-2015</span></p>
-    </div>
-    <div class="clear"></div>
-  </div>
-  <div class="content3">
-        <div class="shipment">
-      <div class="confirm">
-                <div class="imgcircle">
-                    <img src="../../static/img/confirm.png" alt="confirm order">
-              </div>
-        <span class="line"></span>
-        <p>Confirmed </p>
+    <!--end of Navigation bar-->
+    <div class="content">
+      <div class="content1">
+        <h2 id="track_id">Tracking No:</h2>
       </div>
-      <div class="process">
-              <div class="imgcircle">
-                  <img src="../../static/img/process.png" alt="process order">
-              </div>
-        <span class="line"></span>
-        <p>Processing </p>
-      </div>
-      <div class="quality">
-        <div class="imgcircle">
-                  <img src="../../static/img/quality.png" alt="quality check">
-              </div>
-        <span class="line"></span>
-        <p>Quality Check</p>
-      </div>
-      <div class="dispatch">
-        <div class="imgcircle">
-                  <img src="../../static/img/drone.png" alt="dispatch product">
-              </div>
-        <span class="line"></span>
-        <p>Dispatched </p>
-      </div>
-      <div class="delivery" >
-        <div class="imgcircle" id="delivery_id">
-                  <img src="../../static/img/delivery.png" alt="delivery">
+      <div class="content2">
+        <div class="content2-header1">
+          <p>Estimate time : <span id="estimate_time"></span></p>
         </div>
-        <p> Delivered</p>
+        <div class="content2-header1">
+          <p>Status : <span id="delivery_status">Item Dispatched</span></p>
+        </div>
+        <div class="content2-header1">
+          <p>Expected Date : <span id="delivery_date">7-NOV-2015</span></p>
+        </div>
+        <div class="clear"></div>
       </div>
-      <div class="clear"></div>
+      <div class="content3">
+        <div class="shipment">
+          <div class="confirm">
+            <div class="imgcircle">
+              <img src="../../static/img/confirm.png" alt="confirm order">
+            </div>
+            <span class="line"></span>
+            <p>Confirmed </p>
+          </div>
+          <div class="process">
+            <div class="imgcircle">
+              <img src="../../static/img/process.png" alt="process order">
+            </div>
+            <span class="line"></span>
+            <p>Processing </p>
+          </div>
+          <div class="quality">
+            <div class="imgcircle">
+              <img src="../../static/img/quality.png" alt="quality check">
+            </div>
+            <span class="line"></span>
+            <p>Quality Check</p>
+          </div>
+          <div class="dispatch">
+            <div class="imgcircle">
+              <img src="../../static/img/drone.png" alt="dispatch product">
+            </div>
+            <span class="line"></span>
+            <p>Dispatched </p>
+          </div>
+          <div class="delivery" >
+            <div class="imgcircle" id="delivery_id">
+              <img src="../../static/img/delivery.png" alt="delivery">
+            </div>
+            <p> Delivered</p>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div id="map" "></div>
     </div>
-  </div>
-
-  <div id="map" "></div>
-</div>
-
-{% if destination %}
- <script type="text/javascript">
-    var destination = '{{destination}}';
-    //destination = "alameda,ca";
-    var current_lang = '{{current_lang}}';
-
-    var cordinate = current_lang;
-    current_lang = Number(current_lang);
-   // alert(current_lang);
-    var current_lat = '{{current_lat}}';
-    cordinate = cordinate +","+ current_lang;
-    current_lat = Number(current_lat);
-
-    var delivery_status = '{{status}}'
-    var track_id = '{{track_id}}'
-
-
-    
-   // alert(current_lang +" , "+ current_lat);
-   // window.location.replace('login_register');
-  </script>
-{% endif %}
-
-
-    
-<!-- 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
- 
-    <footer class="footer">
-      <div class="container">
- <ul class="social-icon animate pull-right">
-                  <li><a href="#" title="facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>  change the link to social page and edit title
-                  <li><a href="#" title="twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#" title="google plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>
-                </ul>
-                </div>
-    </footer> -->
-
+    {% if destination %}
+    <script type="text/javascript">
+      var destination = '{{destination}}';
+      //destination = "alameda,ca";
+      var current_lang = '{{current_lang}}';
+      
+      var cordinate = current_lang;
+      current_lang = Number(current_lang);
+      // alert(current_lang);
+      var current_lat = '{{current_lat}}';
+      cordinate = cordinate +","+ current_lang;
+      current_lat = Number(current_lat);
+      
+      var delivery_status = '{{status}}'
+      var track_id = '{{track_id}}'
+      
+    </script>
+    {% endif %}
+    <!-- 
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
+      
+      <footer class="footer">
+        <div class="container">
+      <ul class="social-icon animate pull-right">
+                    <li><a href="#" title="facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>  change the link to social page and edit title
+                    <li><a href="#" title="twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#" title="google plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                  </ul>
+                  </div>
+      </footer> -->
     <script>
-// 
-      function getDate() {
-          var today = new Date();
-          var dd = today.getDate();
-          var mm = today.getMonth()+1; //January is 0!
-          var yyyy = today.getFullYear();
-
-          if(dd<10) {
-            dd = '0'+dd
-          } 
-
-              if(mm<10) {
-                  mm = '0'+mm
-              } 
-
-          return mm + '/' + dd + '/' + yyyy;
-
-      }
-    
- 
-       function initMap() {
-
-
-
-    //     var geocoder = new google.maps.Geocoder();
-    //     geocoder.geocode( { 'address': destination}, function(results, status) {
-    //     if (status == 'OK') {
-           
-    //        // var destination = results[0].geometry.location;
-    //   } else {
-    //     alert('Geocode was not successful for the following reason: ' + status);
-    //   }
-    // });
-
-      //  var from = {lat: 37.324240, lng: -121.882652};
-       
-        var from = {lat: current_lang, lng: current_lat};
-        // var from = wickedLocation;
-       
-         //destination = {lat: 37.556315, lng: -122.005726};
-
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: from,
-          zoom: 7
-        });
-
-        var directionsDisplay = new google.maps.DirectionsRenderer({
-          suppressMarkers: true,map:map
-        });
-
-        // Set destination, origin and travel mode.
-      // alert(destination);
-        var request = {
-          destination: destination,
-          origin: from,
-          travelMode: 'DRIVING'
-        };
-
-
-//         var icon = {
-//     url: "../../static/img/drone.png", // url
-//     scaledSize: new google.maps.Size(50, 50), // scaled size
-//     origin: new google.maps.Point(0,0), // origin
-//     anchor: new google.maps.Point(0, 0) // anchor
-// };
-
-
-//   var marker = new google.maps.Marker({
-//     position: from,
-//     icon: icon,
-//     map:map,
-
-//   });
-
-//   var marker1 = new google.maps.Marker({
-//     position: {lat: 37.556315, lng: -122.005726},
-//     icon: icon,
-//     map:map,
-
-//   });
-
-//   markers.push(marker);
-//   markers.push(marker1);
-
-function makeMarker(position, icon, title, map) {
-        new google.maps.Marker({
-            position: position,
-            map: map,
-            icon: icon,
-            title: title
-        });
-    }
-
-    var icons = {
-        start: new google.maps.MarkerImage(
-        // URL
-        '../../static/img/drone.png',
-        // (width,height)
-        new google.maps.Size(50, 50),
-        // The origin point (x,y)
-        new google.maps.Point(0, 0),
-        // The anchor point (x,y)
-        new google.maps.Point(22, 32))
-        // The origin point (x,y)
-       ,
-        end: new google.maps.MarkerImage(
-        // URL
-        'http://maps.google.com/mapfiles/ms/micons/green.png',
-        // (width,height)
-        new google.maps.Size(44, 32),
-        // The origin point (x,y)
-        new google.maps.Point(0, 0),
-        // The anchor point (x,y)
-        new google.maps.Point(22, 32))
-    };
-
-        // Pass the directions request to the directions service.
-        var directionsService = new google.maps.DirectionsService();
-        directionsService.route(request,  function(response, status) {
-          if (status == 'OK') {
-            // Display the route on the map.
-            var distance = response.routes[0].legs[0].distance.value * 0.00062137119223733; // for convert to miles
-            var duration = response.routes[0].legs[0].duration.text;
-            distance = distance.toFixed(2);
-          
-            
-            
-            document.getElementById("delivery_date").textContent = getDate() ;
-            document.getElementById("track_id").textContent = 'Tracking No: ' + track_id;
-            if(delivery_status == 0) {
-              document.getElementById("delivery_id").setAttribute("style"," background-color: lightgray;");
-              document.getElementById("delivery_status").textContent = 'Dispatched';
-              document.getElementById("estimate_time").textContent = duration;
-             
-            } else if(delivery_status == 1){
-             
-              document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
-              document.getElementById("delivery_status").textContent = 'Delivered';
-              document.getElementById("estimate_time").textContent = '0 min';
-
+      // 
+            function getDate() {
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+      
+                if(dd<10) {
+                  dd = '0'+dd
+                } 
+      
+                    if(mm<10) {
+                        mm = '0'+mm
+                    } 
+      
+                return mm + '/' + dd + '/' + yyyy;
+      
             }
+      
+      // global variables
+
+        var i = 0, howManyTimes;
+        var marker; 
+        var map = null;
+        var totalTime;
+        var expectedTime;
+        var interval_update;
+        var interval_flag = 0;
+        var sleep_time = 100;
+      
+      /*
+      This function wil set marker at particular location and remove  marker from map 
+      which will show as marker is moving
+    */
+
+    var myAudio = new Audio('../../static/sound/sound.mp3'); 
+
+      function f() {
+        if (i > 0) {
+            marker.setMap(null);
+          
+                 expectedTime = expectedTime - interval_update;
+             
+                document.getElementById("estimate_time").textContent = parseInt(expectedTime) +  ' min';
+
+             
+               myAudio.play();
+          
+        }
+        
+          marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i].lat(),locations[i].lng()),
+                        map: map,
+                        icon: new google.maps.MarkerImage(
+             // URL
+                                                          '../../static/img/drone.png',
+                                                          // (width,height)
+                                                          new google.maps.Size(50, 50),
+                                                          // The origin point (x,y)
+                                                          new google.maps.Point(0, 0),
+                                                          // The anchor point (x,y)
+                                                          new google.maps.Point(22, 32))
+                                                                  });                                                   
+      
+          marker.id = i;
+          i++;
+          
+          if( i < howManyTimes ){
+            // alert(howManyTimes +" , "+ totalTime +" , "+ expectedTime +  " , " + interval_flag+","+ interval_update);
             
-            //span.textContent = duration;
-            console.log(duration);
-          //  alert(distance +"miles , "+ duration); // the distance in metres
-            directionsDisplay.setDirections(response);
-            var leg = response.routes[0].legs[0];
-             makeMarker(leg.start_location, icons.start, "destination", map);
-                makeMarker(leg.end_location, icons.end, 'title', map);
+              setTimeout( f, sleep_time );
+          } else {
+            document.getElementById("delivery_status").textContent = 'Delivered';
+            document.getElementById("estimate_time").textContent = '0 min';
+            document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
+             myAudio.pause();
+
           }
-        });
       }
+      
+            
+        
+             function initMap() {
+
+             
+              var from = {lat: current_lang, lng: current_lat};
+            
+               map = new google.maps.Map(document.getElementById('map'), {
+                center: from,
+                zoom: 7
+              });
+      
+              var directionsDisplay = new google.maps.DirectionsRenderer({
+                suppressMarkers: true,map:map
+              });
+      
+              // Set destination, origin and travel mode.
+            // alert(destination);
+              var request = {
+                destination: destination,
+                origin: from,
+                travelMode: 'DRIVING'
+              };
+      // Making marker here with given position, icon, title and map
+      
+      function makeMarker(position, icon, title, map) {
+              new google.maps.Marker({
+                  position: position,
+                  map: map,
+                  icon: icon,
+                  title: title
+              });
+          }
+      // set icons
+          var icons = {
+              start: new google.maps.MarkerImage(
+              // URL
+              '../../static/img/store.png',
+              // (width,height)
+              new google.maps.Size(50, 50),
+              // The origin point (x,y)
+              new google.maps.Point(0, 0),
+              // The anchor point (x,y)
+              new google.maps.Point(22, 32))
+              // The origin point (x,y)
+             ,
+              end: new google.maps.MarkerImage(
+              // URL
+              'http://maps.google.com/mapfiles/ms/micons/green.png',
+              // (width,height)
+              new google.maps.Size(44, 32),
+              // The origin point (x,y)
+              new google.maps.Point(0, 0),
+              // The anchor point (x,y)
+              new google.maps.Point(22, 32)),
+              start_1: new google.maps.MarkerImage(
+              // URL
+            '../../static/img/store.png',
+              // (width,height)
+              new google.maps.Size(50, 50),
+              // The origin point (x,y)
+              new google.maps.Point(0, 0),
+              // The anchor point (x,y)
+              new google.maps.Point(22, 32))
+              // The origin point (x,y)
+             ,
+          };
+      
+              // Pass the directions request to the directions service.
+              var directionsService = new google.maps.DirectionsService();
+              directionsService.route(request,  function(response, status) {
+                if (status == 'OK') {
+                  // Display the route on the map.
+                  var distance = response.routes[0].legs[0].distance.value * 0.00062137119223733; // for convert to miles
+                  var duration = response.routes[0].legs[0].duration.value;
+                  duration = Math.ceil(duration / 60);
+                  totalTime = Math.ceil(duration);
+                  expectedTime = Math.ceil(totalTime);
+              
+                  
+                  //var paths = response.routes[0].overview_path;
+                  // var legs = response.routes[0].legs;
+                  // alert(legs);
+                  distance = distance.toFixed(2);
+                
+                  
+                  
+                  document.getElementById("delivery_date").textContent = getDate() ;
+                  document.getElementById("track_id").textContent = 'Tracking No: ' + track_id;
+                  if(delivery_status == 0) {
+                    document.getElementById("delivery_id").setAttribute("style"," background-color: lightgray;");
+                    document.getElementById("delivery_status").textContent = 'Dispatched';
+                    document.getElementById("estimate_time").textContent = duration;
+                   
+                  } else if(delivery_status == 1){
+                   
+                    document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
+                    document.getElementById("delivery_status").textContent = 'Delivered';
+                    document.getElementById("estimate_time").textContent = '0 min';
+      
+                  }
+                  
+                  //span.textContent = duration;
+                  
+                //  alert(distance +"miles , "+ duration); // the distance in metres
+                  directionsDisplay.setDirections(response);
+                  var leg = response.routes[0].legs[0];
+                   makeMarker(leg.start_location, icons.start, "destination", map);
+                      makeMarker(leg.end_location, icons.end, 'title', map);
+      
+                    locations = response.routes[0].overview_path;
+
+                   
+                   howManyTimes = locations.length;
+
+                   if(howManyTimes < 100) {
+                      sleep_time = 500;
+                      
+                   } else if(howManyTimes > 100) {
+                    sleep_time = 50;
+                   
+                   }
+                   if(howManyTimes > totalTime) {
+                     //  interval_update = Math.ceil(howManyTimes/totalTime);
+                        interval_update = totalTime/howManyTimes;
+                   } else {
+                       interval_update = howManyTimes/totalTime;
+                   }
+                  
+                  
+      // Calling function to move marker on map
+                    f();
 
 
-    
+      
+                } else {
+                  alert("Google map fail");
+                }
+              });
+            }
+      
+      
+          
+          
     </script>
     <script src="../../static/jquery.min.js"></script>
     <script src="../../static/popper.min.js"></script>
     <script src="../../static/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCq3WKK9u3RkP7UMDwh4_UWtz6h_PIoK3Q&callback=initMap" async defer></script>
     <!-- Bootstrap core JavaScript -->
-   <script src="../../static/cookies_handler.js"></script>
+    <script src="../../static/cookies_handler.js"></script>
   </body>
 </html>

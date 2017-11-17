@@ -37,7 +37,7 @@
           <input id="input-field" type="text" name="Credit_Card_Number" placeholder="Card Number"/>
           <input id="column-left" type="text" name="ExpirationDate" placeholder="Expiration-MM/YY"/>
           <input id="column-right" type="text" name="CSV" placeholder="CCV"/>
-          <input id="input-button" type="submit" name="submit_payment"/>
+          <input id="input-button" type="submit" href="/home" onclick="sendToHomePage()" name="submit_payment"/>
          <!--  <input id="store" type="hidden" name="store_id" required="required" autocomplete="on" pattern=[0-9]* placeholder="store id, Select 1 or 2"/> -->
           <input id="store_id" type="hidden" name="store_id" value="1" />
           <input id="username_id" type="hidden" name="user_id" value="" />
@@ -111,8 +111,9 @@
     }
 
     function check_login_for_payment() {
+      // alert("This works");
       if(readCookie("email") != null) {
-       // alert(readCookie("email")  + " login");
+      //  alert(readCookie("email")  + " login");
        document.getElementById('username_id').value=readCookie("email");
 
       } else {
@@ -122,6 +123,11 @@
     }
 
     check_login_for_payment();
+
+    function sendToHomePage()
+    {
+      window.location.href = '/home/';
+    }
 
   </script>
 <script src="../../static/jquery.min.js"></script>

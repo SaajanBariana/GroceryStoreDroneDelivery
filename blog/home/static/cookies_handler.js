@@ -47,6 +47,3 @@ function getCookie(cname) {
     }
     return "";
 }
-
-
-

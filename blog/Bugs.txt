@@ -1,0 +1,48 @@
+Home App:
+  add in the profile page that shows all the user's information where you can change the values
+  when you log out, update back to the main page so that the "Hello" in the header bar changes to the "Group 1 Project"
+    (Potential Fix, instead of saying "My Account", we can change that to the user's name and keep the "Group 1 Project" the same everywhere else)
+  add header bar to the shopping cart page
+  add header bar to the payment page
+  update all of the header bars to show the user's name
+  update the header bar on the contact page
+  update the header on the search page
+  update the header bar on the tracking page
+  Potential addition: (Add an Admin Button to the header to send it to the admin login page)
+  Remove all the buttons from the bottom of the page for search
+  when the payment is completed, delete all the MainCookie and other cookies
+  fix the "home/creditcard" url issue that occurs when you finish the payment and go back to the home page
+  remove the login/register button from the header bar on the search page
+  when we click back from the shopping cart page, the home page does not show up
+  instead of saying Hello in the header bar on the home page, it should say out group name when logged out
+  instead of saying the marketplace on the login page, it should say the group name
+  about page is not working from the header page
+  the groceries, shipping, and registration box on the home page are not working
+  after we click the submit button on the send message button on the contact page, it should do something
+  fix the text from the groceries, shipping, and registration boxes
+  fix the text for the carousel pages
+  finish adding all the tracking functionality
+  finish adding all the payment functionality
+  add in 404 page if someone types in the wrong link
+
+Admin App:
+  add in the admin login page
+  after admin logs in, send it to a set of pages only the admin can access
+    each page checks Cookie and sees if the admin is located in it
+      if it is not the admin, display that only the admin can access these pages
+  add in the page that allows you to update the database and change all the values
+    has a "Submit" button on the bottom of the page that sends all the updates to the database
+
+
+When we are finally finished with everything:
+  remove all the alerts
+  if nothing shows up for the search, display that the searched item does not exist in our store
+
+Total Cookies being created and have to be deleted when you log out:
+  MainCookie and all of the cookies that this holds
+  username
+  email
+  tracking_id
+  Destination
+  csrftoken
+  Total

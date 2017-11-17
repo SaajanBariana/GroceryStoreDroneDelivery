@@ -85,13 +85,13 @@ span.line {
 	background-color:#98D091;
 }
 .confirm span.line, .process span.line, .quality span.line {
-	background-color:#98D091; 
+	background-color:#98D091;
 }
 .content3 p {
 	margin-left:-50%;
 	font-size:15px;
 	font-weight:600;
-} 
+}
 .imgcircle {
 	height:75px;
 	width:75px;
@@ -563,4 +563,3 @@ span.line {
     font-size: 14px;
 }
 }
-

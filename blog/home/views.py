@@ -14,7 +14,7 @@ import MySQLdb
 import time
 import pymysql
 
-dbpswd = "enter password"
+dbpswd = "saajan1"
 db = MySQLdb.connect(host="localhost", user="root", passwd= dbpswd, db="grocery_store")   # name of the database
 cur = db.cursor() # creates a cursor to execute queries
 
@@ -23,6 +23,9 @@ cur = db.cursor() # creates a cursor to execute queries
 def index(request):
     template = loader.get_template('home/index.html')
     items = []
+    usernameCookie = request.COOKIES.get("username")
+    print("Cookie: " + str(usernameCookie))
+
     cur.execute("SELECT * FROM Items")
     for row in cur.fetchall():
         if (row[4] > 0):
@@ -36,10 +39,13 @@ def index(request):
             tuple_response = sign_up_controller(request)
             #return sign_up_controller(request)
             #return HttpResponse(name)
+        if (usernameCookie == None):
+            print("Goes into statement")
+            usernameCookie = tuple_response[1]
 
         if(tuple_response[0] == "1"):
             context = {
-                'username': tuple_response[1][0],
+                'username': usernameCookie,
                 'email': tuple_response[1][1],
                 "items" : items
 
@@ -266,7 +272,8 @@ def navigation_bar(request):
 def creditcard(request):
     template = loader.get_template('home/creditcard.html')
     context = {}
-
+    #REMOVE THIS AFTER FIX
+    ExpirationDate = ""
     if request.method == 'POST':
         if request.POST['submit_payment'] != "":
 
@@ -288,11 +295,12 @@ def creditcard(request):
                 pass  # it was a string, not an int.
 
 
-            try:
-                ExpirationDate = request.POST['ExpirationDate']
-                ExpirationDate =  "'" + ExpirationDate + "'"
-            except ValueError:
-                pass  # it was a string, not an int.
+            #FIX THIS PART
+            # try:
+            #     ExpirationDate = request.POST['ExpirationDate']
+            #     ExpirationDate =  "'" + ExpirationDate + "'"
+            # except ValueError:
+            #     pass  # it was a string, not an int.
 
 
             try:
@@ -364,7 +372,8 @@ def creditcard(request):
             #print ("STORE VALUE: " + StoreID)
             #return HttpResponse(ran + ", " + destination+ ", " + StoreID)
             destination = "'" + destination + "'"
-
+            conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+            cur = conn.cursor()
             query = "INSERT INTO tracking (track_id, destination, store_id) VALUES (" + ran + ", " + destination+ ", " + StoreID + ")"
             try:
                 cur.execute(query)
@@ -391,6 +400,8 @@ def creditcard(request):
             conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
             cur = conn.cursor()
 #            query = "DROP Table if exists Payments;"
+
+
             query = "INSERT INTO Payments (UserID,Credit_Card_Number, CSV, Expiration_Date, Name_on_Card, Card_Zipcode) VALUES (" + user_id + ", "+ CreditCardNumber + ", " + CSV+ ", " + ExpirationDate + ", " + NameOnCard + ", " + CardZipcode + ")"
             try:
                 cur.execute(query)
@@ -415,7 +426,7 @@ def creditcard(request):
 
             # return HttpResponse(template.render(context, request))
             template = loader.get_template('home/index.html')
-            context = {"tracking_id" : 101}
+            context = {"tracking_id" : 101, "username" : request.COOKIE['username']}
             return HttpResponse(template.render(context, request))
     elif request.method == 'GET':
         return HttpResponse(template.render(context, request))

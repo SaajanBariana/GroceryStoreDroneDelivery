@@ -371,6 +371,8 @@
         </script>
         {% endif %}
 
+        {% if username %}
+
         <script type="text/javascript">
 
           var username_server = '{{username}}';
@@ -381,7 +383,10 @@
 
         </script>
 
-        <a class="navbar-brand" href="/home/">Admin Page</a>
+        {% endif %}
+
+          <a class="navbar-brand" href="/home/"> Admin Page</a>
+
 
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -461,6 +466,8 @@
         </div>
       </div>
     </nav>
+
+    <!-- Add if statement here -->
 
     <header>
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">

@@ -362,3 +362,15 @@ function createCookie(name,value,days)
   }
   document.cookie = name + "=" + value + expires + "; path=/";
 }
+
+// function checkAmountOfItems()
+// {
+//   var MainCookie = readCookie("MainCookie");
+//   if(MainCookie != "" and MainCookie != null)
+//   {
+//     window.location.href = '/home/creditcard';
+//   }
+//   else {
+//     alert("No items currently in the cart");
+//   }
+// }

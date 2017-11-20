@@ -4,16 +4,10 @@ Home App:
   When you sign up, it only saved the first letter of your name in the cookie
   does not check if the passwords match for the sign up
   get the tracking ID when you finish a payment
-  add the tracking functionality
-  add header bar to the payment page
-  when we click back from the shopping cart page, the home page does not show up
-  instead of saying the marketplace on the login page, it should say the group name
-  the groceries, shipping, and registration box on the home page are not working
-  after we click the submit button on the send message button on the contact page, it should do something
-  fix the text from the groceries, shipping, and registration boxes
-  fix the text for the carousel pages
   finish adding all the tracking functionality
-  finish adding all the payment functionality
+  add header bar to the payment page
+  instead of saying the marketplace on the login page, it should say the group name
+  fix the text for the carousel pages
   add in 404 page if someone types in the wrong link
   update expiration date
   don't let the shopping cart continue if there are no items in the cart
@@ -30,6 +24,7 @@ Admin App:
 When we are finally finished with everything:
   remove all the alerts
   if nothing shows up for the search, display that the searched item does not exist in our store
+  after we click the submit button on the send message button on the contact page, it should do something
 
 
 List of all cookies:

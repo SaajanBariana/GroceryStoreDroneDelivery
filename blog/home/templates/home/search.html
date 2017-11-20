@@ -453,8 +453,12 @@ function logout() {
 
     <!-- Page Content -->
     <div class="container">
+      {% if search%}
 
-      <h3 align="left" class="my-4">Search Results For: {{search}}</h3>
+        <h3 align="left" class="my-4">Search Results For: {{search}}</h3>
+      {% else %}
+        <h3 align="left" class="my-4">Displaying All Items In Inventory</h3>
+        {% endif %}
 
       <!-- /.row -->
 
@@ -465,7 +469,6 @@ function logout() {
       {% for item in items %}
 
 
-        {% if item.quantity > 0 %}
           <div id = "item.name" class="col-lg-4 col-sm-6 portfolio-item">
             <div class="card h-100">
               <img class="card-img-top" src = "{{item.image}}">
@@ -490,7 +493,6 @@ function logout() {
               </div>
             </div>
           </div>
-        {% endif %}
 
 
         {% endfor %}

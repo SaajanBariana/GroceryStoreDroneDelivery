@@ -477,8 +477,8 @@ def search(request):
 
         # user_filter_choice = request.POST['drop_down_filter']
         # user_search_input = request.POST['search_bar']
-        user_filter_choice = request.GET['drop_down_filter']
-        user_search_input = request.GET.get('search_bar', None)
+        user_filter_choice = request.GET.get('drop_down_filter', "Categories")
+        user_search_input = request.GET.get('search_bar', "")
         actual_input = user_search_input
         if user_search_input.endswith('s'):
             user_search_input = user_search_input[:len(user_search_input) - 1]
@@ -509,7 +509,11 @@ def search(request):
             if(row[4] > 0):
                 item = {"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
                 items.append(item)
-        context = {"items" : items, "search" : actual_input}
+
+        if(actual_input == ""):
+            context = {"items" : items}
+        else:
+            context = {"items" : items, "search" : actual_input}
 
         # for row in cur.fetchall():
         #     fruit = {"name": str(row[1]),

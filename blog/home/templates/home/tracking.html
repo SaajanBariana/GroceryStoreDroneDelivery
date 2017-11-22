@@ -89,9 +89,9 @@
     <!-- <div class="input_tracking">
       <form method="Post" action="tracking_home">
         {% csrf_token %}
-      
+
       <input type="text" id="fname" name="firstname" placeholder="Enter Tracking Number">
-      
+
       </div> -->
     <!--Navigation bar-->
     <script></script>
@@ -104,10 +104,10 @@
         <script type="text/javascript">
           var username_server = '{{username}}';
           // alert("data from server :" + username_server);
-          
+
           setCookie("username", username_server, 365);
-          
-          
+
+
         </script>
         <a class="navbar-brand" href="index.html"> Hi {{ username }}</a>
         {% else %}
@@ -143,18 +143,18 @@
                 }
                 return "";
                 }
-                
+
                 if(getCookie("username") != "" && getCookie("username")  != null){
                   document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
                   document.write(' <a class="dropdown-item" href="blog-post.html">Shopping Cart</a>');
                   document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
                 //  document.write('</div></li>');
                 } else {
-                  
+
                    document.write('<li class="nav-item"><a class="nav-link" href="login_register">Login/Register</a></li>');
-                  
+
                 }
-                
+
               </script>
             </li>
           </ul>
@@ -224,22 +224,22 @@
       var destination = '{{destination}}';
       //destination = "alameda,ca";
       var current_lang = '{{current_lang}}';
-      
+
       var cordinate = current_lang;
       current_lang = Number(current_lang);
       // alert(current_lang);
       var current_lat = '{{current_lat}}';
       cordinate = cordinate +","+ current_lang;
       current_lat = Number(current_lat);
-      
+
       var delivery_status = '{{status}}'
       var track_id = '{{track_id}}'
-      
+
     </script>
     {% endif %}
-    <!-- 
-      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
-      
+    <!--
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
       <footer class="footer">
         <div class="container">
       <ul class="social-icon animate pull-right">
@@ -250,56 +250,75 @@
                   </div>
       </footer> -->
     <script>
-      // 
+      //
             function getDate() {
                 var today = new Date();
                 var dd = today.getDate();
                 var mm = today.getMonth()+1; //January is 0!
                 var yyyy = today.getFullYear();
-      
+
                 if(dd<10) {
                   dd = '0'+dd
-                } 
-      
+                }
+
                     if(mm<10) {
                         mm = '0'+mm
-                    } 
-      
+                    }
+
                 return mm + '/' + dd + '/' + yyyy;
-      
+
             }
-      
+
       // global variables
 
         var i = 0, howManyTimes;
-        var marker; 
+        var marker;
         var map = null;
         var totalTime;
         var expectedTime;
         var interval_update;
         var interval_flag = 0;
         var sleep_time = 100;
-      
+
       /*
-      This function wil set marker at particular location and remove  marker from map 
+      This function wil set marker at particular location and remove  marker from map
       which will show as marker is moving
     */
 
-    var myAudio = new Audio('../../static/sound/sound.mp3'); 
+    var myAudio = new Audio('../../static/sound/sound.mp3');
+    var myAudio2 = new Audio('../../static/sound/drop.mp3');
+
+    if(delivery_status == 1) {
+      alert("already delived");
+       document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
+      document.getElementById("delivery_status").textContent = 'Delivered';
+      document.getElementById("estimate_time").textContent = '0 min';
+
+      function initMap() {
+
+            // Create a map object and specify the DOM element for display.
+            map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: 37.324240, lng: -121.882652},
+              zoom: 8
+            });
+
+
+      }
+    }
 
       function f() {
         if (i > 0) {
             marker.setMap(null);
-          
+
                  expectedTime = expectedTime - interval_update;
-             
+
                 document.getElementById("estimate_time").textContent = parseInt(expectedTime) +  ' min';
 
-             
+
                myAudio.play();
-          
+
         }
-        
+
           marker = new google.maps.Marker({
                         position: new google.maps.LatLng(locations[i].lat(),locations[i].lng()),
                         map: map,
@@ -312,40 +331,42 @@
                                                           new google.maps.Point(0, 0),
                                                           // The anchor point (x,y)
                                                           new google.maps.Point(22, 32))
-                                                                  });                                                   
-      
+                                                                  });
+
           marker.id = i;
           i++;
-          
+
           if( i < howManyTimes ){
             // alert(howManyTimes +" , "+ totalTime +" , "+ expectedTime +  " , " + interval_flag+","+ interval_update);
-            
+
               setTimeout( f, sleep_time );
           } else {
             document.getElementById("delivery_status").textContent = 'Delivered';
             document.getElementById("estimate_time").textContent = '0 min';
             document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
              myAudio.pause();
+             myAudio2.play();
+
 
           }
       }
-      
-            
-        
+
+
+
              function initMap() {
 
-             
+
               var from = {lat: current_lang, lng: current_lat};
-            
+
                map = new google.maps.Map(document.getElementById('map'), {
                 center: from,
                 zoom: 7
               });
-      
+
               var directionsDisplay = new google.maps.DirectionsRenderer({
                 suppressMarkers: true,map:map
               });
-      
+
               // Set destination, origin and travel mode.
             // alert(destination);
               var request = {
@@ -354,7 +375,7 @@
                 travelMode: 'DRIVING'
               };
       // Making marker here with given position, icon, title and map
-      
+
       function makeMarker(position, icon, title, map) {
               new google.maps.Marker({
                   position: position,
@@ -397,7 +418,7 @@
               // The origin point (x,y)
              ,
           };
-      
+
               // Pass the directions request to the directions service.
               var directionsService = new google.maps.DirectionsService();
               directionsService.route(request,  function(response, status) {
@@ -408,49 +429,49 @@
                   duration = Math.ceil(duration / 60);
                   totalTime = Math.ceil(duration);
                   expectedTime = Math.ceil(totalTime);
-              
-                  
+
+
                   //var paths = response.routes[0].overview_path;
                   // var legs = response.routes[0].legs;
                   // alert(legs);
                   distance = distance.toFixed(2);
-                
-                  
-                  
+
+
+
                   document.getElementById("delivery_date").textContent = getDate() ;
                   document.getElementById("track_id").textContent = 'Tracking No: ' + track_id;
                   if(delivery_status == 0) {
                     document.getElementById("delivery_id").setAttribute("style"," background-color: lightgray;");
                     document.getElementById("delivery_status").textContent = 'Dispatched';
                     document.getElementById("estimate_time").textContent = duration;
-                   
+
                   } else if(delivery_status == 1){
-                   
+
                     document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
                     document.getElementById("delivery_status").textContent = 'Delivered';
                     document.getElementById("estimate_time").textContent = '0 min';
-      
+
                   }
-                  
+
                   //span.textContent = duration;
-                  
+
                 //  alert(distance +"miles , "+ duration); // the distance in metres
                   directionsDisplay.setDirections(response);
                   var leg = response.routes[0].legs[0];
                    makeMarker(leg.start_location, icons.start, "destination", map);
                       makeMarker(leg.end_location, icons.end, 'title', map);
-      
+
                     locations = response.routes[0].overview_path;
 
-                   
+
                    howManyTimes = locations.length;
 
                    if(howManyTimes < 100) {
                       sleep_time = 500;
-                      
+
                    } else if(howManyTimes > 100) {
                     sleep_time = 50;
-                   
+
                    }
                    if(howManyTimes > totalTime) {
                      //  interval_update = Math.ceil(howManyTimes/totalTime);
@@ -458,22 +479,22 @@
                    } else {
                        interval_update = howManyTimes/totalTime;
                    }
-                  
-                  
+
+
       // Calling function to move marker on map
                     f();
 
 
-      
+
                 } else {
                   alert("Google map fail");
                 }
               });
             }
-      
-      
-          
-          
+
+
+
+
     </script>
     <script src="../../static/jquery.min.js"></script>
     <script src="../../static/popper.min.js"></script>

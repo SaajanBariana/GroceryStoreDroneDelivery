@@ -1,72 +1,120 @@
-body{
-    margin: 0 auto;
-    background-image: url("../../static/img/loginBackground.jpeg");
-    background-repeat: no-repeat;
-    background-size: 100% 865px;
-    background-color: white;
+
+html {
+  background: url("../../static/img/loginBackground.jpeg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
-.container {
-    opacity: 0;
-    width: 500px;
-    height: 400px;
+.page-container {
+    display: table;
+    overflow:auto;
+    height: 100%;
+    width: 100%;
+
+}
+.title {
+    display: table-row;
+    height: 10%;
+}
+
+.heading {
+    position: relative;
+    font-size: 40px;
     text-align: center;
-    background-color: rgba(52, 73, 94, 0.7);
-    border-radius: 4px;
-    margin: auto;
-    margin-top: 125px;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    color: rgba(60, 84, 109, 1);
+    opacity: 0;
 }
+.errorText {
+    color: #FFFFFF;
+    margin-top: 5px;
+    margin-left: 2px;
+    margin-bottom: 0;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 14px;
 
-.container img {
+}
+.container {
+    display: table-row;
+    margin: 0 auto;
+    width: 40%;
+    opacity: 0;
+
+}
+.image-container {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+img {
     width: 120px;
     height: 120px;
-    margin-top: -65px;
-    margin-bottom: 30px;
 }
+.container-form {
+    display: table;
+    position: relative;
+    height:auto;
+    width: 500px;
+    margin: 0 auto;
+    top: 60px;
+    background-color: rgba(52, 73, 94, 0.7);
+}
+.form-item {
+    padding-top: 90px;
+    text-align: center;
 
+}
 input[type="text"], input[type="password"] {
     height: 45px;
     width: 300px;
     font-size: 17px;
-    margin-bottom: 20px;
+    margin-top: 20px;
     background-color: #fff;
     padding-left: 40px;
+}
+.form-input {
+    margin-left: 77px;
+    margin-right: 77px;
 }
 .form-input::before{
     content: "\f007";
     position:absolute;
     font-family: FontAwesome;
     padding-left: 10px;
-    padding-top: 9px;
+    padding-top: 30px;
     color: #696969;
     font-size: 30px;
 }
 .email::before {
-    content: "\f0e0";
+
     font-size: 25px;
-    padding-top: 12px;
+    padding-top: 32px;
 }
 .password::before{
     content: "\f023";
 }
+#signup-form {
+    display:none;
+}
+
+.buttons-bottom {
+    padding-top: 30px;
+}
 .btn-login {
     padding: 10px 60px;
     color: #fff;
-    position: relative;
-    top: 30px;
     border-radius: 10px;
-    border: none;
     background-color: #2ECC71;
+    border: none;
     width: 175px;
     height: 40px;
     font-size: 17px;
-    padding-left: 55px;
 }
-
 .btn-create {
     color: #fff;
-    position: relative;
-    top: 30px;
     border-radius: 10px;
     border: none;
     background-color: #ff4d4d;
@@ -75,60 +123,50 @@ input[type="text"], input[type="password"] {
     font-size: 17px;
 }
 
-p {
-    text-align: center;
-    top: -150px;
-    font-size: 40px;
-    height: 30px;
-    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
-    color: rgba(60, 84, 109, 1);
-    opacity: 0;
-    /*text-shadow: 2px 2px #a6bace;*/
+#create-send {
+    background-color: #A56A6A;
+}
+.or-login {
+    padding: 0px;
 }
 
+.continue-link {
+    padding-top: 35px;
+    padding-bottom: 35px;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
 a:link {
-    position: relative;
-    top: 65px;
     color: white;
-    font-family: FontAwesome;
     background-color: transparent;
     text-decoration: none;
-    font-size:
 }
 a:visited {
     color: white;
     background-color: transparent;
     text-decoration: none;
-    font-family: FontAwesome;
 }
 
 a:hover {
     color: black;
     background-color: transparent;
-    text-decoration: underline;
-    font-family: FontAwesome;
+    text-decoration: none;
 }
 
 a:active {
     color: white;
     background-color: transparent;
-    text-decoration: underline;
-    font-family: FontAwesome;
-}
-
-.container-form {
-    position: relative;
-}
-
-.form-item {
-    position: absolute;
-    left: 70px;
+    text-decoration: none;
 }
 
 .btn:active {
     transform: translateY(2px);
 }
-p{
+
+input:focus {
+    outline:none;
+}
+
+.heading{
     -webkit-animation: fadein 2s forwards; /* Safari, Chrome and Opera > 12.1 */
     -moz-animation: fadein 2s forwards; /* Firefox < 16 */
     -ms-animation: fadein 2s forwards; /* Internet Explorer */

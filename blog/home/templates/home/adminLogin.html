@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Log in / Sign up</title>
+
+    <script src="https://use.fontawesome.com/1335577d55.js"></script>
+    <link href="../../static/login.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="../../static/index.js"></script>
+</head>
+
+<body>
+
+
+
+{% if account_error %}
+    <script type="text/javascript">
+        alert('{{account_error}}');
+        window.location.replace('login_register');
+    </script>
+{% endif %}
+<div class="title">
+    <p>The Marketplace</p>
+</div>
+<div class="container" id="animation-holder"><!-- Nav tabs -->
+    <img src="../../static/img/loginIcon.png">
+    <div class="container-form">
+        <div class="form-item log-in" id="login-form">
+            <form method="post" action="/admin/home">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-input">
+                    <input type="text" name="Username" id="Username_login" placeholder="Enter Email">
+                </div>
+                <div class="form-input password">
+                    <input type="password" name="Password" id="password_login" placeholder="Enter Password">
+                </div>
+                <input type="submit" name="req_type" value="Log-in" class="btn-login btn">
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="../../static/jquery.min.js"></script>
+<script  src="../../static/index.js"></script>
+
+</body>
+</html>

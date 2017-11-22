@@ -1,2 +1,2 @@
-username: "root"
-password: "saajan1"
+username: “username”
+password: “password”

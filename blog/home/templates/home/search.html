@@ -63,13 +63,13 @@
 
 <script>
   function toggleDropDown() {
-      document.getElementById("myDropdown").classList.toggle("show");
+      document.getElementById("drop_down_filter").classList.toggle("show");
   }
 
   // Close the dropdown if the user clicks outside of it
   window.onclick = function(e) {
     if (!e.target.matches('.dropbtn')) {
-      var myDropdown = document.getElementById("myDropdown");
+      var myDropdown = document.getElementById("drop_down_filter");
         if (myDropdown.classList.contains('show')) {
           myDropdown.classList.remove('show');
         }
@@ -461,20 +461,6 @@ function logout() {
               <a class="nav-link" href="/home/contact_us">Contact</a>
             </li>
 
-            <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Portfolio
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-              </div>
-            </li> -->
-
-
             <li class="nav-item">
               <a class="nav-link" href="/home/shoppingcart">
               <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
@@ -540,10 +526,8 @@ function logout() {
               <div class="card-footer">
                 <div>
                   Quantity:
-                  <input id="{{item.name}}" type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 5em; height: 40px; font-size: 18px; padding-top = 100px" >
-                  <button class="btn btn-primary" onclick= "openWindow(this, '{{item.name}}', '{{item.cost}}', '{{item.weight}}', '{{item.quantity}}', '{{item.image}}')" >
-                    Add to Cart
-                </button>
+                  <input id="{{item.name}}" type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 5em; height: 40px; font-size: 18px; padding-top = 100px" />
+                  <input type="button" onclick= "openWindow(this, {{item.name}}, {{item.cost}}, {{item.weight}}, {{item.quantity}}, {{item.image}})" class="btn btn-primary" value = "Add To Cart"/>
               </div>
 
               </div>

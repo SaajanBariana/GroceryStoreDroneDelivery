@@ -68,9 +68,10 @@ def index(request):
             tuple_response = login_controller(request)
         elif(request.POST['req_type'] == "sign-up"):
             tuple_response = sign_up_controller(request)
-
-
+        print("RESPONSE IS: " + str(tuple_response))
+        print("RESPONSE IS: " + tuple_response[0])
         if(tuple_response[0] == "1"):
+            print("IN 1")
             context = {
                 'username': tuple_response[1][0],
                 'u_id':tuple_response[1][1],
@@ -82,11 +83,11 @@ def index(request):
                     }
             template = loader.get_template('home/index.html')
             #return HttpResponse(template.render(context, request))
-            response = HttpResponse(template.render(context, request))
             #response.set_cookie('login_username', tuple_response[1])
-            return response
+            return HttpResponse(template.render(context, request))
 
         elif(tuple_response[0] == "2"):
+            print("IN 2")
             card = tuple_response[1][5]+","+tuple_response[1][6] +","+tuple_response[1][7]+","+tuple_response[1][8]+","+tuple_response[1][9]
             print("string - >"+tracking_number_string)
             context = {
@@ -102,26 +103,30 @@ def index(request):
                     }
             template = loader.get_template('home/index.html')
             #return HttpResponse(template.render(context, request))
-            response = HttpResponse(template.render(context, request))
+            # response = HttpResponse(template.render(context, request))
             #response.set_cookie('login_username', tuple_response[1])
-            return response
+            return HttpResponse(template.render(context, request))
 
         elif (tuple_response[0] == "0"):
-
+            print("IN THIS ONE")
             if "Duplicate entry" in str(tuple_response[1]):
                 template = loader.get_template('home/login_register.html')
                 context = {'account_error': "Account already register", "items" : items}
                 return HttpResponse(template.render(context, request))
 
-            elif (tuple_response[1] == "error"):
-                template = loader.get_template('home/login_register.html')
-                context = {'account_error': "Username and password not match", "items" : items}
-                return HttpResponse(template.render(context, request))
+        elif (tuple_response[1] == "error"):
+            print("IN THE ERROR STATEMENT")
+            template = loader.get_template('home/login_register.html')
+            context = {'account_error': "Username and password not match", "items" : items}
+            return HttpResponse(template.render(context, request))
 
 
-    else :
-        context = {"items" : items}
-        return HttpResponse(template.render(context, request))
+
+    template = loader.get_template('home/index.html')
+    context = {"validated" : "no", "items" : items}
+    return HttpResponse(template.render(context, request))
+
+
 
 def hiSaajan(request):
     cur.execute("SELECT * FROM Items where Name = 'Apples' ")
@@ -149,6 +154,7 @@ def get_user_info_from_db(username,password):
 
     return result
 
+
 def get_user_login_result_from_db(username,password):
     conn = pymysql.connect(host='localhost', port=3306, user=SQL_username, passwd=SQL_password, db='grocery_store')
     cur = conn.cursor()
@@ -169,6 +175,7 @@ def get_user_login_result_from_db(username,password):
         conn.close()
 
     return name
+
 
 def login_controller(request):
     username = request.POST['Username']
@@ -197,7 +204,6 @@ def login_controller(request):
             print(tracking_number)
             print(tracking_number_string)
             return ("2",result_from_1st)
-
 
 
 # Login controller if request is login then

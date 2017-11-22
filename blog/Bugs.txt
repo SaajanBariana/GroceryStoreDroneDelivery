@@ -40,7 +40,5 @@ List of all cookies:
 
 
 when you try to log in with the wrong password, website crashes
-admin login does not save the name as a cookie
 still goes to payment without anything in cart
 for payment, the expiration date field is not automatically filled in
-Add in Admin privileges and make sure only one account is accepted as the admin

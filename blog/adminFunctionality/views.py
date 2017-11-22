@@ -161,6 +161,57 @@ def login_controller(request):
     else:
         return ("0","error")
 
+
+def sign_up_controller(request):
+    email = request.POST['email']
+    email = "'"+str(email)+"'"
+    
+    name = request.POST['name']
+    token = name
+    realname = name
+    name = "'"+str(name)+"'"
+    
+    password = request.POST['password']
+    token = token + password
+    
+    token = "'"+token+"'"
+    
+    password = "'"+str(password)+"'"
+    
+    repeat_password = request.POST['repeat_password']
+    repeat_password = "'"+str(repeat_password)+"'"
+    
+    
+    
+    #first_person = Person.objects.raw("SELECT * FROM register_user where userid = 'username' ")[0]
+    
+    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    cur = conn.cursor()
+    
+    #query = 'SELECT name  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
+    query = "INSERT INTO register_user (name,email,password,token) VALUES ( " + name +","+ email +","+ password+","+ token + ")"
+    #return HttpResponse(query)
+    
+    try:
+        cur.execute(query)
+        conn.commit()
+        response = ("1",realname)
+    
+    
+    except Exception as e:
+        response = ("0",e)
+    #raise
+    else:
+        pass
+    finally:
+        cur.close()
+        conn.close()
+    
+    
+    return response
+
+
+
 def shoppingcart(request):
     context = RequestContext(request)
     data = Cart.objects.all()

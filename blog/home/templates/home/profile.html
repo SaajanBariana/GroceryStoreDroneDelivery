@@ -1,4 +1,282 @@
 <!DOCTYPE html>
+<script type="text/javascript">
+    function toggleDropDown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(e){
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+  }
+}
+    function getFilter() {
+    document.getElementById("");
+}
+    /*
+    Creates a new cookies or updates an old one when you click on the add to cart button
+    Also updates the MainCookie to include this cookie we just added
+    */
+    function openWindow(obj, name, cost, weight, quantity, image){
+
+      var result = document.getElementById(name).value //recieves the input value for how many of that item we want to add to the cart
+      document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
+      console.log("Clicked on the button"); //check to make sure that this function is working
+      if(result > 0) //make sure that you have given a quantity for that item
+      {
+        obj.style.background = 'green'; //change the color of the button to green to confirm that it submitted
+
+        //creating the new cookie for that item
+        var oldCookie = readCookie(name);
+        if (oldCookie != "") //check to see if you have a previous cookie with this name
+        {
+          if(oldCookie == null)
+          {
+            var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
+          }
+          else
+          {
+            var array = oldCookie.split(","); //if you do have an old one, split it and turn it into an array
+            var amount = array[0]; //receive the amount that you previously have for that item
+            var newCookie = createCookie(name, (Number(result) + Number(amount)) + "," + cost + "," + weight + "," + quantity + "," + image, 1); //add the current amount with the previous value to update the total amount of items you want to purchase
+          }
+
+        }
+        else {
+          var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
+        }
+
+        //updating the MainCookie
+        var oldMainCookie = readCookie("MainCookie"); //retrieves the MainCookie
+        if (oldMainCookie != "" && oldMainCookie != null) //checks if it is currently empty
+        {
+
+          var list = oldMainCookie; //if it is not empty, store the previous value into list
+          if(list.indexOf(name) == -1) //check to see if the item already exists in the list
+          {
+            list += name + ","; //if it does not exist, add it into the list
+            var newCookie = createCookie("MainCookie",list, 1); //update the MainCookie with the new value
+          }
+
+        }
+        else {
+          var MainCookie = createCookie("MainCookie", name + ",", 1); //if it is empty, creates a new MainCookie with the new item stored into it
+        }
+
+        var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
+        var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
+        alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
+      }
+      else {
+        obj.style.background = 'red'; //if the value of the input is 0, set the color of the button to red
+        alert("Please enter a value and click again"); //display that they need to enter a value
+      }
+    }
+    /*
+    Display all the cookies for the items we currently have selected
+    */
+    function ShowAllCookies(){
+
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+        //for each item in the array of the MainCookie, add its value to message
+        for (var i = 0; i < array.length-1; i++)
+        {
+          message += array[i] + ": " + readCookie(array[i]) + "\n";
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
+    }
+    /*
+    Display the URL for the items' pictures
+    */
+    function ShowAllImages(){
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[4] + "\n"; //grab the URL in position 4 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
+    }
+    /*
+    Display the total amount of items you have selected
+    */
+    function ShowAllCurrentTotal(){
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[0] + "\n"; //grab the current count in position 0 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
+    }
+    /*
+    Display the total amount of each item that is curently available in the Database
+    */
+    function ShowAllQuantities(){
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[3] + "\n"; //grab the total amount in the database in position 3 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
+    }
+    /*
+    Display all the weights per Item
+    */
+    function ShowAllWeights(){
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[2] + "\n"; //grab the weight per item in position 2 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
+    }
+    /*
+    Display all the costs for each item
+    */
+    function ShowAllCosts(){
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "")
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+        var message = "";
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          var currentCookie = readCookie(array[i]); //read that cookie
+          var innerArray = currentCookie.split(","); //split it by the commas
+          message += array[i] + ": " + innerArray[1] + "\n"; //grab the cost per item in position 1 of the array for this cookie
+        }
+
+      }
+      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
+    }
+    /*
+    delete all of the cookies currently held by MainCookie while also removing them from MainCookie
+    */
+    function DeleteAllCookies(){
+
+      var MainCookie = readCookie("MainCookie"); //read the MainCookie
+      if (MainCookie != "" && MainCookie != null)
+      {
+        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+
+        //for each item in the array of the MainCookie
+        for (var i = 0; i < array.length-1; i++)
+        {
+          eraseCookie(array[i]); //delete that item
+        }
+        createCookie("MainCookie", "", 1); //reset the MainCookie
+
+      }
+      alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+    }
+    /*
+    creates a cookie with a given name, a value, and a number of days that it is active for
+    */
+    function createCookie(name,value,days){
+      if (days)
+      {
+          var date = new Date();
+          date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+          var expires = "; expires=" + date.toGMTString();
+      }
+      else
+      {
+          var expires = "";
+      }
+      document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    /*
+    recieve information from a cookie
+    */
+    function readCookie(name){
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') {
+              c = c.substring(1,c.length);
+          }
+          if (c.indexOf(nameEQ) == 0) {
+              return c.substring(nameEQ.length,c.length);
+          }
+      }
+      return null;
+    }
+    /*
+    erase a cookie
+    */
+    function eraseCookie(name){
+      createCookie(name,"",-1);
+    }
+    function logout() {
+     eraseCookie("username");
+     eraseCookie("email");
+     eraseCookie("tracking_id");
+     DeleteAllCookies();
+     eraseCookie("Destination");
+     eraseCookie("csrftoken");
+     eraseCookie("Total");
+     eraseCookie("Store");
+     eraseCookie("gsScrollPos-794");
+
+      window.location.href = '/home/';
+
+    }
+
+    function moveToProfile()
+    {
+      window.location.href = '/home/profile';
+    }
+</script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,74 +290,116 @@
     <title>{{username}}</title>
 </head>
 <body>
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        {% if username %}
-            <script type="text/javascript">
-                var username_server = '{{username}}';
-                // alert("data from server :" + username_server);
-                setCookie("username", username_server, 365);
-                setCookie("email", '{{email}}', 365);
-            </script>
-            <a class="navbar-brand" href="/home/"> Hi {{ username }}</a>
-        {% else %}
-            <a class="navbar-brand" href="/home/">Hello</a>
-        {% endif %}
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <!--- Search Bar --->
-                <form action="search.html" type="get">
-                    <select id="drop_down_filter" name="drop_down_filter">
-                        <option value="Categories">Categories</option>
-                        <option value="Fruit">Disgusting Fruit</option>
-                        <option value="Vegetable">Dirty Vegetables</option>
-                        <option value="Meat">Spoiled Meat</option>
-                        <option value="Dairy">Some Dairy</option>
-                    </select>
-                    <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
-                    <button id="search_submit" type="submit">Go</button>
-                </form>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="tracking_home">Tracking</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact_us">Contact</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        Login/Register
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a class="dropdown-item" href="login_register">Login/register</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <script type="text/javascript">
-                        if (readCookie("username") != "" && readCookie("username") != null) {
-                            document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                            // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
-                            document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
-                            //  document.write('</div></li>');
-                        } else {
-                            document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                            document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
-                            // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
-                        }
-                    </script>
-                </li>
-            </ul>
-        </div>
+
+
+      {% if tracking_id %}
+
+      <script type="text/javascript">
+      alert("Tracking ID: " + {{tracking_id}})
+      </script>
+      {% endif %}
+
+
+      {% if username %}
+
+      <script type="text/javascript">
+
+        var username_server = '{{username}}';
+       // alert("data from server :" + username_server);
+
+        createCookie("username", username_server, 365);
+        createCookie("email", '{{email}}', 365);
+        alert(readCookie("username"));
+
+      </script>
+
+
+      {% endif %}
+
+        <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
+
+
+
+
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+
+          <!--- Search Bar --->
+           <form action="/home/search.html" type="get">
+               <select id="drop_down_filter" name="drop_down_filter">
+                 <option value="Categories">Categories</option>
+                 <option value="Fruit">Fruits</option>
+                 <option value="Vegetable">Vegetables</option>
+                 <option value="Meat">Meats</option>
+                 <option value="Dairy">Dairies</option>
+                 <option value="Seafood">Seafood</option>
+                <option value="Grains">Grains</option>
+               </select>
+               <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+               <button id="search_submit" type="submit">Go</button>
+           </form>
+
+          <li class="nav-item" style="">
+            <a class="nav-link" href="/admin/">Admin Page</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home/tracking_home">Tracking</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/home/contact_us">Contact</a>
+          </li>
+
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Portfolio
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
+              <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
+              <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
+              <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
+              <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
+            </div>
+          </li> -->
+
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home/shoppingcart">
+            <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
+            </a>
+
+          </li>
+
+          <li class="nav-item dropdown">
+
+                <script type="text/javascript">
+                  if(readCookie("username") != "" && readCookie("username") != null){
+                    var name = readCookie("username");
+                    document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + name + '</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                     document.write(' <a class="dropdown-item" href="/home/profile">Profile</a>');
+                    document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
+                  //  document.write('</div></li>');
+                  }
+                  else {
+                    document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                    document.write(' <a class="dropdown-item" href="/home/ogin_register">Log in/Register</a>');
+                    // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
+                  }
+
+                </script>
+
+        </li>
+
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>
 <div class="fullContainer">
     <div class="inform-container">
         <div class="left-container">
@@ -88,18 +408,7 @@
                 <li class="dash">
                     <button class="dashbtn">My Account</button>
                 </li>
-                <li class="dash">
-                    <button class="dashbtn payment" onclick="changeContent()">Payment Information</button>
-                </li>
-                <li class="dash">
-                    <button class="dashbtn addrbook">Address Book</button>
-                </li>
-                <li class="dash">
-                    <button class="dashbtn">My Orders</button>
-                </li>
-                <li class="dash">
-                    <button class="btn-logout">Logout</button>
-                </li>
+
             </ul>
         </div>
         <div class="right-container">

@@ -279,6 +279,8 @@
       }
       alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
     }
+
+
     /*
     creates a cookie with a given name, a value, and a number of days that it is active for
     */
@@ -295,6 +297,32 @@
       }
       document.cookie = name + "=" + value + expires + "; path=/";
     }
+
+    function deleteUpdate(index)
+    {
+      createCookie(item[index], "", 1);
+      console.log(
+        [
+          itemQty.splice(index, 1),
+          itemName.splice(index, 1),
+          itemSrc.splice(index, 1)
+          itemWeight.splice(index, 1),
+          itemPrice.splice(index, 1),
+          totalQty.splce(index, 1)
+
+        ]
+      );
+      createCookie("MainCookie", itemName.join(), 1);
+      getSubTotal();
+      getTax();
+      getFinalTotal();
+      getWeight();
+      checkCookie();
+
+
+    }
+
+
     /*
     recieve information from a cookie
     */
@@ -318,6 +346,16 @@
     function eraseCookie(name){
       createCookie(name,"",-1);
     }
+
+    function checkCookie()
+    {
+      var MainCookie = readCookie("MainCookie");
+      if (MainCookie == "" or MainCookie == null)
+      {
+        changeCheckout('grey');
+      }
+    }
+
     function logout() {
      eraseCookie("username");
      eraseCookie("email");
@@ -384,7 +422,7 @@
         </form>
 
         <li class="nav-item" style="">
-          <a class="nav-link" href="http://127.0.0.1:8000/admin/">Admin Page</a>
+          <a class="nav-link" href="home/admin/">Admin Page</a>
         </li>
 
         <li class="nav-item">
@@ -450,6 +488,7 @@
             <div style="clear: both;"></div>
         </div>
     </div>
+    <script>checkCookie()</script>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

@@ -468,28 +468,29 @@
 
 </div>
 
-<div>
+
     <script type="text/javascript">
       var tracking_number_temp = readCookie("tracking_number");
       
       
       if(tracking_number_temp != null) {
         var array_track = tracking_number_temp.split(',');
-
+        document.write('<div style="margin-top:30px;">');
         for(var i = 0; i < array_track.length;i++) {
           var button = array_track[i];
           var d= "{% csrf_token%}";
          // alert(array_track[i]);
           document.write('<form method="Post" action="tracking_home">');
           document.write(d);
-          document.write('<button type="submit" class="btn btn-primary" value='+button+' name="tracking_number" >'+button+'</button>');
+          document.write('<button style="margin-top:20px;" type="submit" class="btn btn-primary" value='+button+' name="tracking_number" >Click on tracking number '+button+'</button>');
           document.write('</form>');
         }
+        document.write('</div>');
       } else {
          alert("NO tracking number found");
       }
     </script>
-</div>
+
 
 
     <div id="map"></div>
@@ -549,7 +550,6 @@
     <script src="../../static/jquery.min.js"></script>
     <script src="../../static/popper.min.js"></script>
     <script src="../../static/bootstrap.min.js"></script>
-
      <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCq3WKK9u3RkP7UMDwh4_UWtz6h_PIoK3Q&callback=initMap"

@@ -474,16 +474,21 @@
       
       
       if(tracking_number_temp != null) {
+        console.log(array_track)
         var array_track = tracking_number_temp.split(',');
+        console.log(array_track)
         document.write('<div style="margin-top:30px;">');
         for(var i = 0; i < array_track.length;i++) {
           var button = array_track[i];
-          var d= "{% csrf_token%}";
+          if(button != "") {
+             var d= "{% csrf_token%}";
          // alert(array_track[i]);
           document.write('<form method="Post" action="tracking_home">');
           document.write(d);
           document.write('<button style="margin-top:20px;" type="submit" class="btn btn-primary" value='+button+' name="tracking_number" >Click on tracking number '+button+'</button>');
           document.write('</form>');
+          }
+         
         }
         document.write('</div>');
       } else {

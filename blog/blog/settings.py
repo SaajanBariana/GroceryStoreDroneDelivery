@@ -21,6 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'wec+p0akcnh-e8vp7_9$!i%+!tb24@6w9wt&=lojdd4qi26u71'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -70,19 +71,61 @@ TEMPLATES = [
 WSGI_APPLICATION = 'blog.wsgi.application'
 
 
+
+
+
+
+
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+#
+# f = open('../blog/SQLSetup.txt', "r")
+# usernameLine = f.readline()
+# usernameArray = usernameLine.split(":")
+# SQL_username = str(usernameArray[1]).strip()
+# if SQL_username.startswith("\"") and SQL_username.endswith("\""):
+#     SQL_username = SQL_username[1:len(SQL_username) - 1]
+# passwordLine = f.readline()
+# passwordArray = passwordLine.split(":")
+# SQL_password = str(passwordArray[1]).strip()
+# if SQL_password.startswith("\"") and SQL_password.endswith("\""):
+#     SQL_password = SQL_password[1:len(SQL_password) - 1]
+#
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': 'grocery_store',
+#             'USER': SQL_username,
+#             'PASSWORD': SQL_password,
+#             'HOST': 'localhost',
+#             'PORT': '3306',
+#     }
+# }
 
-DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'grocery_store',
-            'USER': 'root',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '3306',
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

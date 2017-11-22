@@ -14,8 +14,19 @@ import MySQLdb
 import time
 import pymysql
 
-dbpswd = "saajan1"
-db = MySQLdb.connect(host="localhost", user="root", passwd= dbpswd, db="grocery_store")   # name of the database
+f = open('../blog/SQLSetup.txt', "r")
+usernameLine = f.readline()
+usernameArray = usernameLine.split(":")
+SQL_username = str(usernameArray[1]).strip()
+if SQL_username.startswith("\"") and SQL_username.endswith("\""):
+    SQL_username = SQL_username[1:len(SQL_username) - 1]
+passwordLine = f.readline()
+passwordArray = passwordLine.split(":")
+SQL_password = str(passwordArray[1]).strip()
+if SQL_password.startswith("\"") and SQL_password.endswith("\""):
+    SQL_password = SQL_password[1:len(SQL_password) - 1]
+
+db = MySQLdb.connect(host="localhost", user=SQL_username, passwd= SQL_password, db="grocery_store")   # name of the database
 cur = db.cursor() # creates a cursor to execute queries
 
 @api_view(['GET', 'POST'])
@@ -40,13 +51,12 @@ def index(request):
             #return sign_up_controller(request)
             #return HttpResponse(name)
         if (usernameCookie == None):
-            print("Goes into statement")
-            usernameCookie = tuple_response[1]
+            usernameCookie = tuple_response[1][0]
 
         if(tuple_response[0] == "1"):
             context = {
                 'username': usernameCookie,
-                'email': tuple_response[1][1],
+                'email': tuple_response[1],
                 "items" : items
 
             }
@@ -86,7 +96,7 @@ def login_controller(request):
     password = request.POST['Password']
         #first_person = Person.objects.raw("SELECT * FROM register_user where userid = 'username' ")[0]
 
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user= SQL_username, passwd=SQL_password, db='grocery_store')
     cur = conn.cursor()
 
     query = 'SELECT name,userid  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
@@ -133,7 +143,7 @@ def sign_up_controller(request):
 
         #first_person = Person.objects.raw("SELECT * FROM register_user where userid = 'username' ")[0]
 
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user= SQL_username, passwd=SQL_password, db='grocery_store')
     cur = conn.cursor()
 
     #query = 'SELECT name  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
@@ -208,7 +218,7 @@ def tracking_controller(request):
 
         #first_person = Person.objects.raw("SELECT * FROM register_user where userid = 'username' ")[0]
 
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user= SQL_username, passwd=SQL_password, db='grocery_store')
     cur = conn.cursor()
 
     query = 'SELECT destination,current_lat,current_long,start_lat,start_long,status,track_id  FROM tracking_update where track_id = "' + str(tracking_number) +  '" '
@@ -277,7 +287,7 @@ def creditcard(request):
     if request.method == 'POST':
         if request.POST['submit_payment'] != "":
 
-            conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+            conn = pymysql.connect(host='localhost', port=3306, user= SQL_username, passwd=SQL_password, db='grocery_store')
             cur = conn.cursor()
             # Credit Card Submission form
 
@@ -368,11 +378,10 @@ def creditcard(request):
             except ValueError:
                 pass  # it was a string, not an int.
 
-
             #print ("STORE VALUE: " + StoreID)
             #return HttpResponse(ran + ", " + destination+ ", " + StoreID)
             destination = "'" + destination + "'"
-            conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+            conn = pymysql.connect(host='localhost', port=3306, user= SQL_username, passwd=SQL_password, db='grocery_store')
             cur = conn.cursor()
             query = "INSERT INTO tracking (track_id, destination, store_id) VALUES (" + ran + ", " + destination+ ", " + StoreID + ")"
             try:
@@ -397,7 +406,7 @@ def creditcard(request):
 
 
 
-            conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+            conn = pymysql.connect(host='localhost', port=3306, user= SQL_username, passwd=SQL_password, db='grocery_store')
             cur = conn.cursor()
 #            query = "DROP Table if exists Payments;"
 
@@ -432,9 +441,16 @@ def creditcard(request):
         return HttpResponse(template.render(context, request))
     return HttpResponse("hello just return")
 
+def handle404(request, somethingElse):
+    template = loader.get_template('home/404.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+
+
 def confirmation(request):
     template = loader.get_template('home/confirmation.html')
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user= SQL_username, passwd=SQL_password, db='grocery_store')
     cur = conn.cursor()
 
     ran = (str(int(time.time())))
@@ -472,7 +488,7 @@ def shoppingcart(request):
 def search(request):
     if request.method == 'GET':
         # password1234 HelloThisIsAnAI
-        conn = pymysql.connect(host='localhost', port=3306, user='root', passwd= dbpswd, db='grocery_store')
+        conn = pymysql.connect(host='localhost', port=3306, user= SQL_username, passwd= SQL_password, db='grocery_store')
         cur = conn.cursor()
 
         # user_filter_choice = request.POST['drop_down_filter']

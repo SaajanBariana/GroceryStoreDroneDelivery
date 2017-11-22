@@ -1,4 +1,372 @@
 <!DOCTYPE html>
+<style type="text/css">
+            #search_bar{
+                border: 1px solid #000000;
+                border-right: none;
+                font-size: 16px;
+                width: 200px;
+                padding: 10px;
+                border: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+            #search_submit{
+                border: 1px solid #000000;
+                border-left: none;
+                font-size: 16px;
+                padding: 10px;
+                background: #167FFC;
+                color: white;
+                outline: none;
+                cursor: pointer;
+                -webkit-border-top-right radius: 10px;
+                -webkit-border-bottom-right radius: 10px;
+                -moz-border-radius-topRight: 10px;
+                -moz-border-radius-bottomRight: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                margin-left: -4px;
+            }
+            #search_submit:hover{
+
+                background: #333;
+                transition: all 0.40s;
+            }
+            .round {
+                width: 100%;
+                z-index: 5;
+            }
+            #drop_down_filter {
+                margin-right: 1px;
+                margin-top: 1px;
+                height: 43px;
+                border: 1px solid #000000;
+                background-color: #FFFFFF;
+                color: black;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                outline: none;
+                -webkit-border-top-left radius: 10px;
+                -webkit-border-bottom-left radius: 10px;
+                -moz-border-radius-topLeft: 10px;
+                -moz-border-radius-bottomLeft: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+</style>
+
+<script>
+  function toggleDropDown() {
+      document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(e) {
+    if (!e.target.matches('.dropbtn')) {
+      var myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+    }
+  }
+
+  function getFilter() {
+      document.getElementById("");
+  }
+
+
+</script>
+
+<script>
+
+/*
+Creates a new cookies or updates an old one when you click on the add to cart button
+Also updates the MainCookie to include this cookie we just added
+*/
+function openWindow(obj, name, cost, weight, quantity, image)
+{
+
+  var result = document.getElementById(name).value //recieves the input value for how many of that item we want to add to the cart
+  document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
+  console.log("Clicked on the button"); //check to make sure that this function is working
+  if(result > 0) //make sure that you have given a quantity for that item
+  {
+    obj.style.background = 'green'; //change the color of the button to green to confirm that it submitted
+
+    //creating the new cookie for that item
+    var oldCookie = readCookie(name);
+    if (oldCookie != "") //check to see if you have a previous cookie with this name
+    {
+      if(oldCookie == null)
+      {
+        var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
+      }
+      else
+      {
+        var array = oldCookie.split(","); //if you do have an old one, split it and turn it into an array
+        var amount = array[0]; //receive the amount that you previously have for that item
+        var newCookie = createCookie(name, (Number(result) + Number(amount)) + "," + cost + "," + weight + "," + quantity + "," + image, 1); //add the current amount with the previous value to update the total amount of items you want to purchase
+      }
+
+    }
+    else {
+      var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
+    }
+
+    //updating the MainCookie
+    var oldMainCookie = readCookie("MainCookie"); //retrieves the MainCookie
+    if (oldMainCookie != "" && oldMainCookie != null) //checks if it is currently empty
+    {
+
+      var list = oldMainCookie; //if it is not empty, store the previous value into list
+      if(list.indexOf(name) == -1) //check to see if the item already exists in the list
+      {
+        list += name + ","; //if it does not exist, add it into the list
+        var newCookie = createCookie("MainCookie",list, 1); //update the MainCookie with the new value
+      }
+
+    }
+    else {
+      var MainCookie = createCookie("MainCookie", name + ",", 1); //if it is empty, creates a new MainCookie with the new item stored into it
+    }
+
+    var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
+    var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
+    alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
+  }
+  else {
+    obj.style.background = 'red'; //if the value of the input is 0, set the color of the button to red
+    alert("Please enter a value and click again"); //display that they need to enter a value
+  }
+}
+
+/*
+Display all the cookies for the items we currently have selected
+*/
+function ShowAllCookies()
+{
+
+  var MainCookie = readCookie("MainCookie"); //read the MainCookie
+  if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
+  {
+    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+    var message = "";
+    //for each item in the array of the MainCookie, add its value to message
+    for (var i = 0; i < array.length-1; i++)
+    {
+      message += array[i] + ": " + readCookie(array[i]) + "\n";
+    }
+
+  }
+  alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
+}
+
+/*
+Display the URL for the items' pictures
+*/
+function ShowAllImages()
+{
+  var MainCookie = readCookie("MainCookie"); //read the MainCookie
+  if (MainCookie != "")
+  {
+    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+    var message = "";
+
+    //for each item in the array of the MainCookie
+    for (var i = 0; i < array.length-1; i++)
+    {
+      var currentCookie = readCookie(array[i]); //read that cookie
+      var innerArray = currentCookie.split(","); //split it by the commas
+      message += array[i] + ": " + innerArray[4] + "\n"; //grab the URL in position 4 of the array for this cookie
+    }
+
+  }
+  alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
+}
+
+/*
+Display the total amount of items you have selected
+*/
+function ShowAllCurrentTotal()
+{
+  var MainCookie = readCookie("MainCookie"); //read the MainCookie
+  if (MainCookie != "")
+  {
+    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+    var message = "";
+
+    //for each item in the array of the MainCookie
+    for (var i = 0; i < array.length-1; i++)
+    {
+      var currentCookie = readCookie(array[i]); //read that cookie
+      var innerArray = currentCookie.split(","); //split it by the commas
+      message += array[i] + ": " + innerArray[0] + "\n"; //grab the current count in position 0 of the array for this cookie
+    }
+
+  }
+  alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
+}
+
+/*
+Display the total amount of each item that is curently available in the Database
+*/
+function ShowAllQuantities()
+{
+  var MainCookie = readCookie("MainCookie"); //read the MainCookie
+  if (MainCookie != "")
+  {
+    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+    var message = "";
+
+    //for each item in the array of the MainCookie
+    for (var i = 0; i < array.length-1; i++)
+    {
+      var currentCookie = readCookie(array[i]); //read that cookie
+      var innerArray = currentCookie.split(","); //split it by the commas
+      message += array[i] + ": " + innerArray[3] + "\n"; //grab the total amount in the database in position 3 of the array for this cookie
+    }
+
+  }
+  alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
+}
+
+/*
+Display all the weights per Item
+*/
+function ShowAllWeights()
+{
+  var MainCookie = readCookie("MainCookie"); //read the MainCookie
+  if (MainCookie != "")
+  {
+    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+    var message = "";
+
+    //for each item in the array of the MainCookie
+    for (var i = 0; i < array.length-1; i++)
+    {
+      var currentCookie = readCookie(array[i]); //read that cookie
+      var innerArray = currentCookie.split(","); //split it by the commas
+      message += array[i] + ": " + innerArray[2] + "\n"; //grab the weight per item in position 2 of the array for this cookie
+    }
+
+  }
+  alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
+}
+
+
+/*
+Display all the costs for each item
+*/
+function ShowAllCosts()
+{
+  var MainCookie = readCookie("MainCookie"); //read the MainCookie
+  if (MainCookie != "")
+  {
+    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+    var message = "";
+
+    //for each item in the array of the MainCookie
+    for (var i = 0; i < array.length-1; i++)
+    {
+      var currentCookie = readCookie(array[i]); //read that cookie
+      var innerArray = currentCookie.split(","); //split it by the commas
+      message += array[i] + ": " + innerArray[1] + "\n"; //grab the cost per item in position 1 of the array for this cookie
+    }
+
+  }
+  alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
+}
+
+/*
+delete all of the cookies currently held by MainCookie while also removing them from MainCookie
+*/
+function DeleteAllCookies()
+{
+
+  var MainCookie = readCookie("MainCookie"); //read the MainCookie
+  if (MainCookie != "" && MainCookie != null)
+  {
+    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+
+    //for each item in the array of the MainCookie
+    for (var i = 0; i < array.length-1; i++)
+    {
+      eraseCookie(array[i]); //delete that item
+    }
+    createCookie("MainCookie", "", 1); //reset the MainCookie
+
+  }
+  alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+}
+
+/*
+creates a cookie with a given name, a value, and a number of days that it is active for
+*/
+function createCookie(name,value,days)
+{
+  if (days)
+  {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+      var expires = "; expires=" + date.toGMTString();
+  }
+  else
+  {
+      var expires = "";
+  }
+  document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+/*
+recieve information from a cookie
+*/
+function readCookie(name)
+{
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') {
+          c = c.substring(1,c.length);
+      }
+      if (c.indexOf(nameEQ) == 0) {
+          return c.substring(nameEQ.length,c.length);
+      }
+  }
+  return null;
+}
+
+/*
+erase a cookie
+*/
+function eraseCookie(name)
+{
+  createCookie(name,"",-1);
+}
+function logout() {
+ eraseCookie("username");
+ eraseCookie("email");
+ eraseCookie("tracking_id");
+ DeleteAllCookies();
+ eraseCookie("Destination");
+ eraseCookie("csrftoken");
+ eraseCookie("Total");
+ eraseCookie("Store");
+ eraseCookie("gsScrollPos-794");
+
+  window.location.href = '/home/';
+
+}
+
+</script>
+
+
 <html lang="en">
 
   <head>
@@ -8,70 +376,76 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Modern Business - Start Bootstrap Template</title>
+    <title>Group 1 Grocery Delivery</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/modern-business.css" rel="stylesheet">
+    <link href="../../static/modern-business.css" rel="stylesheet">
+
+
+
 
   </head>
-
-  <body>
-
     <!-- Navigation -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+          <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+
+            <!--- Search Bar --->
+             <form action="/home/search.html" type="get">
+                 <select id="drop_down_filter" name="drop_down_filter">
+                     <option value="Categories">Categories</option>
+                     <option value="Fruit">Fruits</option>
+                     <option value="Vegetable">Vegetabless</option>
+                     <option value="Meat">Meats</option>
+                     <option value="Dairy">Dairies</option>
+                 </select>
+                 <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                 <button id="search_submit" type="submit">Go</button>
+             </form>
+
+            <li class="nav-item" style="">
+              <a class="nav-link" href="http://127.0.0.1:8000/admin/">Admin Page</a>
+            </li>
+
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="/home/tracking_home">Tracking</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="services.html">Services</a>
+              <a class="nav-link" href="/home/contact_us">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="/home/shoppingcart">
+              <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
+              </a>
+
             </li>
+
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Portfolio
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Blog
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-              </div>
-            </li>
-            <li class="nav-item active dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Other Pages
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="full-width.html">Full Width Page</a>
-                <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
-                <a class="dropdown-item" href="faq.html">FAQ</a>
-                <a class="dropdown-item active" href="404.html">404</a>
-                <a class="dropdown-item" href="pricing.html">Pricing Table</a>
-              </div>
-            </li>
+
+                  <script type="text/javascript">
+                    if(readCookie("username") != "" && readCookie("username") != null){
+                      var name = readCookie("username");
+                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + name + '</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                      // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
+                      document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
+                    //  document.write('</div></li>');
+                    }
+                    else {
+                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                      document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
+                      // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
+                    }
+
+                  </script>
+          </li>
           </ul>
         </div>
       </div>
@@ -80,104 +454,87 @@
     <!-- Page Content -->
     <div class="container">
 
-      <!-- Page Heading/Breadcrumbs -->
-      <h1 class="mt-4 mb-3">404
-        <small>Page Not Found</small>
-      </h1>
+        <h3 align="left" class="my-4">Uh Oh! This page does not exist. Take some other recommended pages!</h3>
 
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="index.html">Home</a>
-        </li>
-        <li class="breadcrumb-item active">404</li>
-      </ol>
+      <!-- /.row -->
 
-      <div class="jumbotron">
-        <h1 class="display-1">404</h1>
-        <p>The page you're looking for could not be found. Here are some helpful links to get you back on track:</p>
-        <ul>
-          <li>
-            <a href="index.html">Home</a>
-          </li>
-          <li>
-            <a href="about.html">About</a>
-          </li>
-          <li>
-            <a href="services.html">Services</a>
-          </li>
-          <li>
-            <a href="contact.html">Contact</a>
-          </li>
-          <li>
-            Portfolio
-            <ul>
-              <li>
-                <a href="portfolio-1-col.html">1 Column Portfolio</a>
-              </li>
-              <li>
-                <a href="portfolio-2-col.html">2 Column Portfolio</a>
-              </li>
-              <li>
-                <a href="portfolio-3-col.html">3 Column Portfolio</a>
-              </li>
-              <li>
-                <a href="portfolio-4-col.html">4 Column Portfolio</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            Blog
-            <ul>
-              <li>
-                <a href="blog-home-1.html">Blog Home 1</a>
-              </li>
-              <li>
-                <a href="blog-home-2.html">Blog Home 2</a>
-              </li>
-              <li>
-                <a href="blog-post.html">Blog Post</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            Other Pages
-            <ul>
-              <li>
-                <a href="full-width-page.html">Full Width Page</a>
-              </li>
-              <li>
-                <a href="sidebar.html">Sidebar Page</a>
-              </li>
-              <li>
-                <a href="faq.html">FAQ</a>
-              </li>
-              <li>
-                <a href="404.html">404 Page</a>
-              </li>
-              <li>
-                <a href="pricing-table.html">Pricing Table</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+      <!-- Portfolio Section -->
+      <!-- <h2>Featured Products</h2> -->
+
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Go To HomePage</h4>
+            <div class="card-body">
+              <p class="card-text">Take a look at our homepage!</p>
+            </div>
+            <div class="card-footer">
+              <a href="/home/index.html" type="get" class="btn btn-primary">Home Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Go To Shopping Cart</h4>
+            <div class="card-body">
+              <p class="card-text">Take a look at what items you currently have in your shopping cart!</p>
+            </div>
+            <div class="card-footer">
+              <a href="/home/shoppingcart.html" type="get" class="btn btn-primary">Shopping Cart</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Go To Groceries</h4>
+            <div class="card-body">
+              <p class="card-text">Want some of the best groceries you've ever eaten? Click here to take a look at our total inventory!</p>
+            </div>
+            <div class="card-footer">
+              <a href="/home/search.html" type="get" class="btn btn-primary">Inventory</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Go To Shipping</h4>
+            <div class="card-body">
+              <p class="card-text">Have you ever had your food delivered to you by drones? Click here to track your current delivery!</p>
+            </div>
+            <div class="card-footer">
+              <a href="/home/tracking_home" class="btn btn-primary">Tracking</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Go To Registration</h4>
+            <div class="card-body">
+              <p class="card-text">Want to log in or create a new account? Click here!</p>
+            </div>
+            <div class="card-footer">
+              <a href="/home/login_register" class="btn btn-primary">Login/Registration</a>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- /.jumbotron -->
-
+      <hr>
     </div>
     <!-- /.container -->
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Group 1 CS 160 2017</p>
       </div>
       <!-- /.container -->
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="../../static/jquery.min.js"></script>
+    <script src="../../static/popper.min.js"></script>
+    <script src="../../static/bootstrap.min.js"></script>
 
   </body>
 

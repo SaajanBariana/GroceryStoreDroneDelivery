@@ -1,16 +1,15 @@
 Home App:
   Add two stores
   add in the profile page that shows all the user's information where you can change the values
-  When you sign up, it only saved the first letter of your name in the cookie
-  does not check if the passwords match for the sign up
   get the tracking ID when you finish a payment
+  When a user logs into their account, they do not get their name back
+  When a user is typing in the credit card number, it takes in more numbers than it should because it is not taking into account the spacing
   finish adding all the tracking functionality
   add header bar to the payment page
   instead of saying the marketplace on the login page, it should say the group name
-  fix the text for the carousel pages
-  add in 404 page if someone types in the wrong link
   update expiration date
   don't let the shopping cart continue if there are no items in the cart
+  when I set the category up as vegetables and search for carrots, it doesnt show up
 
 Admin App:
   add in the admin login page

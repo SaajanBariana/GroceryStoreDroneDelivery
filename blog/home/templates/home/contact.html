@@ -366,17 +366,19 @@
           <ul class="navbar-nav ml-auto">
 
             <!--- Search Bar --->
-             <form action="search.html" type="get">
-                 <select id="drop_down_filter" name="drop_down_filter">
-                     <option value="Categories">Categories</option>
-                     <option value="Fruit">Disgusting Fruit</option>
-                     <option value="Vegetable">Dirty Vegetables</option>
-                     <option value="Meat">Spoiled Meat</option>
-                     <option value="Dairy">Some Dairy</option>
-                 </select>
-                 <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
-                 <button id="search_submit" type="submit">Go</button>
-             </form>
+            <form action="/home/search.html" type="get">
+                <select id="drop_down_filter" name="drop_down_filter">
+                  <option value="Categories">Categories</option>
+                  <option value="Fruit">Fruits</option>
+                  <option value="Vegetable">Vegetables</option>
+                  <option value="Meat">Meats</option>
+                  <option value="Dairy">Dairies</option>
+                  <option value="Seafood">Seafood</option>
+                 <option value="Grains">Grains</option>
+                </select>
+                <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                <button id="search_submit" type="submit">Go</button>
+            </form>
 
             <li class="nav-item" style="">
               <a class="nav-link" href="http://127.0.0.1:8000/admin/">Admin Page</a>
@@ -509,7 +511,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Group 1 CS 160 2017</p>
       </div>
       <!-- /.container -->
     </footer>

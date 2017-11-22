@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^confirmation/', include('home.url')),
     url(r'^shoppingcart/', include('home.url')),
     url(r'^search', include('home.url')),
-    url(r'^admin/', include('adminFunctionality.url'))
+    url(r'^admin/', include('adminFunctionality.url')),
+    url(r'^', include('home.url'))
 ]

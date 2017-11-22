@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from django.conf.urls import handler404
 
 urlpatterns = [
     url(r'^$', views.index, name = 'index'),
@@ -15,4 +16,5 @@ urlpatterns = [
     url(r'^confirmation/', views.confirmation, name='confirmation'),
     url(r'^search', views.search, name = 'search_result'),
     url(r'^shoppingcart', views.shoppingcart, name='shoppingcart.html'),
+    url(r'(.*)/', views.handle404, name ='404 Error')
 ]

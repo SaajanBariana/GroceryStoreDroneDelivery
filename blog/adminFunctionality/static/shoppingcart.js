@@ -118,7 +118,7 @@ function changeCheckout(color) {
     else {
         button[0].style.backgroundColor = "#82ca9c";
         button[0].setAttribute("href", "../home/creditcard");
-        
+
     }
 
 }
@@ -131,11 +131,25 @@ function parseIndex(id) {
 function changeValue(id, values) {
     var docNodes = document.getElementsByClassName("qty");
     docNodes[id].setAttribute("value", values);
+    docNodes[id].value = values;
 }
 
 $(document).on('change', 'input', function() {
     var index = parseIndex(event.target.id);
     var value = $(this).val();
+    if (parseInt(value) > parseInt(totalQty[index])) {
+        value = totalQty[index];
+    }
+    var status = stockChecker(index, value);
+    var node = document.getElementsByClassName('stock-status');
+    if (status == 'out of stock') {
+        node[index].style.color = '#ee2323';
+        node[index].innerText = 'out of stock';
+    }
+    else {
+        node[index].style.color = '#82ca9c';
+        node[index].innerText = 'in stock';
+    }
     changeValue(index, value);
     getProductTotal(index);
     getSubTotal();
@@ -147,7 +161,7 @@ $(document).on('change', 'input', function() {
 function getProductList() {
     for(i = 0; i < itemName.length-1; i++) {
         var ul = document.createElement("ul");
-        ul.className = 'cartWrap';
+        ul.className = 'cartWrap' + " " + i;
         document.getElementById("myCart").appendChild(ul);
 
         var li = document.createElement("li");
@@ -167,24 +181,33 @@ function getProductList() {
         img.className = "itemImg";
         div1.appendChild(img);
 
+        var div5 = document.createElement("div");
+        div5.className = "prodinfo-container";
+        div1.appendChild(div5);
+
         var p = document.createElement("p");
         p.className = "item-weight";
         p.innerHTML = "Product Weight: " + itemWeight[i] + "lbs";
-        div1.appendChild(p);
+        div5.appendChild(p);
 
         var h3 = document.createElement("h3");
         h3.innerHTML = itemName[i];
-        div1.appendChild(h3);
+        div5.appendChild(h3);
+
+        var div4 = document.createElement("div");
+        div4.id = 'pContainer';
+        div5.appendChild(div4);
 
         var p2 = document.createElement("p");
         p2.className = "qty-price";
-        div1.appendChild(p2);
+        div4.appendChild(p2);
 
         var inp = document.createElement("input");
         inp.type = "number";
         inp.className = "qty";
         inp.id = "qtyIn " + i;
         inp.min = 1;
+        inp.max = totalQty[i];
         inp.value = itemQty[i];
         p2.appendChild(inp);
 
@@ -193,12 +216,19 @@ function getProductList() {
         p3.className = "qty-price";
         p3.id = "qtyPrice";
         p3.innerText = " x $" + itemPrice[i];
-        div1.appendChild(p3);
+        div4.appendChild(p3);
 
         var p4 = document.createElement("p");
         p4.className = "stock-status";
-        p4.innerText = " In Stock";
-        div1.appendChild(p4);
+        var status = stockChecker(i, itemQty[i]);
+        p4.innerText = status;
+        if (status == 'in stock') {
+            p4.style.color = '#82ca9c';
+        }
+        else {
+            p4.style.color = '#ee2323';
+        }
+        div4.appendChild(p4);
 
         var div2 = document.createElement("div");
         div2.id = "prodTotal";
@@ -213,9 +243,24 @@ function getProductList() {
         p5.appendChild(sc);
         div2.appendChild(p5);
 
+        var button = document.createElement('button');
+        button.className = 'delete-item';
+        div2.appendChild(button);
+
+        var div3 = document.createElement("div");
+        div3.style.clear = 'both';
+        div.appendChild(div3);
     }
 }
 
+function stockChecker(index, value) {
+    var status = "out of stock";
+    var inventory = totalQty[index];
+    if (parseInt(inventory)>parseInt(value)){
+        status = "in stock";
+    }
+    return status;
+}
 function parseMainCookie() {
     var MainCookie = readCookie("MainCookie");
     if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
@@ -265,8 +310,67 @@ function readCookie(name) {
     return null;
 }
 
-$(document).on('click', 'a', function() {
+$(document).on('click', '.checkout', function() {
     setCookie(totalPrice, 7);
     alert(getCookie("Total"));
     console.log(getCookie("Total"));
 });
+
+$(document).on('click', '.goback', function() {
+    setCookie(totalPrice, 7);
+    alert(getCookie("Total"));
+    console.log(getCookie("Total"));
+});
+
+$(document).on('click', '.delete-item', function() {
+    var parent = $(this).parent().parent().parent().parent();
+    var cart = parent.parent();
+    var index = parseInt(parent[0].className.replace ( /[^\d.]/g, '' ));
+    cart[0].removeChild(parent[0]);
+    deleteUpdate(index);
+});
+
+function deleteUpdate(index) {
+    createCookie(itemName[index],"",-1);
+    console.log(
+        [itemQty.splice(index, 1),
+        itemName.splice(index, 1),
+        imgSrc.splice(index,1),
+        itemWeight.splice(index,1),
+        itemPrice.splice(index,1),
+        totalQty.splice(index,1)]
+    );
+    createCookie("MainCookie", itemName.join(), 1);
+    getSubTotal();
+    getTax();
+    getFinalTotal();
+    getWeight();
+
+}
+
+function createCookie(name,value,days)
+{
+  if (days)
+  {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+      var expires = "; expires=" + date.toGMTString();
+  }
+  else
+  {
+      var expires = "";
+  }
+  document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+// function checkAmountOfItems()
+// {
+//   var MainCookie = readCookie("MainCookie");
+//   if(MainCookie != "" and MainCookie != null)
+//   {
+//     window.location.href = '/home/creditcard';
+//   }
+//   else {
+//     alert("No items currently in the cart");
+//   }
+// }

@@ -71,7 +71,7 @@
     document.getElementById("myDropdown").classList.toggle("show");
 }
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function(e) {
+    window.onclick = function(e){
   if (!e.target.matches('.dropbtn')) {
     var myDropdown = document.getElementById("myDropdown");
       if (myDropdown.classList.contains('show')) {
@@ -405,27 +405,29 @@
           <ul class="navbar-nav ml-auto">
 
             <!--- Search Bar --->
-             <form action="search.html" type="get">
+             <form action="/home/search.html" type="get">
                  <select id="drop_down_filter" name="drop_down_filter">
-                     <option value="Categories">Categories</option>
-                     <option value="Fruit">Disgusting Fruit</option>
-                     <option value="Vegetable">Dirty Vegetables</option>
-                     <option value="Meat">Spoiled Meat</option>
-                     <option value="Dairy">Some Dairy</option>
+                   <option value="Categories">Categories</option>
+                   <option value="Fruit">Fruits</option>
+                   <option value="Vegetable">Vegetables</option>
+                   <option value="Meat">Meats</option>
+                   <option value="Dairy">Dairies</option>
+                   <option value="Seafood">Seafood</option>
+                  <option value="Grains">Grains</option>
                  </select>
                  <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
                  <button id="search_submit" type="submit">Go</button>
              </form>
 
             <li class="nav-item" style="">
-              <a class="nav-link" href="http://127.0.0.1:8000/admin/">Admin Page</a>
+              <a class="nav-link" href="/admin/">Admin Page</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="tracking_home">Tracking</a>
+              <a class="nav-link" href="/home/tracking_home">Tracking</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact_us">Contact</a>
+              <a class="nav-link" href="/home/contact_us">Contact</a>
             </li>
 
             <!-- <li class="nav-item dropdown">
@@ -493,14 +495,14 @@
           <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
             <div class="carousel-caption d-none d-md-block">
               <h3>Daily shipments to ensure the freshest produce</h3>
-              <p>You know you want them</p>
+              <p>Top of the line groceries</p>
             </div>
           </div>
           <!-- Slide Three - Set the background image for this slide in the line below -->
           <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
             <div class="carousel-caption d-none d-md-block">
-              <h3>Ever tried chopping tomatoes and bellpeppers with wooden spoons?</h3>
-              <p>Me neither</p>
+              <h3>Take a look at our new products</h3>
+              <p>Guaranteed fresh groceries for all orders</p>
             </div>
           </div>
         </div>

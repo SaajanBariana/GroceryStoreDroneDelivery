@@ -14,17 +14,19 @@ import MySQLdb
 import time
 import pymysql
 
-f = open('../blog/SQLSetup.txt', "r")
-usernameLine = f.readline()
-usernameArray = usernameLine.split(":")
-SQL_username = str(usernameArray[1]).strip()
-if SQL_username.startswith("\"") and SQL_username.endswith("\""):
-    SQL_username = SQL_username[1:len(SQL_username) - 1]
-passwordLine = f.readline()
-passwordArray = passwordLine.split(":")
-SQL_password = str(passwordArray[1]).strip()
-if SQL_password.startswith("\"") and SQL_password.endswith("\""):
-    SQL_password = SQL_password[1:len(SQL_password) - 1]
+# f = open('../blog/SQLSetup.txt', "r")
+# usernameLine = f.readline()
+# usernameArray = usernameLine.split(":")
+# SQL_username = str(usernameArray[1]).strip()
+# if SQL_username.startswith("\"") and SQL_username.endswith("\""):
+#     SQL_username = SQL_username[1:len(SQL_username) - 1]
+SQL_username = str(raw_input("What is your username: "))
+# passwordLine = f.readline()
+# passwordArray = passwordLine.split(":")
+# # SQL_password = str(passwordArray[1]).strip()
+# if SQL_password.startswith("\"") and SQL_password.endswith("\""):
+#     SQL_password = SQL_password[1:len(SQL_password) - 1]
+SQL_password = str(raw_input("What is your password: "))
 
 db = MySQLdb.connect(host="localhost", user=SQL_username, passwd= SQL_password, db="grocery_store")   # name of the database
 cur = db.cursor() # creates a cursor to execute queries

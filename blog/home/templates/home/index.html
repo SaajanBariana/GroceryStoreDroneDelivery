@@ -334,6 +334,7 @@
      eraseCookie("Total");
      eraseCookie("Store");
      eraseCookie("gsScrollPos-794");
+     eraseCookie("tracking_number");
 
       window.location.href = '/home/';
 
@@ -378,6 +379,7 @@
 
         <script type="text/javascript">
         alert("Tracking ID: " + {{tracking_id}})
+        createCookie("tracking_number", '{{tracking_id}}', 7);
         </script>
         {% endif %}
 
@@ -388,10 +390,15 @@
 
           var username_server = '{{username}}';
          // alert("data from server :" + username_server);
+         var expiration_days = 7
+          createCookie("username", username_server, expiration_days);
+          createCookie("email", '{{email}}', expiration_days);
+          createCookie("address", '{{address}}', expiration_days);
+          createCookie("Destination",'{{address}}', expiration_days);
+          createCookie("CreditInfo", '{{payment}}', expiration_days);
+          createCookie("user_id", '{{u_id}}', expiration_days);
+          createCookie("tracking_number", '{{tracking_number}}', expiration_days);
 
-          createCookie("username", username_server, 365);
-          createCookie("email", '{{email}}', 365);
-          alert(readCookie("username"));
 
         </script>
 
@@ -468,7 +475,7 @@
                     }
                     else {
                       document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                      document.write(' <a class="dropdown-item" href="/home/ogin_register">Log in/Register</a>');
+                      document.write(' <a class="dropdown-item" href="/home/login_register">Log in/Register</a>');
                       // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
                     }
 

@@ -17,11 +17,12 @@ CREATE SCHEMA `grocery_store` ;
  `password` VARCHAR(100) NULL,
  `token` VARCHAR(100) NULL,
   PRIMARY KEY (`userID`));
-CREATE TABLE `grocery_store`.`tracking` (
-	 `track_id` INT NOT NULL AUTO_INCREMENT,
-  `destination` VARCHAR(100) NULL,
- `store_id` SMALLINT (2) NULL,
-  PRIMARY KEY (`track_id`));
+CREATE TABLE `grocery_store`.`tracking`  (
+ track_id int(11) NOT NULL,
+ destination varchar(100) NOT NULL,
+ user_id int(20) DEFAULT NULL,
+ PRIMARY KEY (track_id)
+);
 CREATE TABLE `grocery_store`.`tracking_update` (
 	 `track_id` INT NOT NULL,
  `user_id` INT NOT NULL,

@@ -141,10 +141,11 @@ def get_user_info_from_db(username,password):
     #return HttpResponse(query)
     cur.execute(query)
     result = ""
-    for r in cur:
-        result = (r[0],r[1],r[2],r[3],r[4],r[5],str(r[6]),r[7],str(r[8]),r[9])
-    cur.close()
-    conn.close()
+    if cur is not None:
+        for r in cur:
+            result = (r[0],r[1],r[2],r[3],r[4],r[5],str(r[6]),r[7],str(r[8]),r[9])
+        cur.close()
+        conn.close()
 
     return result
 
@@ -158,11 +159,14 @@ def get_user_login_result_from_db(username,password):
     #return HttpResponse(query)
     cur.execute(query)
     name = ""
-    for r in cur:
-        name = (r[0],r[1],r[2])
+    print("before cur")
+    if cur is not None:
+        print("CUR IS: " + str(cur))
+        for r in cur:
+            name = (r[0],r[1],r[2])
 
-    cur.close()
-    conn.close()
+        cur.close()
+        conn.close()
 
     return name
 
@@ -176,7 +180,8 @@ def login_controller(request):
     result = ""
     if(result_from_1st == ""):
         result = get_user_login_result_from_db(username,password)
-        if(result == ""):
+        print("Result is: " + result)
+        if(result == "" or result is None):
 
             return ("0","error_l")
         else:

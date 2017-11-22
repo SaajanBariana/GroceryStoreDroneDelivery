@@ -453,20 +453,21 @@ function eraseCookie(name)
 
           return true;
        }
-    function logout() {
-     eraseCookie("username");
-     eraseCookie("email");
-     eraseCookie("tracking_id");
-     DeleteAllCookies();
-     eraseCookie("Destination");
-     eraseCookie("csrftoken");
-     eraseCookie("Total");
-     eraseCookie("Store");
-     eraseCookie("gsScrollPos-794");
+       function logout() {
+        eraseCookie("username");
+        eraseCookie("email");
+        eraseCookie("tracking_id");
+        DeleteAllCookies();
+        eraseCookie("Destination");
+        eraseCookie("csrftoken");
+        eraseCookie("Total");
+        eraseCookie("Store");
+        eraseCookie("gsScrollPos-794");
+        eraseCookie("tracking_number");
 
-      window.location.href = '/home/';
+         window.location.href = '/home/';
 
-    }
+       }
 </script>
 
 <html lang="en">
@@ -641,7 +642,7 @@ function eraseCookie(name)
         <td><div contenteditable style="width:150px;"> {{item.image}} </div></td>
         <td><div contenteditable> {{item.description}}</div></td>
         <form value = "DELETE" name = "DELETE" method = "post">
-            <td>
+            <td align="center">
               <button style="background-color:red; border-color:red " class = "btn btn-primary" onclick="deleting({{item.id}})" name = "Delete {{item.name}}">Delete {{item.name}}</button>
             </td>
                 <input type="hidden" id="deleteinput" name="deleteinput" value = "" />

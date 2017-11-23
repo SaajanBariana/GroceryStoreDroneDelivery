@@ -661,7 +661,7 @@ def profile(request):
                 result = run_db_query(query) 
                 
             else:
-                query = 'INSERT INTO `grocery_store`.`user_profile` (`user_id`,`address`) VALUES ("' + user_id + '","' + address + '")'
+                query = 'INSERT INTO `grocery_store`.`UserAddress` (`UserID`,`Address`) VALUES ("' + user_id + '","' + address + '")'
                 result = run_db_query(query) 
                 if(result[0] == 1):
                     print(query)
@@ -681,7 +681,7 @@ def profile(request):
                 print(query) 
                 
             else:
-                query = "INSERT INTO Payments (UserID,Credit_Card_Number, CSV, Expiration_Date, Name_on_Card, Card_Zipcode) VALUES (" + user_id + ", "+ c_cardnumber + ", " + c_csv+ ", " + Expiration_Date + ", " + c_name + ", " + c_zipcode + ")"
+                query = "INSERT INTO Payments (PaymentID,UserID,Credit_Card_Number, CSV, Expiration_Date, Name_on_Card, Card_Zipcode) VALUES (" + user_id + ", " + user_id + ", "+ c_cardnumber + ", " + c_csv+ ", " + Expiration_Date + ", " + c_name + ", " + c_zipcode + ")"
                 
                 result = run_db_query(query) 
                 if(result[0] == 1):

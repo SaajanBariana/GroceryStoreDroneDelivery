@@ -5,6 +5,7 @@ var imgSrc = [];
 var itemWeight = [];
 var itemPrice = [];
 var totalQty = [];
+var deleteItems = [];
 
 function getProductTotal(index) {
     var docNodes = document.getElementsByClassName("qty");
@@ -280,6 +281,9 @@ function parseMainCookie() {
           //alert("Current cookie being read\nQty: " + itemQty[i] + "\nPrice: " + itemPrice[i] + "\nWeight: " + itemWeight[i] + "\nTotal Quantity: " + totalQty[i] + "\nImages: " + imgSrc[i] );
       }
     }
+    else {
+        changeCheckout('grey');
+    }
 }
 
 function setCookie(cvalue, exdays) {
@@ -317,11 +321,25 @@ $(document).on('click', '.checkout', function() {
 });
 
 $(document).on('click', '.goback', function() {
+    if (deleteItems.length >0){
+        for (var i = 0; i < deleteItems.length; i++) {
+            createCookie(deleteItems[i], "", -1);
+        }
+    }
+    createCookie("MainCookie", newItems, 1);
     setCookie(totalPrice, 7);
     alert(getCookie("Total"));
     console.log(getCookie("Total"));
 });
 
+$(document).on('click', 'a', function() {
+    if (deleteItems.length >0){
+        for (var i = 0; i < deleteItems.length; i++) {
+            createCookie(deleteItems[i], "", -1);
+        }
+    }
+
+});
 $(document).on('click', '.delete-item', function() {
     var parent = $(this).parent().parent().parent().parent();
     var cart = parent.parent();
@@ -331,7 +349,7 @@ $(document).on('click', '.delete-item', function() {
 });
 
 function deleteUpdate(index) {
-    createCookie(itemName[index],"",-1);
+    deleteItems[deleteItems.length] = itemName[index];
     console.log(
         [itemQty.splice(index, 1),
         itemName.splice(index, 1),
@@ -345,6 +363,7 @@ function deleteUpdate(index) {
     getTax();
     getFinalTotal();
     getWeight();
+    checkCookie();
 
 }
 
@@ -362,7 +381,12 @@ function createCookie(name,value,days)
   }
   document.cookie = name + "=" + value + expires + "; path=/";
 }
-
+function checkCookie() {
+    var MainCookie = readCookie("MainCookie");
+    if (MainCookie == "") {
+        changeCheckout('grey');
+    }
+}
 // function checkAmountOfItems()
 // {
 //   var MainCookie = readCookie("MainCookie");

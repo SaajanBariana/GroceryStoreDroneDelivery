@@ -71,51 +71,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'blog.wsgi.application'
 
 
-
-
-
-
-
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-#
-# f = open('../blog/SQLSetup.txt', "r")
-# usernameLine = f.readline()
-# usernameArray = usernameLine.split(":")
-# SQL_username = str(usernameArray[1]).strip()
-# if SQL_username.startswith("\"") and SQL_username.endswith("\""):
-#     SQL_username = SQL_username[1:len(SQL_username) - 1]
-# passwordLine = f.readline()
-# passwordArray = passwordLine.split(":")
-# SQL_password = str(passwordArray[1]).strip()
-# if SQL_password.startswith("\"") and SQL_password.endswith("\""):
-#     SQL_password = SQL_password[1:len(SQL_password) - 1]
-#
-# DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.mysql',
-#             'NAME': 'grocery_store',
-#             'USER': SQL_username,
-#             'PASSWORD': SQL_password,
-#             'HOST': 'localhost',
-#             'PORT': '3306',
-#     }
-# }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+#DATABASES = {
+#        'default': {
+#            'ENGINE': 'django.db.backends.mysql',
+#            'NAME': 'grocery_store',
+#            'USER': 'root',
+#            'PASSWORD': '9872476129Mm',
+#            'HOST': 'localhost',
+#            'PORT': '3306',
+#    }
+#}
 
 #
 # DATABASES = {

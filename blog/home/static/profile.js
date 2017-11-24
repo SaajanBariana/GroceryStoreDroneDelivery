@@ -104,87 +104,87 @@ function loadNumber() {
 }
 
 $(document).ready(function(){
-    $("input").each(function() {
-        var elem = $(this);
-        var flag = 1;
-        var id = elem[0].id;
-        var translation = translate[id];
-        var submitBtn = document.getElementsByClassName('btn-primary');
-        // Save current value of element
-        elem.data('oldVal', elem.val());
-
-        // Look for changes in the value
-        elem.bind("propertychange change click keyup input paste", function(event){
-            // If value has changed...
-            if (elem.data('oldVal') != elem.val()) {
-                // Updated stored value
-                elem.data('oldVal', elem.val());
-
-                // Do action
-                if(id == 'user-name-addr' || id == 'name-cc' || id == 'city-addr') {
-                    flag = checkValue(translation, elem[0].value);
-                }
-                else if(id == 'street-addr') {
-                    flag = checkValue(translation, elem[0].value);
-                }
-                else if (id == 'zip-addr' || id == 'zip-cc') {
-                    flag = checkValue(translation, elem[0].value);
-                }
-                else if (id == 'state-addr') {
-                    flag = checkValue(translation, elem[0].value);
-                }
-                else if (id == 'number-cc') {
-                    if (elem[0].value.length == 19) {
-                        if (!valid_credit_card(elem[0].value)) {
-                            flag = 1;
-                        }
-                    }
-                    else if (elem[0].value.length == 20) {
-                        elem[0].value = elem[0].value.substring(0, elem[0].value.length-1);
-                        flag = checkValue(translation, elem[0].value);
-                    }
-                }
-                else if (id =='ccv-cc') {
-                    flag = checkValue(translation, elem[0].value);
-                }
-                else if (id == 'exp-cc'){
-                    flag = checkValue(translation, elem[0].value);
-                }
-            }
-            if (flag == 1) {
-                submitBtn[1].disabled = true;
-                submitBtn[1].style.backgroundColor = '#beddff';
-                submitBtn[1].style.borderColor = '#beddff';
-                elem[0].style.border = '2px solid red';
-                dict[id][0] = 1;
-                if(dict[id][1] == 0) {
-                    errorMessage(translation, elem.parent()[0], 1);
-                    dict[id][1] = 1;
-                }
-            }
-            else {
-                if (dict[id][1] == 1) {
-                    errorMessage(translation, elem.parent()[0], 0);
-                    dict[id][1] = 0;
-                }
-                dict[id][0] = 0;
-                elem[0].style.border = "";
-            }
-            var isComplete = 0;
-            for (let key in dict) {
-                let val = dict[key][0];
-                if (val == 1) {
-                    isComplete = 1;
-                }
-            }
-            if (isComplete == 0) {
-                submitBtn[1].disabled = false;
-                submitBtn[1].style.backgroundColor = '#007bff';
-                submitBtn[1].style.borderColor = '#007bff';
-            }
-        });
-    });
-});
+                  $("input").each(function() {
+                                  var elem = $(this);
+                                  var flag = 1;
+                                  var id = elem[0].id;
+                                  var translation = translate[id];
+                                  var submitBtn = document.getElementsByClassName('btn-primary');
+                                  // Save current value of element
+                                  elem.data('oldVal', elem.val());
+                                  
+                                  // Look for changes in the value
+                                  elem.bind("propertychange change click keyup input paste", function(event){
+                                            // If value has changed...
+                                            if (elem.data('oldVal') != elem.val()) {
+                                            // Updated stored value
+                                            elem.data('oldVal', elem.val());
+                                            
+                                            // Do action
+                                            if(id == 'user-name-addr' || id == 'name-cc' || id == 'city-addr') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if(id == 'street-addr') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if (id == 'zip-addr' || id == 'zip-cc') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if (id == 'state-addr') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if (id == 'number-cc') {
+                                            if (elem[0].value.length == 19) {
+                                            if (!valid_credit_card(elem[0].value)) {
+                                            flag = 1;
+                                            }
+                                            }
+                                            else if (elem[0].value.length == 20) {
+                                            elem[0].value = elem[0].value.substring(0, elem[0].value.length-1);
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            }
+                                            else if (id =='ccv-cc') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if (id == 'exp-cc'){
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            }
+                                            if (flag == 1) {
+                                            submitBtn[1].disabled = true;
+                                            submitBtn[1].style.backgroundColor = '#beddff';
+                                            submitBtn[1].style.borderColor = '#beddff';
+                                            elem[0].style.border = '2px solid red';
+                                            dict[id][0] = 1;
+                                            if(dict[id][1] == 0) {
+                                            errorMessage(translation, elem.parent()[0], 1);
+                                            dict[id][1] = 1;
+                                            }
+                                            }
+                                            else {
+                                            if (dict[id][1] == 1) {
+                                            errorMessage(translation, elem.parent()[0], 0);
+                                            dict[id][1] = 0;
+                                            }
+                                            dict[id][0] = 0;
+                                            elem[0].style.border = "";
+                                            }
+                                            var isComplete = 0;
+                                            for (let key in dict) {
+                                            let val = dict[key][0];
+                                            if (val == 1) {
+                                            isComplete = 1;
+                                            }
+                                            }
+                                            if (isComplete == 0) {
+                                            submitBtn[1].disabled = false;
+                                            submitBtn[1].style.backgroundColor = '#007bff';
+                                            submitBtn[1].style.borderColor = '#007bff';
+                                            }
+                                            });
+                                  });
+                  });
 
 function errorMessage(input, id, type) {
     if (type == 1) {
@@ -257,32 +257,32 @@ function checkValue(input, value) {
 }
 
 $(document).ready(function(){
-    $('#number-cc').on('keypress change', function () {
-        $(this).val(function (index, value) {
-            return value.replace(/[^0-9]/g, "").replace(/\W/gi, '').replace(/(.{4})/g, '$1 ');
-        });
-    });
-});
+                  $('#number-cc').on('keypress change', function () {
+                                     $(this).val(function (index, value) {
+                                                 return value.replace(/[^0-9]/g, "").replace(/\W/gi, '').replace(/(.{4})/g, '$1 ');
+                                                 });
+                                     });
+                  });
 
 function valid_credit_card(value) {
     // accept only digits, dashes or spaces
     if (/[^0-9-\s]+/.test(value)) return false;
-
+    
     // The Luhn Algorithm. It's so pretty.
     var nCheck = 0, nDigit = 0, bEven = false;
     value = value.replace(/\D/g, "");
-
+    
     for (var n = value.length - 1; n >= 0; n--) {
         var cDigit = value.charAt(n),
-            nDigit = parseInt(cDigit, 10);
-
+        nDigit = parseInt(cDigit, 10);
+        
         if (bEven) {
             if ((nDigit *= 2) > 9) nDigit -= 9;
         }
-
+        
         nCheck += nDigit;
         bEven = !bEven;
     }
-
+    
     return (nCheck % 10) == 0;
 }

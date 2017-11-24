@@ -14,6 +14,7 @@ import MySQLdb
 import time
 import pymysql
 
+#f = open('SQLSetup.txt', "r")
 f = open('../blog/SQLSetup.txt', "r")
 SQL_username = f.readline()
 SQL_username = SQL_username[0: len(SQL_username)-1]

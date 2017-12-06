@@ -3,6 +3,22 @@
 
 <html>
     <link rel="stylesheet" href="../../static/credit_card_div.css">
+<!-- Google api key AIzaSyBShRAptz8wAkaa-iIIfbY6OOhsF-8_GUg
+
+ -->
+ <!-- <input type="text" id="location"> -->
+ <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBShRAptz8wAkaa-iIIfbY6OOhsF-8_GUg&libraries=places"></script>
+ <script type="text/javascript">
+ (document).ready(function () {
+   google.maps.event.addDomListener(window, 'load', initialize);
+});
+
+function initialize() {
+    var input = document.getElementById('location');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+}
+
+</script>
 
 
         <script type="text/javascript">
@@ -61,7 +77,7 @@
                 var statename= array[2];
                 var zipcode1 = array[3];
 
-                var streetinput = document.getElementById("Street");
+                var streetinput = document.getElementById("Location");
                 streetinput.value = streetname1;
                 var citynameinput = document.getElementById("City");
                 citynameinput.value = cityname;
@@ -220,7 +236,7 @@
                          <input id="input-field" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
                          <input id="input-field" type="email" name="email" required="required" autocomplete="email" maxlength="40" placeholder="Email Address"/> -->
 
-                        <input id="Street" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
+                        <input id="Location" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
                         <input id="City" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
                         <input id="ZipCode" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9\s]*" maxlength="5" placeholder="ZIP code"/>
                         <input id="State" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>

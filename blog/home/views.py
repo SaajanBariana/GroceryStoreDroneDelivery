@@ -244,7 +244,9 @@ def sign_up_controller(request):
     conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
 
-    #query = 'SELECT name  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
+#    query = 'SELECT name  FROM register_user where email = "' + str(email) +  '" '
+
+
     query = "INSERT INTO register_user (name,email,password,token) VALUES ( " + name +","+ email +","+ password+","+ token + ")"
     #return HttpResponse(query)
 
@@ -279,14 +281,16 @@ def tracking_home(request):
     if request.method == 'POST':
 
          if(request.POST['tracking_number'] != ""):
-            if(tracking_controller(request)[0] == "1"): # if no error mean is 1 then return that result
-                result_set = tracking_controller(request)[1];
+            tracking_result = tracking_controller(request)
+            if(tracking_result[0] == "1"): # if no error mean is 1 then return that result
+                result_set = tracking_result[1];
                 template = loader.get_template('home/tracking.html')
                 context = {"destination":result_set[0],
                 "current_lang":result_set[1],
                 "current_lat":result_set[2],
                 "status":result_set[5],
                 "track_id":result_set[6],
+                "time_stamp":result_set[6],
                 }
 
                 update_tracking_record(str(result_set[6]))
@@ -325,7 +329,7 @@ def tracking_controller(request):
     conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
 
-    query = 'SELECT destination,current_lat,current_long,start_lat,start_long,status,track_id  FROM tracking_update where track_id = "' + str(tracking_number) +  '" '
+    query = 'SELECT destination,current_lat,current_long,start_lat,start_long,status,track_id,last_update  FROM tracking_update where track_id = "' + str(tracking_number) +  '" '
     #return HttpResponse(query)
     cur.execute(query)
 
@@ -667,29 +671,41 @@ def select_db_query(query):
 def profile(request):
     if request.method == 'POST':
         if (request.POST['update_type'] == "update"):
-            name = request.POST['name-addr']
-            street = request.POST['street-addr']
-            city = request.POST['city-addr']
-            zipcode = request.POST['zip-addr']
-            state = request.POST['state-addr']
-            c_name = request.POST['name-cc']
-            c_name = "'" + c_name+ "'"
-            c_zipcode = request.POST['zip-cc']
-            c_zipcode = "'" + c_zipcode+ "'"
             
-            c_cardnumber = request.POST['number-cc']
-            c_cardnumber = "'" + c_cardnumber+ "'"
+            user_id = -1;
+            try:
 
-            c_csv = request.POST['ccv-cc']
-            user_id = request.POST['user_id']
-            Expiration_Date = request.POST['exp-cc']
+                name = request.POST['name-addr']
+                street = request.POST['street-addr']
+                city = request.POST['city-addr']
+                zipcode = request.POST['zip-addr']
+                state = request.POST['state-addr']
+                c_name = request.POST['name-cc']
+                c_name = "'" + c_name+ "'"
+                c_zipcode = request.POST['zip-cc']
+                c_zipcode = "'" + c_zipcode+ "'"
+                
+                c_cardnumber = request.POST['number-cc']
+                c_cardnumber = "'" + c_cardnumber+ "'"
+
+                c_csv = request.POST['ccv-cc']
+                user_id = request.POST['user_id']
+                Expiration_Date = request.POST['exp-cc']
+            except Exception as e:
+                print(e)
 
             string = name +" , "+ street +" , "+ city +" , "+ zipcode +" , "+ state +" , "+ c_name +" , "+ c_zipcode +" , "+ c_cardnumber +" , "+ c_csv +" , "+ user_id
             address = street +" , "+ city +" , "+ zipcode +" , "+ state
             
-            query = 'select * from user_profile where user_id = "' + user_id + '"'
+            try:
+                val = int(user_id)
+                query = 'select * from user_profile where user_id = "' + user_id + '"'
 
-            select_result = select_db_query(query)
+                select_result = select_db_query(query)
+            except ValueError:
+                print("That's not an int!")
+
+                
 
             if(select_result[0] == "1" and select_result[1] != "" ):
 

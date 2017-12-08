@@ -41,7 +41,6 @@ function logout() {
     eraseCookie("username");
     eraseCookie("email");
     eraseCookie("tracking_id");
-    
     eraseCookie("Destination");
     eraseCookie("csrftoken");
     eraseCookie("Total");
@@ -51,7 +50,7 @@ function logout() {
 }
 function check_login_for_payment() {
     // alert("This works");
-    if(readCookie("user_id") != null) {
+    if(readCookie("user_id") != null || readCookie("user_id") != "") {
         
         document.getElementById('username_id').value=readCookie("user_id");
     } else {
@@ -234,7 +233,7 @@ if (readCookie("username") != "" && readCookie("username") != null) {
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="form-control-label">Zipcode:</label>
-                            <input type="text" class="form-control" id="zip-addr" name="zip-addr">
+                            <input type="text" class="form-control" id="zip-addr" name="zip-addr" maxlength="5">
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="form-control-label">State (ex: CA):</label>
@@ -250,20 +249,20 @@ if (readCookie("username") != "" && readCookie("username") != null) {
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="form-control-label">Zipcode:</label>
-                            <input type="text" class="form-control" id="zip-cc" name="zip-cc">
+                            <input type="text" class="form-control" id="zip-cc" name="zip-cc" maxlength="5">
                         </div>
                         <div class="form-group">
                             <label for="user-info-name" class="form-control-label">Credit Card Number:</label>
-                            <input type="text" class="form-control" id="number-cc" name="number-cc">
+                            <input type="text" class="form-control" id="number-cc" name="number-cc" maxlength="19">
                         </div>
                         <div class="form-group">
                             <label for="user-info-name" class="form-control-label">CCV:</label>
-                            <input type="text" class="form-control" id="ccv-cc" name="ccv-cc">
+                            <input type="text" class="form-control" id="ccv-cc" name="ccv-cc" maxlength="3">
                         </div>
                         <div class="form-group">
                             <label for="user-info-name" class="form-control-label">EXP:</label>
                             <input type="text" class="form-control" id="exp-cc" name="exp-cc">
-                            <input id="username_id" type="hidden" name="user_id" value="" />
+                            <input id="username_id" type="hidden" name="user_id" value="" maxlength="5"/>
                         </div>
                         <script type="text/javascript">check_login_for_payment();</script>
                         <div class="modal-footer">

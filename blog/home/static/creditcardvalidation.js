@@ -8,8 +8,6 @@ ccErrors [3] = "Credit card number is invalid";
 ccErrors [4] = "Credit card number has an inappropriate number of digits";
 ccErrors [5] = "Warning! This credit card number is associated with a scam attempt";
 
-
-
 function checkCreditCard (cardnumber, cardname) {
 
   // Array to hold the permitted card characteristics
@@ -71,7 +69,6 @@ function checkCreditCard (cardnumber, cardname) {
      ccErrorNo = 2;
      return false;
   }
-
 
   // Now check the modulus 10 check digit - if required
   if (cards[cardType].checkdigit) {

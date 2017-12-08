@@ -128,7 +128,7 @@
 
         var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
         var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
-        alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
+       // alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
       }
       else {
         obj.style.background = 'red'; //if the value of the input is 0, set the color of the button to red
@@ -152,7 +152,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
+      //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
     }
     /*
     Display the URL for the items' pictures
@@ -173,7 +173,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
+      //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
     }
     /*
     Display the total amount of items you have selected
@@ -194,7 +194,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
+      //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
     }
     /*
     Display the total amount of each item that is curently available in the Database
@@ -215,7 +215,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
     }
     /*
     Display all the weights per Item
@@ -236,7 +236,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
+      //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
     }
     /*
     Display all the costs for each item
@@ -257,7 +257,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
     }
     /*
     delete all of the cookies currently held by MainCookie while also removing them from MainCookie
@@ -277,10 +277,8 @@
         createCookie("MainCookie", "", 1); //reset the MainCookie
 
       }
-      alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+     // alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
     }
-
-
     /*
     creates a cookie with a given name, a value, and a number of days that it is active for
     */
@@ -297,32 +295,6 @@
       }
       document.cookie = name + "=" + value + expires + "; path=/";
     }
-
-    function deleteUpdate(index)
-    {
-      createCookie(item[index], "", 1);
-      console.log(
-        [
-          itemQty.splice(index, 1),
-          itemName.splice(index, 1),
-          itemSrc.splice(index, 1)
-          itemWeight.splice(index, 1),
-          itemPrice.splice(index, 1),
-          totalQty.splce(index, 1)
-
-        ]
-      );
-      createCookie("MainCookie", itemName.join(), 1);
-      getSubTotal();
-      getTax();
-      getFinalTotal();
-      getWeight();
-      checkCookie();
-
-
-    }
-
-
     /*
     recieve information from a cookie
     */
@@ -346,16 +318,6 @@
     function eraseCookie(name){
       createCookie(name,"",-1);
     }
-
-    function checkCookie()
-    {
-      var MainCookie = readCookie("MainCookie");
-      if (MainCookie == "" or MainCookie == null)
-      {
-        changeCheckout('grey');
-      }
-    }
-
     function logout() {
      eraseCookie("username");
      eraseCookie("email");
@@ -366,7 +328,6 @@
      eraseCookie("Total");
      eraseCookie("Store");
      eraseCookie("gsScrollPos-794");
-     eraseCookie("tracking_number");
 
       window.location.href = '/home/';
 
@@ -400,43 +361,7 @@
 <script>parseMainCookie(); </script>
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
-
-
-    {% if tracking_id %}
-
-    <script type="text/javascript">
-    alert("Tracking ID: " + {{tracking_id}})
-    createCookie("tracking_number", '{{tracking_id}}', 7);
-    </script>
-    {% endif %}
-
-
-    {% if username %}
-
-    <script type="text/javascript">
-
-      var username_server = '{{username}}';
-     // alert("data from server :" + username_server);
-     var expiration_days = 7
-      createCookie("username", username_server, expiration_days);
-      createCookie("email", '{{email}}', expiration_days);
-      createCookie("address", '{{address}}', expiration_days);
-      createCookie("Destination",'{{address}}', expiration_days);
-      createCookie("CreditInfo", '{{payment}}', expiration_days);
-      createCookie("user_id", '{{u_id}}', expiration_days);
-      createCookie("tracking_number", '{{tracking_number}}', expiration_days);
-
-
-    </script>
-
-
-    {% endif %}
-
       <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
-
-
-
-
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -444,47 +369,32 @@
       <ul class="navbar-nav ml-auto">
 
         <!--- Search Bar --->
-         <form action="/home/search.html" type="get">
-             <select id="drop_down_filter" name="drop_down_filter">
-               <option value="Categories">Categories</option>
-               <option value="Fruit">Fruits</option>
-               <option value="Vegetable">Vegetables</option>
-               <option value="Meat">Meats</option>
-               <option value="Dairy">Dairies</option>
-               <option value="Seafood">Seafood</option>
-              <option value="Grains">Grains</option>
-             </select>
-             <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
-             <button id="search_submit" type="submit">Go</button>
-         </form>
+        <form action="/home/search.html" type="get">
+            <select id="drop_down_filter" name="drop_down_filter">
+              <option value="Categories">Categories</option>
+              <option value="Fruit">Fruits</option>
+              <option value="Vegetable">Vegetables</option>
+              <option value="Meat">Meats</option>
+              <option value="Dairy">Dairies</option>
+              <option value="Seafood">Seafood</option>
+             <option value="Grains">Grains</option>
+            </select>
+            <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+            <button id="search_submit" type="submit">Go</button>
+        </form>
 
         <li class="nav-item" style="">
           <a class="nav-link" href="/admin/">Admin Page</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="/home/tracking_home">Tracking</a>
+          <a class="nav-link" href="tracking_home">Tracking</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/home/contact_us">Contact</a>
+          <a class="nav-link" href="contact_us">Contact</a>
         </li>
-
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Portfolio
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-            <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-            <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-            <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-            <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-            <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-          </div>
-        </li> -->
-
-
         <li class="nav-item">
-          <a class="nav-link" href="/home/shoppingcart">
+          <a class="nav-link" href="shoppingcart">
           <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
           </a>
 
@@ -496,20 +406,19 @@
                 if(readCookie("username") != "" && readCookie("username") != null){
                   var name = readCookie("username");
                   document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + name + '</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                   document.write(' <a class="dropdown-item" href="/home/profile">Profile</a>');
+                  // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
+                  document.write(' <a class="dropdown-item" href="/home/profile">Profile</a>');
                   document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
                 //  document.write('</div></li>');
                 }
                 else {
                   document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                  document.write(' <a class="dropdown-item" href="/home/login_register">Log in/Register</a>');
+                  document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
                   // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
                 }
 
               </script>
-
       </li>
-
       </ul>
     </div>
   </div>
@@ -542,7 +451,7 @@
             <div style="clear: both;"></div>
         </div>
     </div>
-    <script>checkCookie()</script>
+    <script type="text/javascript">checkCookie()</script>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

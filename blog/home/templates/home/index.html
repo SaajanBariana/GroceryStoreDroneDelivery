@@ -67,32 +67,20 @@
 <script src="../../static/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-    function toggleDropDown() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = function(e){
-  if (!e.target.matches('.dropbtn')) {
-    var myDropdown = document.getElementById("myDropdown");
-      if (myDropdown.classList.contains('show')) {
-        myDropdown.classList.remove('show');
-      }
-  }
-}
-    function getFilter() {
-    document.getElementById("");
-}
+ 
     /*
     Creates a new cookies or updates an old one when you click on the add to cart button
     Also updates the MainCookie to include this cookie we just added
     */
-    function openWindow(obj, name, cost, weight, quantity, image){
+    function openWindow(obj, name, cost, weight, quantity, image ){
 
-      var result = document.getElementById(name).value //recieves the input value for how many of that item we want to add to the cart
+    
+      var result = document.getElementById(name).value; //recieves the input value for how many of that item we want to add to the cart
       document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
       console.log("Clicked on the button"); //check to make sure that this function is working
       if(result > 0) //make sure that you have given a quantity for that item
       {
+       
         obj.style.background = 'green'; //change the color of the button to green to confirm that it submitted
 
         //creating the new cookie for that item
@@ -134,7 +122,7 @@
 
         var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
         var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
-        alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
+        //alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
       }
       else {
         obj.style.background = 'red'; //if the value of the input is 0, set the color of the button to red
@@ -158,7 +146,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
     }
     /*
     Display the URL for the items' pictures
@@ -179,7 +167,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
+    //  alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
     }
     /*
     Display the total amount of items you have selected
@@ -200,7 +188,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
     }
     /*
     Display the total amount of each item that is curently available in the Database
@@ -221,7 +209,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
     }
     /*
     Display all the weights per Item
@@ -242,7 +230,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
     }
     /*
     Display all the costs for each item
@@ -263,7 +251,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
     }
     /*
     delete all of the cookies currently held by MainCookie while also removing them from MainCookie
@@ -283,7 +271,7 @@
         createCookie("MainCookie", "", 1); //reset the MainCookie
 
       }
-      alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+     // alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
     }
     /*
     creates a cookie with a given name, a value, and a number of days that it is active for
@@ -328,21 +316,20 @@
      eraseCookie("username");
      eraseCookie("email");
      eraseCookie("tracking_id");
+     eraseCookie("user_id");
      DeleteAllCookies();
      eraseCookie("Destination");
      eraseCookie("csrftoken");
      eraseCookie("Total");
      eraseCookie("Store");
+     eraseCookie("card");
+     eraseCookie("Total");
+     eraseCookie("CreditInfo");
      eraseCookie("gsScrollPos-794");
      eraseCookie("tracking_number");
 
       window.location.href = '/home/';
 
-    }
-
-    function moveToProfile()
-    {
-      window.location.href = '/home/profile';
     }
 </script>
 
@@ -380,6 +367,10 @@
         <script type="text/javascript">
         alert("Tracking ID: " + {{tracking_id}})
         createCookie("tracking_number", '{{tracking_id}}', 7);
+        DeleteAllCookies();
+        alert("Deleted all cookies");
+        
+        
         </script>
         {% endif %}
 
@@ -398,12 +389,15 @@
           createCookie("CreditInfo", '{{payment}}', expiration_days);
           createCookie("user_id", '{{u_id}}', expiration_days);
           createCookie("tracking_number", '{{tracking_number}}', expiration_days);
-
+          
 
         </script>
 
 
         {% endif %}
+
+      
+    
 
           <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
 
@@ -416,30 +410,30 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
 
-            <!--- Search Bar --->
-             <form action="/home/search.html" type="get">
-                 <select id="drop_down_filter" name="drop_down_filter">
-                   <option value="Categories">Categories</option>
-                   <option value="Fruit">Fruits</option>
-                   <option value="Vegetable">Vegetables</option>
-                   <option value="Meat">Meats</option>
-                   <option value="Dairy">Dairies</option>
-                   <option value="Seafood">Seafood</option>
-                  <option value="Grains">Grains</option>
-                 </select>
-                 <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
-                 <button id="search_submit" type="submit">Go</button>
-             </form>
+            
+            <form action="/home/search.html" type="get">
+                <select id="drop_down_filter" name="drop_down_filter">
+                    <option value="Categories">Categories</option>
+                    <option value="Fruit">Fruits</option>
+                    <option value="Vegetable">Vegetables</option>
+                    <option value="Meat">Meats</option>
+                    <option value="Dairy">Dairies</option>
+                    <option value="Seafood">Seafood</option>
+                    <option value="Grains">Grains</option>
+                </select>
+                <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                    <button id="search_submit" type="submit">Go</button>
+                    </form>
 
             <li class="nav-item" style="">
               <a class="nav-link" href="/admin/">Admin Page</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="/home/tracking_home">Tracking</a>
+              <a class="nav-link" href="tracking_home">Tracking</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/home/contact_us">Contact</a>
+              <a class="nav-link" href="contact_us">Contact</a>
             </li>
 
             <!-- <li class="nav-item dropdown">
@@ -457,7 +451,7 @@
 
 
             <li class="nav-item">
-              <a class="nav-link" href="/home/shoppingcart">
+              <a class="nav-link" href="shoppingcart">
               <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
               </a>
 
@@ -475,7 +469,7 @@
                     }
                     else {
                       document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                      document.write(' <a class="dropdown-item" href="/home/login_register">Log in/Register</a>');
+                      document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
                       // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
                     }
 
@@ -496,27 +490,27 @@
           <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner" role="listbox">
-          <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('http://www.dnc.ie/wp-content/uploads/2014/08/chopping-board1.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Looking for some fresh ingredients for new recipes?</h3>
-              <p>We provide organic fruits and vegtables grown from local farms</p>
+            <!-- Slide One - Set the background image for this slide in the line below -->
+            <div class="carousel-item active" style="background-image: url('http://www.dnc.ie/wp-content/uploads/2014/08/chopping-board1.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Looking for some fresh ingredients for new recipes?</h3>
+                    <p>We provide organic fruits and vegtables grown from local farms</p>
+                </div>
             </div>
-          </div>
-          <!-- Slide Two - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Daily shipments to ensure the freshest produce</h3>
-              <p>Top of the line groceries</p>
+            <!-- Slide Two - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Daily shipments to ensure the freshest produce</h3>
+                    <p>Top of the line groceries</p>
+                </div>
             </div>
-          </div>
-          <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Take a look at our new products</h3>
-              <p>Guaranteed fresh groceries for all orders</p>
+            <!-- Slide Three - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Take a look at our new products</h3>
+                    <p>Guaranteed fresh groceries for all orders</p>
+                </div>
             </div>
-          </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -577,12 +571,12 @@
 
       <div class="row">
       {% for item in items %}
-          <div id = "item.name" class="col-lg-4 col-sm-6 portfolio-item">
+          <div  class="col-lg-4 col-sm-6 portfolio-item">
             <div class="card h-100">
               <img class="card-img-top" src = "{{item.image}}">
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="#">{{item.name}}</a>
+                  <a href="{{item.image}}">{{item.name}}</a>
                 </h4>
                 <p> Cost : {{item.cost}} each</p>
                 <p> Weight : {{item.weight}} pounds </p>
@@ -592,8 +586,8 @@
               <div class="card-footer">
                 <div>
                   Quantity:
-                  <input id="{{item.name}}" type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 5em; height: 40px; font-size: 18px; padding-top = 100px" >
-                  <button class="btn btn-primary" onclick= "openWindow(this, '{{item.name}}', '{{item.cost}}', '{{item.weight}}', '{{item.quantity}}', '{{item.image}}')" >
+                  <input id="{{item.itemID}}" type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 5em; height: 40px; font-size: 18px; padding-top = 100px" >
+                  <button class="btn btn-primary" onclick= 'openWindow(this,  "{{item.itemID}}" , "{{item.cost}}", "{{item.weight}}", "{{item.quantity}}", "{{item.image}}")' >
                     Add to Cart
                 </button>
               </div>

@@ -6,7 +6,7 @@
     <script src="../../static/jquery.min.js"></script>
 </head>
     <link rel="stylesheet" href="../../static/credit_card_div.css">
-    
+
 <!-- Google api key AIzaSyBShRAptz8wAkaa-iIIfbY6OOhsF-8_GUg
 
  -->
@@ -77,18 +77,18 @@ function initialize() {
             {
                 var array = input.split(",");
                 var streetname1 = array[0];
-                var cityname = array[1];
-                var statename= array[2];
-                var zipcode1 = array[3];
+                // var cityname = array[1];
+                // var statename= array[2];
+                // var zipcode1 = array[3];
 
                 var streetinput = document.getElementById("Location");
                 streetinput.value = streetname1;
-                var citynameinput = document.getElementById("City");
-                citynameinput.value = cityname;
-                var statenameinput = document.getElementById("State");
-                statenameinput.value = statename;
-                var zipcodeinput = document.getElementById("ZipCode");
-                zipcodeinput.value = zipcode1;
+                // var citynameinput = document.getElementById("City");
+                // citynameinput.value = cityname;
+                // var statenameinput = document.getElementById("State");
+                // statenameinput.value = statename;
+                // var zipcodeinput = document.getElementById("ZipCode");
+                // zipcodeinput.value = zipcode1;
 
 
 
@@ -219,8 +219,6 @@ function initialize() {
         <!-- <script src="../../static/Total_Amount_Payment_Cookie.js"></script> -->
 
 
-
-
         <body onload="CreateAutofillCreditCardCookie()">
 
 
@@ -241,10 +239,10 @@ function initialize() {
                          <input id="input-field" type="email" name="email" required="required" autocomplete="email" maxlength="40" placeholder="Email Address"/> -->
 
                         <input id="Location" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
-                        <input id="City" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
+                        <!-- <input id="City" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
                         <input id="ZipCode" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9\s]*" maxlength="5" placeholder="ZIP code"/>
                         <input id="State" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
-
+ -->
 
 
                         <div class="personal-information">
@@ -272,7 +270,6 @@ function initialize() {
             <script type="text/javascript">
                 check_login_for_payment();
                 </script>
-
 
 
             <script src="../../static/jquery.min.js"></script>

@@ -383,7 +383,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         
-                       
+                        <!--- Search Bar --->
                         <form action="/home/search.html" type="get">
                             <select id="drop_down_filter" name="drop_down_filter">
                                 <option value="Categories">Categories</option>
@@ -509,9 +509,8 @@
       cordinate = cordinate +","+ current_lang;
       current_lat = Number(current_lat);
 
-      var delivery_status = '{{status}}';
-      var track_id = '{{track_id}}';
-      var time_stamp_db = track_id;
+      var delivery_status = '{{status}}'
+      var track_id = '{{track_id}}'
 
     </script>
     {% endif %}
@@ -568,10 +567,9 @@
 
     if(delivery_status == 1) {
       alert("already delived");
-      document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
+       document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
       document.getElementById("delivery_status").textContent = 'Delivered';
       document.getElementById("estimate_time").textContent = '0 min';
-      document.getElementById("track_id").textContent = 'Tracking No: ' + track_id;
 
       function initMap() {
 
@@ -580,23 +578,21 @@
               center: {lat: 37.324240, lng: -121.882652},
               zoom: 8
             });
+
+
       }
     }
-
-/**
-This function is moving icon on map
-**/
-
-var check_d_time = parseInt(Math.floor(Date.now()) / 1000) - time_stamp_db;
-console.log(check_d_time);
-  
 
       function f() {
         if (i > 0) {
             marker.setMap(null);
-              expectedTime = expectedTime - interval_update;
-              document.getElementById("estimate_time").textContent = parseInt(expectedTime) +  ' min';
-              myAudio.play();
+
+                 expectedTime = expectedTime - interval_update;
+
+                document.getElementById("estimate_time").textContent = parseInt(expectedTime) +  ' min';
+
+
+               myAudio.play();
 
         }
 
@@ -716,6 +712,8 @@ console.log(check_d_time);
                   // var legs = response.routes[0].legs;
                   // alert(legs);
                   distance = distance.toFixed(2);
+
+
 
                   document.getElementById("delivery_date").textContent = getDate() ;
                   document.getElementById("track_id").textContent = 'Tracking No: ' + track_id;

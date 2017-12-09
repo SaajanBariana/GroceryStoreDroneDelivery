@@ -14,12 +14,31 @@
  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBShRAptz8wAkaa-iIIfbY6OOhsF-8_GUg&libraries=places"></script>
  <script type="text/javascript">
 
-   google.maps.event.addDomListener(window, 'load', initialize);
+   google.maps.event.addDomListener(window, 'load', doGeocode);
 
+// function initialize() {
+//     var input = document.getElementById('Location');
+//     var autocomplete = new google.maps.places.Autocomplete(input);
+// }
 
-function initialize() {
-    var input = document.getElementById('Location');
-    var autocomplete = new google.maps.places.Autocomplete(input);
+function doGeocode() {
+  var input = document.getElementById('Location');
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  //var addr = document.getElementById("address");
+  // Get geocoder instance
+  var geocoder = new google.maps.Geocoder();
+
+  // Geocode the address
+  geocoder.geocode({'Location': input.value}, function(results, status)
+  {
+    if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+
+      // set it to the correct, formatted address if it's valid
+      input.value = results[0].formatted_address;;
+
+      // show an error if it's not
+    } else alert("Invalid address" + status);
+  })
 }
 
 </script>
@@ -238,7 +257,7 @@ function initialize() {
                          <input id="input-field" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
                          <input id="input-field" type="email" name="email" required="required" autocomplete="email" maxlength="40" placeholder="Email Address"/> -->
 
-                        <input id="Location" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
+                        <input onchange="doGeocode()" id="Location" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
                         <!-- <input id="City" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
                         <input id="ZipCode" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9\s]*" maxlength="5" placeholder="ZIP code"/>
                         <input id="State" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>

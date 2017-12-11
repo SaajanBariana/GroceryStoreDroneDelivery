@@ -55,7 +55,7 @@ def get_item():
         if (row[4] > 0):
             item = {"itemID": str(row[0]),"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
             items.append(item)
-    
+
     db.close()
     cur.close()
 
@@ -64,7 +64,7 @@ def get_item():
 @api_view(['GET', 'POST'])
 def index(request):
     template = loader.get_template('home/index.html')
- 
+
     items = get_item()
 
     if request.method == 'POST':
@@ -95,7 +95,7 @@ def index(request):
         # if (usernameCookie == None):
         #     print("Goes into statement")
         #     usernameCookie = tuple_response[1]
-        
+
 
         elif(tuple_response[0] == "2"):
             card = tuple_response[1][5]+","+tuple_response[1][6] +","+tuple_response[1][7]+","+tuple_response[1][8]+","+tuple_response[1][9]
@@ -162,7 +162,7 @@ def get_user_info_from_db(username,password):
     #query = 'SELECT name,userid,email  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
     #query = 'select u.name,u.userid,u.email,u.token,t.destination from tracking t left join register_user u on t.user_id = u.userid where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
     query = 'select distinct d.* from (select r.*,p.Name_on_Card,p.Card_Zipcode,p.Credit_Card_Number,p.CSV,p.Expiration_Date from Payments p,(select u.name,u.userid,u.email,u.token,t.destination from tracking t left join register_user u on t.user_id = u.userid where email = "'  + str(username) +  '" AND password = "'+ str(password) +'" ) as r where r.userid = p.UserID) as d '
-   
+
     #return HttpResponse(query)
     cur.execute(query)
     result = ""
@@ -179,13 +179,13 @@ def get_user_login_result_from_db(username,password):
     query = 'SELECT name,userid,email  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
     #query = 'select u.name,u.userid,u.email,u.token,t.destination from tracking t left join register_user u on t.user_id = u.userid where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
    # query = 'select distinct d.* from (select r.*,p.Name_on_Card,p.Card_Zipcode,p.Credit_Card_Number,p.CSV,p.Expiration_Date from Payments p,(select u.name,u.userid,u.email,u.token,t.destination from tracking t left join register_user u on t.user_id = u.userid where email = "'  + str(username) +  '" AND password = "'+ str(password) +'" ) as r where r.userid = p.UserID) as d '
-   
+
     #return HttpResponse(query)
     cur.execute(query)
     name = ""
     for r in cur:
         name = (r[0],r[1],r[2])
-   
+
     cur.close()
     conn.close()
 
@@ -213,12 +213,12 @@ def login_controller(request):
         result = select_track_query(query)
         if(result[0] == "1"):
             tracking_number = result[1]
-            tracking_number_string = ','.join(map(str, tracking_number)) 
+            tracking_number_string = ','.join(map(str, tracking_number))
             print(tracking_number)
             print("-----------------------------")
             print(tracking_number_string)
         return ("2",result_from_1st)
-    
+
 
 # Login controller if request is login then
 
@@ -292,7 +292,7 @@ def tracking_home(request):
                 update_tracking_record(str(result_set[6]))
                 #return HttpResponse("Not valid tracking number")
                 return HttpResponse(template.render(context, request))
-               
+
             else:
                 template = loader.get_template('home/tracking.html')
                 context = {"tracking_error":"Tracking Number Not valid "}
@@ -347,11 +347,11 @@ def tracking_controller(request):
     else:
         return ("0","error")
 
-#update tracking table 
+#update tracking table
 # take tracking number as argument
 def update_tracking_record(tracking_num):
     conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
-    cur = conn.cursor()   
+    cur = conn.cursor()
     query = 'UPDATE `grocery_store`.`tracking_update` SET `status`=1 WHERE `track_id`='+tracking_num+';'
     #return HttpResponse(query)
 
@@ -365,7 +365,7 @@ def update_tracking_record(tracking_num):
     except Exception as e:
         response = 0
         #raise
-   
+
     finally:
         cur.close()
         conn.close()
@@ -418,7 +418,7 @@ def update_tracking_database(query):
     try:
         cur.execute(query)
         conn.commit()
-        response = ("1","success")      
+        response = ("1","success")
     except Exception as e:
         response = ("0",e)
     finally:
@@ -432,7 +432,7 @@ def creditcard(request):
     template = loader.get_template('home/creditcard.html')
     context = {}
     #REMOVE THIS AFTER FIX
-    
+
     if request.method == 'POST':
         if request.POST['submit_payment'] != "":
 
@@ -472,7 +472,7 @@ def creditcard(request):
 
             #print ("STORE VALUE: " + StoreID)
             #return HttpResponse(ran + ", " + destination+ ", " + StoreID)
-            
+
             query = 'INSERT INTO Payments (UserID,Credit_Card_Number, CSV, Expiration_Date, Name_on_Card, Card_Zipcode) VALUES ("' + user_id + '", "'+ CreditCardNumber + '", "' + CSV+ '", "' + ExpirationDate + '", "' + NameOnCard + '", "' + CardZipcode + '")'
             result1 = update_tracking_database(query)
             print(result1)
@@ -491,7 +491,7 @@ def creditcard(request):
                 print(query)
             else:
                 print("error at inserting in tracking,tracking_update")
-           
+
 
             template = loader.get_template('home/index.html')
             context = {"tracking_id" : ran, "deleteCookies" : "yes"}
@@ -628,7 +628,7 @@ def select_track_query(query):
     cur = conn.cursor()
     try:
         cur.execute(query)
-        
+
         ret = (1,"success")
         result = []
 
@@ -648,7 +648,7 @@ def select_db_query(query):
     cur = conn.cursor()
     try:
         cur.execute(query)
-        
+
         ret = (1,"success")
         result = ""
 
@@ -676,7 +676,7 @@ def profile(request):
             c_name = "'" + c_name+ "'"
             c_zipcode = request.POST['zip-cc']
             c_zipcode = "'" + c_zipcode+ "'"
-            
+
             c_cardnumber = request.POST['number-cc']
             c_cardnumber = "'" + c_cardnumber+ "'"
 
@@ -686,7 +686,7 @@ def profile(request):
 
             string = name +" , "+ street +" , "+ city +" , "+ zipcode +" , "+ state +" , "+ c_name +" , "+ c_zipcode +" , "+ c_cardnumber +" , "+ c_csv +" , "+ user_id
             address = street +" , "+ city +" , "+ zipcode +" , "+ state
-            
+
             query = 'select * from user_profile where user_id = "' + user_id + '"'
 
             select_result = select_db_query(query)
@@ -694,11 +694,11 @@ def profile(request):
             if(select_result[0] == "1" and select_result[1] != "" ):
 
                 query = 'UPDATE `grocery_store`.`user_profile` SET `address`="' + address + '" WHERE `user_id`="' + user_id + '"'
-                result = run_db_query(query) 
-                
+                result = run_db_query(query)
+
             else:
                 query = 'INSERT INTO `grocery_store`.`UserAddress` (`UserID`,`Address`) VALUES ("' + user_id + '","' + address + '")'
-                result = run_db_query(query) 
+                result = run_db_query(query)
                 if(result[0] == 1):
                     print(query)
                     pass
@@ -712,14 +712,14 @@ def profile(request):
             if(select_result[0] == "1" and select_result[1] != "" ):
 
                 query = 'UPDATE `grocery_store`.`Payments` SET `Credit_Card_Number`="' + c_cardnumber + '", `CSV`="' + c_csv + '",`Expiration_Date`="' + Expiration_Date + '",`Name_on_Card`="' + c_name + '",`Card_Zipcode`="' + c_zipcode + '"  WHERE `UserID`="' + user_id + '"'
-            
+
                 result = run_db_query(query)
-                print(query) 
-                
+                print(query)
+
             else:
                 query = "INSERT INTO Payments (PaymentID,UserID,Credit_Card_Number, CSV, Expiration_Date, Name_on_Card, Card_Zipcode) VALUES (" + user_id + ", " + user_id + ", "+ c_cardnumber + ", " + c_csv+ ", " + Expiration_Date + ", " + c_name + ", " + c_zipcode + ")"
-                
-                result = run_db_query(query) 
+
+                result = run_db_query(query)
                 if(result[0] == 1):
                     print(query)
                     pass
@@ -727,7 +727,7 @@ def profile(request):
                     print(query)
                     return HttpResponse(result[1])
 
-           
+
 
 
 

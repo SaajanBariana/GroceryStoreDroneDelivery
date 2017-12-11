@@ -14,32 +14,104 @@
  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBShRAptz8wAkaa-iIIfbY6OOhsF-8_GUg&libraries=places"></script>
  <script type="text/javascript">
 
-   google.maps.event.addDomListener(window, 'load', doGeocode);
-
+//   google.maps.event.addDomListener(window, 'load', doGeocode);
+//
 // function initialize() {
 //     var input = document.getElementById('Location');
 //     var autocomplete = new google.maps.places.Autocomplete(input);
 // }
+//
+// function doGeocode() {
+//   var input = document.getElementById('Location');
+//   var autocomplete = new google.maps.places.Autocomplete(input);
+//   //var addr = document.getElementById("address");
+//   // Get geocoder instance
+//   var geocoder = new google.maps.Geocoder();
+//   //alert("Invalid Address");
+//   // Geocode the address
+//   geocoder.geocode({'Location': input.value}, function(results, status)
+//   {
+//     if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+//
+//       // set it to the correct, formatted address if it's valid
+//       input.value = results[0].formatted_address;;
+//       // show an error if it's not
+//     }
+//       if (results[0].partial_match) {
+//     htmlContent = "not a valid result";
+//  }
+//     else alert("Invalid address" + status);
+//
+//   })
+// }
 
-function doGeocode() {
-  var input = document.getElementById('Location');
-  var autocomplete = new google.maps.places.Autocomplete(input);
-  //var addr = document.getElementById("address");
-  // Get geocoder instance
-  var geocoder = new google.maps.Geocoder();
+var geocoder;
+var map;
+//var infowindow = new google.maps.InfoWindow();
 
-  // Geocode the address
-  geocoder.geocode({'Location': input.value}, function(results, status)
-  {
-    if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
-
-      // set it to the correct, formatted address if it's valid
-      input.value = results[0].formatted_address;;
-
-      // show an error if it's not
-    } else alert("Invalid address" + status);
-  })
+function initialize() {
+  geocoder = new google.maps.Geocoder();
+  var latlng = new google.maps.LatLng(-34.397, 150.644);
+  var mapOptions = {
+    zoom: 8,
+    center: latlng
+  }
+  //map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  autocomplete = new google.maps.places.Autocomplete((document.getElementById('address')), {
+      types: ['geocode']
+    });
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+  codeAddress()
+  });
+codeAddress();
 }
+
+function codeAddress() {
+  var address = document.getElementById('address').value;
+  geocoder.geocode({
+    'address': address
+  }, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      var htmlContent;
+      console.log(results);
+      map.setCenter(results[0].geometry.location);
+      var address_components = results[0].address_components;
+      var marker = new google.maps.Marker({
+        map: map,
+        position: results[0].geometry.location
+      });
+      if (results[0].partial_match) {
+        htmlContent = "not a valid result";
+      } else {
+        htmlContent = "<div style='width:300px; height:300px;'><table border='1'><tr><th>long_name</th><th>types</th></tr>";
+
+        /* Added formatted Address */
+        htmlContent += "<tr><td colspan='2'><strong>" + results[0].formatted_address + "</strong></td></tr>";
+        /* Added formatted Address */
+
+        for (var i = 0; i < address_components.length; i++) {
+          htmlContent += "<tr><td>" + address_components[i].long_name + "</td><td>"
+          for (var j = 0; j < address_components[i].types.length; j++) {
+            htmlContent += address_components[i].types[j] + " ";
+          }
+          htmlContent += "</td></tr>";
+        }
+
+        htmlContent += "</table>";
+      }
+      google.maps.event.addListener(marker, 'click', function(evt) {
+        //infowindow.setContent(htmlContent);
+        //infowindow.open(map, marker);
+      });
+      google.maps.event.trigger(marker, 'click');
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
 
 </script>
 
@@ -257,7 +329,7 @@ function doGeocode() {
                          <input id="input-field" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
                          <input id="input-field" type="email" name="email" required="required" autocomplete="email" maxlength="40" placeholder="Email Address"/> -->
 
-                        <input onchange="doGeocode()" id="Location" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
+                        <input id="address" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
                         <!-- <input id="City" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
                         <input id="ZipCode" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9\s]*" maxlength="5" placeholder="ZIP code"/>
                         <input id="State" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>

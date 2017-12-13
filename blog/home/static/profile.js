@@ -92,8 +92,8 @@ function loadAddress() {
 
 function loadNumber() {
     var cookies = readCookie('CreditInfo');
-    var items = cookies.split(',');
     if (cookies != null) {
+        var items = cookies.split(',');
         var a = document.getElementsByTagName("ul");
         var b = document.createElement("p");
         b.className = "userInfo";
@@ -109,7 +109,7 @@ function loadProfileInfo() {
     node.value = usr_name;
     var addressInfo = readCookie('address')
     if (addressInfo != null){
-        var elements = addressInfo.split(' , ');
+        var elements = addressInfo.split(',');
         var temp = elements[0];
         node = document.getElementById('street-addr');
         node.value = temp;
@@ -127,9 +127,29 @@ function loadProfileInfo() {
         node.value = temp;
         dict['zip-addr'][0] = 1;
     }
-    var creditInfo = readCookie('CreditInfo');
-    if (creditInfo != null) {
-
+    var CreditInfo = readCookie('CreditInfo');
+    if (CreditInfo != null) {
+        var elements = CreditInfo.split(',');
+        var temp = elements[0];
+        node = document.getElementById('name-cc');
+        node.value = temp;
+        dict['name-cc'][0] = 1;
+        temp = elements[1];
+        node = document.getElementById('zip-cc');
+        node.value = temp;
+        dict['zip-cc'][0] = 1;
+        temp = elements[2];
+        node = document.getElementById('number-cc');
+        node.value = temp;
+        dict['number-cc'][0] = 1;
+        temp = elements[3];
+        node = document.getElementById('ccv-cc');
+        node.value = temp;
+        dict['ccv-cc'][0] = 1;
+        temp = elements[4];
+        node = document.getElementById('exp-cc');
+        node.value = temp;
+        dict['exp-cc'][0] = 1;
     }
 }
 

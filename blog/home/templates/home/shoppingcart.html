@@ -324,7 +324,6 @@
      eraseCookie("tracking_id");
      DeleteAllCookies();
      eraseCookie("Destination");
-     eraseCookie("csrftoken");
      eraseCookie("Total");
      eraseCookie("Store");
      eraseCookie("gsScrollPos-794");
@@ -332,6 +331,28 @@
       window.location.href = '/home/';
 
     }
+
+    function get_tracking_data() {
+
+
+
+          var user_id = readCookie('user_id');
+          console.log(user_id);
+
+          if(user_id == "") {
+             window.location.href = 'tracking';
+          }
+
+           console.log("Creating form for tracking");
+           document.write('<form method="Post" id="user_id_form" action="get_tracking_by_user_id">');
+            document.write('<input type="hidden"  name="csrfmiddlewaretoken" value="{{ csrf_token }}" >');
+            var value = "value="+user_id+" >'"
+            document.write('<input type="hidden"  name="user_id" ' + value);
+            document.write('</form>');
+            document.getElementById('user_id_form').submit();
+     }
+
+
 </script>
 
 
@@ -388,7 +409,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="tracking_home">Tracking</a>
+          <a class="nav-link" onclick="get_tracking_data()">Tracking</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="contact_us">Contact</a>

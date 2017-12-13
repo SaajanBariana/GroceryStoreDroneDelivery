@@ -73,23 +73,24 @@ def adminHomePage(request):
                 desc = str(item[7]).replace("'", "")
             else:
                 desc = item[7]
-
+                
             conn = pymysql.connect(host='localhost', port=3306, user=SQL_username, passwd=SQL_password, db='grocery_store')
             cur = conn.cursor()
             query = "UPDATE items " \
-                "SET name = '" + item[1] + "' , weight = '" + item[2] + \
-                "' , cost = '"+ (item[3]) + \
-                "' , quantity = '" + (item[4]) + \
-                "' , categories = '" + item[5] + \
-                "' , description = '" + desc + \
-                "' WHERE itemID = " + item[0] + ";"
+                    "SET name = '" + item[1] + "' , weight = '" + item[2] + \
+                    "' , cost = '"+ (item[3]) + \
+                    "' , quantity = '" + (item[4]) + \
+                    "' , categories = '" + item[5] + \
+                    "' , image = '" + item[6] + \
+                    "' , description = '" + desc + \
+                    "' WHERE itemID = " + item[0] + ";"
             print(query)
             try:
                 cur.execute(query)
                 conn.commit()
                 cur.close()
                 conn.close()
-
+                
             except Exception as e:
                 print(e)
     context = getQuery()

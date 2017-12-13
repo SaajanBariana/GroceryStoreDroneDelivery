@@ -67,20 +67,20 @@
 <script src="../../static/bootstrap.min.js"></script>
 
 <script type="text/javascript">
- 
+
     /*
     Creates a new cookies or updates an old one when you click on the add to cart button
     Also updates the MainCookie to include this cookie we just added
     */
     function openWindow(obj, name, cost, weight, quantity, image ){
 
-    
+
       var result = document.getElementById(name).value; //recieves the input value for how many of that item we want to add to the cart
       document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
       console.log("Clicked on the button"); //check to make sure that this function is working
       if(result > 0) //make sure that you have given a quantity for that item
       {
-       
+
         obj.style.background = 'green'; //change the color of the button to green to confirm that it submitted
 
         //creating the new cookie for that item
@@ -319,7 +319,6 @@
      eraseCookie("user_id");
      DeleteAllCookies();
      eraseCookie("Destination");
-     eraseCookie("csrftoken");
      eraseCookie("Total");
      eraseCookie("Store");
      eraseCookie("card");
@@ -330,6 +329,29 @@
 
       window.location.href = '/home/';
 
+    }
+
+
+
+
+    function get_tracking_data() {
+
+
+
+     var user_id = readCookie('user_id');
+     console.log(user_id);
+
+     if(user_id == "") {
+        window.location.href = 'tracking';
+     }
+
+      console.log("Creating form for tracking");
+      document.write('<form method="Post" id="user_id_form" action="get_tracking_by_user_id">');
+       document.write('<input type="hidden"  name="csrfmiddlewaretoken" value="{{ csrf_token }}" >');
+       var value = "value="+user_id+" >'"
+       document.write('<input type="hidden"  name="user_id" ' + value);
+       document.write('</form>');
+       document.getElementById('user_id_form').submit();
     }
 </script>
 
@@ -368,9 +390,9 @@
         alert("Tracking ID: " + {{tracking_id}})
         createCookie("tracking_number", '{{tracking_id}}', 7);
         DeleteAllCookies();
-        alert("Deleted all cookies");
-        
-        
+
+
+
         </script>
         {% endif %}
 
@@ -388,21 +410,33 @@
           createCookie("Destination",'{{address}}', expiration_days);
           createCookie("CreditInfo", '{{payment}}', expiration_days);
           createCookie("user_id", '{{u_id}}', expiration_days);
-          createCookie("tracking_number", '{{tracking_number}}', expiration_days);
-          
+          createCookie("track_list", '{{tracking_number}}', expiration_days);
 
+          var track_array = [];
         </script>
 
 
         {% endif %}
 
-      
-    
+
+    {% for item in tracking_number %}
+
+
+
+ <script type="text/javascript">
+
+
+   track_array.push({"track_id":"{{item.trackID}}", "status":"{{item.status}}","time":"{{item.time}}"});
+
+ </script>
+        {% endfor %}
+
+<script type="text/javascript">
+  createCookie("track_list", JSON.stringify(track_array);, expiration_days);
+  console.log(track_array);
+</script>
 
           <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
-
-
-
 
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -410,7 +444,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
 
-            
+
             <form action="/home/search.html" type="get">
                 <select id="drop_down_filter" name="drop_down_filter">
                     <option value="Categories">Categories</option>
@@ -430,7 +464,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="tracking_home">Tracking</a>
+              <a class="nav-link" onclick="get_tracking_data()" >Tracking</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="contact_us">Contact</a>

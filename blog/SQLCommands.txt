@@ -10,34 +10,40 @@ CREATE SCHEMA `grocery_store` ;
  `image` VARCHAR(200) NULL,
  `description` VARCHAR(100) NULL,
   PRIMARY KEY (`itemID`));
+
 	CREATE TABLE `grocery_store`.`register_user` (
-	 `userID` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(100) NULL,
- `email` VARCHAR(100) NULL,
- `password` VARCHAR(100) NULL,
- `token` VARCHAR(100) NULL,
-  PRIMARY KEY (`userID`));
+  `userID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `token` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`userID`),
+  UNIQUE KEY email_UNIQUE (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
 CREATE TABLE `grocery_store`.`tracking`  (
  track_id int(11) NOT NULL,
  destination varchar(100) NOT NULL,
  user_id int(20) DEFAULT NULL,
  PRIMARY KEY (track_id)
 );
+
+
 CREATE TABLE `grocery_store`.`tracking_update` (
-	 `track_id` INT NOT NULL,
- `user_id` INT NOT NULL,
- `destination` VARCHAR(100) NULL,
- `current_lat` VARCHAR(100) NULL,
- `start_lat` VARCHAR(100) NULL,
- `current_long` VARCHAR(100) NULL,
- `start_long` VARCHAR(100) NULL,
-  `status` TINYINT (4) NULL,
- `last_update` DATETIME NULL,
+  `track_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `destination` varchar(100) DEFAULT NULL,
+  `current_lat` varchar(100) DEFAULT NULL,
+  `start_lat` varchar(100) DEFAULT NULL,
+  `current_long` varchar(100) DEFAULT NULL,
+  `start_long` varchar(100) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `last_update` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`track_id`),
-FOREIGN KEY (`user_id`)
-    REFERENCES `grocery_store`.`register_user` (`userid`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
+  KEY user_id (`user_id`),
+  CONSTRAINT tracking_update_ibfk_1 FOREIGN KEY (`user_id`) REFERENCES `grocery_store`.`register_user` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `grocery_store`.`UserAddress` (
   `UserID` INT NOT NULL,
   `Address` VARCHAR(100) NULL,

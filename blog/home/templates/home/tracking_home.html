@@ -325,6 +325,27 @@
       }
       return null;
     }
+
+    function get_tracking_data() {
+
+          var user_id = readCookie('user_id');
+          console.log(user_id);
+
+          if(user_id == "") {
+             window.location.href = 'tracking';
+          }
+
+           console.log("Creating form for tracking");
+           document.write('<form method="Post" id="user_id_form" action="get_tracking_by_user_id">');
+            document.write('<input type="hidden"  name="csrfmiddlewaretoken" value="{{ csrf_token }}" >');
+            var value = "value="+user_id+" >'"
+            document.write('<input type="hidden"  name="user_id" ' + value);
+            document.write('</form>');
+            document.getElementById('user_id_form').submit();
+     }
+
+
+
     /*
     erase a cookie
     */
@@ -337,7 +358,6 @@
      eraseCookie("tracking_id");
      DeleteAllCookies();
      eraseCookie("Destination");
-     eraseCookie("csrftoken");
      eraseCookie("Total");
      eraseCookie("Store");
      eraseCookie("gsScrollPos-794");
@@ -404,8 +424,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                
-                <!--- Search Bar --->
+
+
                 <form action="/home/search.html" type="get">
                     <select id="drop_down_filter" name="drop_down_filter">
                         <option value="Categories">Categories</option>
@@ -419,13 +439,13 @@
                     <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
                         <button id="search_submit" type="submit">Go</button>
                         </form>
-                
+
                 <li class="nav-item" style="">
                     <a class="nav-link" href="/admin">Admin Page</a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link" href="tracking_home">Tracking</a>
+                    <a class="nav-link" onclick="get_tracking_data()">Tracking</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact_us">Contact</a>
@@ -434,11 +454,11 @@
                     <a class="nav-link" href="shoppingcart">
                         <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
                             </a>
-                    
+
                 </li>
-                
+
                 <li class="nav-item dropdown">
-                    
+
                     <script type="text/javascript">
                         if(readCookie("username") != "" && readCookie("username") != null){
                             var name = readCookie("username");
@@ -453,7 +473,7 @@
                         document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
                         // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
                     }
-                    
+
                         </script>
                 </li>
             </ul>
@@ -470,28 +490,51 @@
     </form>
 
 </div>
+  <table width="100%" style="margin-top:20px;">
+  <tr>
+    <th>Tracking number</th>
 
+    <th>Order date time</th>
+    <th>Track</th>
+  </tr>
 
+    {% for item in track_list %}
+
+     <tr>
+    <td>{{item.trackID}}</td>
+
+    <td>{{item.time}}</td>
+    <td>
+      <form method="Post" action="tracking_home">
+        {% csrf_token%}
+        <button style="margin-top:20px;" type="submit" class="btn btn-primary" value='{{item.trackID}}' name="tracking_number" > Track </button>
+        </form>
+    </td>
+  </tr>
+        {% endfor %}
+</table>
     <script type="text/javascript">
       var tracking_number_temp = readCookie("tracking_number");
-      
-      
-      if(tracking_number_temp != null) {
-        console.log(array_track)
-        var array_track = tracking_number_temp.split(',');
-        console.log(array_track)
-        document.write('<div style="margin-top:30px;">');
-        for(var i = 0; i < array_track.length;i++) {
-          var button = array_track[i];
-          if(button != "") {
-             var d= "{% csrf_token%}";
-         // alert(array_track[i]);
-          document.write('<form method="Post" action="tracking_home">');
-          document.write(d);
-          document.write('<button style="margin-top:20px;" type="submit" class="btn btn-primary" value='+button+' name="tracking_number" >Click on tracking number '+button+'</button>');
-          document.write('</form>');
-          }
-         
+      var track_list_temp = readCookie("track_list");
+
+      console.log(track_list_temp);
+
+      // if(tracking_number_temp != null) {
+      //   console.log(array_track)
+      //   var array_track = tracking_number_temp.split(',');
+      //   console.log(array_track)
+      //   document.write('<div style="margin-top:30px;">');
+      //   for(var i = 0; i < array_track.length;i++) {
+      //     var button = array_track[i];
+      //     if(button != "") {
+      //        var d= "{% csrf_token%}";
+      //    // alert(array_track[i]);
+      //     document.write('<form method="Post" action="tracking_home">');
+      //     document.write(d);
+      //     document.write('<button style="margin-top:20px;" type="submit" class="btn btn-primary" value='+button+' name="tracking_number" >Click on tracking number '+button+'</button>');
+      //     document.write('</form>');
+      //     }
+
         }
         document.write('</div>');
       } else {

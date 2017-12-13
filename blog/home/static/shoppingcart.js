@@ -119,9 +119,9 @@ function changeCheckout(color) {
     else {
         button[0].style.backgroundColor = "#82ca9c";
         button[0].setAttribute("href", "../home/creditcard");
-        
+
     }
-    
+
 }
 function parseIndex(id) {
     var index = id.replace(/^\D+|\D+$/g, "");
@@ -173,45 +173,45 @@ function getProductList() {
         var ul = document.createElement("ul");
         ul.className = 'cartWrap' + " " + i;
         document.getElementById("myCart").appendChild(ul);
-        
+
         var li = document.createElement("li");
         li.className = 'items';
         ul.appendChild(li);
-        
+
         var div = document.createElement("div");
         div.id = "info-wrap";
         li.appendChild(div);
-        
+
         var div1 = document.createElement("div");
         div1.id = "cart-section";
         div.appendChild(div1);
-        
+
         var img = document.createElement("img");
         img.src = imgSrc[i];
         img.className = "itemImg";
         div1.appendChild(img);
-        
+
         var div5 = document.createElement("div");
         div5.className = "prodinfo-container";
         div1.appendChild(div5);
-        
+
         var p = document.createElement("p");
         p.className = "item-weight";
         p.innerHTML = "Product Weight: " + itemWeight[i] + "lbs";
         div5.appendChild(p);
-        
-        var h3 = document.createElement("h3");
-        h3.innerHTML = itemName[i];
-        div5.appendChild(h3);
-        
+
+        // var h3 = document.createElement("h3");
+        // h3.innerHTML = itemName[i];
+        // div5.appendChild(h3);
+
         var div4 = document.createElement("div");
         div4.id = 'pContainer';
         div5.appendChild(div4);
-        
+
         var p2 = document.createElement("p");
         p2.className = "qty-price";
         div4.appendChild(p2);
-        
+
         var inp = document.createElement("input");
         inp.type = "number";
         inp.className = "qty";
@@ -220,14 +220,14 @@ function getProductList() {
         inp.max = totalQty[i];
         inp.value = itemQty[i];
         p2.appendChild(inp);
-        
-        
+
+
         var p3 = document.createElement("p");
         p3.className = "qty-price";
         p3.id = "qtyPrice";
         p3.innerText = " x $" + itemPrice[i];
         div4.appendChild(p3);
-        
+
         var p4 = document.createElement("p");
         p4.className = "stock-status";
         var status = stockChecker(i, itemQty[i]);
@@ -239,24 +239,24 @@ function getProductList() {
             p4.style.color = '#ee2323';
         }
         div4.appendChild(p4);
-        
+
         var div2 = document.createElement("div");
         div2.id = "prodTotal";
         div.appendChild(div2);
-        
+
         var p5 = document.createElement("p");
         p5.className = "prodTotalCalc";
         p5.id = "pTotal";
-        
+
         var sc = document.createElement("script");
         sc.innerText = "getProductTotal(" + i + ");";
         p5.appendChild(sc);
         div2.appendChild(p5);
-        
+
         var button = document.createElement('button');
         button.className = 'delete-item';
         div2.appendChild(button);
-        
+
         var div3 = document.createElement("div");
         div3.style.clear = 'both';
         div.appendChild(div3);
@@ -333,7 +333,7 @@ $(document).on('click', '.checkout', function() {
                });
 
 $(document).on('click', '.goback', function() {
-               
+
                createCookie("MainCookie", newItems, 1);
                setCookie(totalPrice, 7);
                //alert(getCookie("Total"));
@@ -346,7 +346,7 @@ $(document).on('click', 'a', function() {
                createCookie(deleteItems[i], "", -1);
                }
                }
-               
+
                });
 $(document).on('click', '.delete-item', function() {
                var parent = $(this).parent().parent().parent().parent();
@@ -373,7 +373,7 @@ function deleteUpdate(index) {
     getFinalTotal();
     getWeight();
     checkCookie();
-    
+
 }
 
 function createCookie(name,value,days)

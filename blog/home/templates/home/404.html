@@ -32,7 +32,7 @@
     margin-left: -4px;
 }
 #search_submit:hover{
-    
+
     background: #333;
     transition: all 0.40s;
 }
@@ -84,21 +84,21 @@ function getFilter() {
     </script>
 
 <script>
-    
+
     /*
      Creates a new cookies or updates an old one when you click on the add to cart button
      Also updates the MainCookie to include this cookie we just added
      */
 function openWindow(obj, name, cost, weight, quantity, image)
 {
-    
+
     var result = document.getElementById(name).value //recieves the input value for how many of that item we want to add to the cart
     document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
     console.log("Clicked on the button"); //check to make sure that this function is working
     if(result > 0) //make sure that you have given a quantity for that item
     {
         obj.style.background = 'green'; //change the color of the button to green to confirm that it submitted
-        
+
         //creating the new cookie for that item
         var oldCookie = readCookie(name);
         if (oldCookie != "") //check to see if you have a previous cookie with this name
@@ -113,29 +113,29 @@ function openWindow(obj, name, cost, weight, quantity, image)
                 var amount = array[0]; //receive the amount that you previously have for that item
                 var newCookie = createCookie(name, (Number(result) + Number(amount)) + "," + cost + "," + weight + "," + quantity + "," + image, 1); //add the current amount with the previous value to update the total amount of items you want to purchase
             }
-            
+
         }
         else {
             var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
         }
-        
+
         //updating the MainCookie
         var oldMainCookie = readCookie("MainCookie"); //retrieves the MainCookie
         if (oldMainCookie != "" && oldMainCookie != null) //checks if it is currently empty
         {
-            
+
             var list = oldMainCookie; //if it is not empty, store the previous value into list
             if(list.indexOf(name) == -1) //check to see if the item already exists in the list
             {
                 list += name + ","; //if it does not exist, add it into the list
                 var newCookie = createCookie("MainCookie",list, 1); //update the MainCookie with the new value
             }
-            
+
         }
         else {
             var MainCookie = createCookie("MainCookie", name + ",", 1); //if it is empty, creates a new MainCookie with the new item stored into it
         }
-        
+
         var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
         var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
         alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
@@ -151,7 +151,7 @@ function openWindow(obj, name, cost, weight, quantity, image)
  */
 function ShowAllCookies()
 {
-    
+
     var MainCookie = readCookie("MainCookie"); //read the MainCookie
     if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
     {
@@ -162,7 +162,7 @@ function ShowAllCookies()
         {
             message += array[i] + ": " + readCookie(array[i]) + "\n";
         }
-        
+
     }
     alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
 }
@@ -177,7 +177,7 @@ function ShowAllImages()
     {
         var array = MainCookie.split(","); //split that result and turn it into an array with all the items
         var message = "";
-        
+
         //for each item in the array of the MainCookie
         for (var i = 0; i < array.length-1; i++)
         {
@@ -185,7 +185,7 @@ function ShowAllImages()
             var innerArray = currentCookie.split(","); //split it by the commas
             message += array[i] + ": " + innerArray[4] + "\n"; //grab the URL in position 4 of the array for this cookie
         }
-        
+
     }
     alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
 }
@@ -200,7 +200,7 @@ function ShowAllCurrentTotal()
     {
         var array = MainCookie.split(","); //split that result and turn it into an array with all the items
         var message = "";
-        
+
         //for each item in the array of the MainCookie
         for (var i = 0; i < array.length-1; i++)
         {
@@ -208,7 +208,7 @@ function ShowAllCurrentTotal()
             var innerArray = currentCookie.split(","); //split it by the commas
             message += array[i] + ": " + innerArray[0] + "\n"; //grab the current count in position 0 of the array for this cookie
         }
-        
+
     }
     alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
 }
@@ -223,7 +223,7 @@ function ShowAllQuantities()
     {
         var array = MainCookie.split(","); //split that result and turn it into an array with all the items
         var message = "";
-        
+
         //for each item in the array of the MainCookie
         for (var i = 0; i < array.length-1; i++)
         {
@@ -231,7 +231,7 @@ function ShowAllQuantities()
             var innerArray = currentCookie.split(","); //split it by the commas
             message += array[i] + ": " + innerArray[3] + "\n"; //grab the total amount in the database in position 3 of the array for this cookie
         }
-        
+
     }
     alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
 }
@@ -246,7 +246,7 @@ function ShowAllWeights()
     {
         var array = MainCookie.split(","); //split that result and turn it into an array with all the items
         var message = "";
-        
+
         //for each item in the array of the MainCookie
         for (var i = 0; i < array.length-1; i++)
         {
@@ -254,7 +254,7 @@ function ShowAllWeights()
             var innerArray = currentCookie.split(","); //split it by the commas
             message += array[i] + ": " + innerArray[2] + "\n"; //grab the weight per item in position 2 of the array for this cookie
         }
-        
+
     }
     alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
 }
@@ -270,7 +270,7 @@ function ShowAllCosts()
     {
         var array = MainCookie.split(","); //split that result and turn it into an array with all the items
         var message = "";
-        
+
         //for each item in the array of the MainCookie
         for (var i = 0; i < array.length-1; i++)
         {
@@ -278,7 +278,7 @@ function ShowAllCosts()
             var innerArray = currentCookie.split(","); //split it by the commas
             message += array[i] + ": " + innerArray[1] + "\n"; //grab the cost per item in position 1 of the array for this cookie
         }
-        
+
     }
     alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
 }
@@ -288,19 +288,19 @@ function ShowAllCosts()
  */
 function DeleteAllCookies()
 {
-    
+
     var MainCookie = readCookie("MainCookie"); //read the MainCookie
     if (MainCookie != "" && MainCookie != null)
     {
         var array = MainCookie.split(","); //split that result and turn it into an array with all the items
-        
+
         //for each item in the array of the MainCookie
         for (var i = 0; i < array.length-1; i++)
         {
             eraseCookie(array[i]); //delete that item
         }
         createCookie("MainCookie", "", 1); //reset the MainCookie
-        
+
     }
     alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
 }
@@ -355,39 +355,38 @@ function logout() {
     eraseCookie("tracking_id");
     DeleteAllCookies();
     eraseCookie("Destination");
-    eraseCookie("csrftoken");
     eraseCookie("Total");
     eraseCookie("Store");
     eraseCookie("gsScrollPos-794");
     eraseCookie("tracking_number");
-    
+
     window.location.href = '/home/';
-    
+
 }
 
     </script>
 
 
 <html lang="en">
-    
+
     <head>
-        
+
         <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                 <meta name="description" content="">
                     <meta name="author" content="">
-                        
+
                         <title>Group 1 Grocery Delivery</title>
-                        
+
                         <!-- Bootstrap core CSS -->
                         <link href="../../static/bootstrap.min.css" rel="stylesheet">
-                            
+
                             <!-- Custom styles for this template -->
                             <link href="../../static/modern-business.css" rel="stylesheet">
-                                
-                                
-                                
-                                
+
+
+
+
                                 </head>
     <!-- Navigation -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -398,7 +397,7 @@ function logout() {
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    
+
                     <!--- Search Bar --->
                     <form action="/home/search.html" type="get">
                         <select id="drop_down_filter" name="drop_down_filter">
@@ -411,11 +410,11 @@ function logout() {
                         <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
                             <button id="search_submit" type="submit">Go</button>
                             </form>
-                    
+
                     <li class="nav-item" style="">
                         <a class="nav-link" href="http://127.0.0.1:8000/admin/">Admin Page</a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="/home/tracking_home">Tracking</a>
                     </li>
@@ -426,11 +425,11 @@ function logout() {
                         <a class="nav-link" href="/home/shoppingcart">
                             <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
                                 </a>
-                        
+
                     </li>
-                    
+
                     <li class="nav-item dropdown">
-                        
+
                         <script type="text/javascript">
                             if(readCookie("username") != "" && readCookie("username") != null){
                                 var name = readCookie("username");
@@ -444,24 +443,24 @@ function logout() {
                             document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
                             // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
                         }
-                        
+
                             </script>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    
+
     <!-- Page Content -->
     <div class="container">
-        
+
         <h3 align="left" class="my-4">Uh Oh! This page does not exist. Take some other recommended pages!</h3>
-        
+
         <!-- /.row -->
-        
+
         <!-- Portfolio Section -->
         <!-- <h2>Featured Products</h2> -->
-        
+
         <div class="row">
             <div class="col-lg-4 mb-4">
                 <div class="card h-100">
@@ -522,7 +521,7 @@ function logout() {
         <hr>
     </div>
     <!-- /.container -->
-    
+
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">
@@ -530,14 +529,13 @@ function logout() {
         </div>
         <!-- /.container -->
     </footer>
-    
+
     <!-- Bootstrap core JavaScript -->
-    
+
     <script src="../../static/jquery.min.js"></script>
     <script src="../../static/popper.min.js"></script>
     <script src="../../static/bootstrap.min.js"></script>
-    
-    </body>
-    
-</html>
 
+    </body>
+
+</html>

@@ -355,7 +355,6 @@ function logout() {
  eraseCookie("tracking_id");
  DeleteAllCookies();
  eraseCookie("Destination");
- eraseCookie("csrftoken");
  eraseCookie("Total");
  eraseCookie("Store");
  eraseCookie("gsScrollPos-794");
@@ -397,7 +396,7 @@ function logout() {
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    
+
                     <!--- Search Bar --->
                     <form action="/home/search.html" type="get">
                         <select id="drop_down_filter" name="drop_down_filter">
@@ -412,11 +411,11 @@ function logout() {
                         <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
                             <button id="search_submit" type="submit">Go</button>
                             </form>
-                    
+
                     <li class="nav-item" style="">
                         <a class="nav-link" href="/admin/">Admin Page</a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="tracking_home">Tracking</a>
                     </li>
@@ -427,11 +426,11 @@ function logout() {
                         <a class="nav-link" href="shoppingcart">
                             <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
                                 </a>
-                        
+
                     </li>
-                    
+
                     <li class="nav-item dropdown">
-                        
+
                         <script type="text/javascript">
                             if(readCookie("username") != "" && readCookie("username") != null){
                                 var name = readCookie("username");
@@ -446,7 +445,7 @@ function logout() {
                             document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
                             // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
                         }
-                        
+
                             </script>
                     </li>
                 </ul>

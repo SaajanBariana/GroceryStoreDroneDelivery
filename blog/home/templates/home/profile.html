@@ -41,9 +41,7 @@ function logout() {
     eraseCookie("username");
     eraseCookie("email");
     eraseCookie("tracking_id");
-    
     eraseCookie("Destination");
-    eraseCookie("csrftoken");
     eraseCookie("Total");
     eraseCookie("Store");
     eraseCookie("gsScrollPos-794");
@@ -52,7 +50,7 @@ function logout() {
 function check_login_for_payment() {
     // alert("This works");
     if(readCookie("user_id") != null) {
-        
+
         document.getElementById('username_id').value=readCookie("user_id");
     } else {
         //alert("No cookes found line at 133 in profile.html")
@@ -86,14 +84,14 @@ if (readCookie("username") != "" && readCookie("username") != null) {
 <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-           
+
             <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    
+
                     <!--- Search Bar --->
                     <form action="/home/search.html" type="get">
                         <select id="drop_down_filter" name="drop_down_filter">
@@ -108,11 +106,11 @@ if (readCookie("username") != "" && readCookie("username") != null) {
                         <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
                             <button id="search_submit" type="submit">Go</button>
                             </form>
-                    
+
                     <li class="nav-item" style="">
                         <a class="nav-link" href="/admin/">Admin Page</a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="/home/tracking_home">Tracking</a>
                     </li>
@@ -123,11 +121,11 @@ if (readCookie("username") != "" && readCookie("username") != null) {
                         <a class="nav-link" href="/home/shoppingcart">
                             <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
                                 </a>
-                        
+
                     </li>
-                    
+
                     <li class="nav-item dropdown">
-                        
+
                         <script type="text/javascript">
                             if(readCookie("username") != "" && readCookie("username") != null){
                                 var name = readCookie("username");
@@ -142,7 +140,7 @@ if (readCookie("username") != "" && readCookie("username") != null) {
                             document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
                             // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
                         }
-                        
+
                             </script>
                     </li>
                 </ul>
@@ -157,14 +155,14 @@ if (readCookie("username") != "" && readCookie("username") != null) {
                 <li class="dash">
                     <button class="dashbtn">My Account</button>
                 </li>
-                
+
             </ul>
         </div>
         <div class="right-container">
             <div class="content-container">
                 <!--Needs to get name from backend -->
                 <h3 class="name-title">Overview</h3>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="editbutton">Edit</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="editbutton" onclick="loadProfileInfo()">Edit</button>
                 <div style="clear: both;"></div>
                 <p class="desc">From your dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.</p>
                 <div class="column-wrapper">
@@ -254,7 +252,7 @@ if (readCookie("username") != "" && readCookie("username") != null) {
                         </div>
                         <div class="form-group">
                             <label for="user-info-name" class="form-control-label">Credit Card Number:</label>
-                            <input type="text" class="form-control" id="number-cc" name="number-cc">
+                            <input type="text" class="form-control" id="number-cc" name="number-cc" maxlength="16">
                         </div>
                         <div class="form-group">
                             <label for="user-info-name" class="form-control-label">CCV:</label>

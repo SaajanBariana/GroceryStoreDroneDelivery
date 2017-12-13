@@ -68,13 +68,17 @@ function setCookie() {
         var b = document.getElementById("city-addr");
         var c = document.getElementById("zip-addr");
         var d = document.getElementById("state-addr");
-        var e = a.value + ", " + b.value + ", " + d.value + ", " + c.value;
+        var e = a.value + " , " + b.value + " , " + d.value + " , " + c.value;
         createCookie('address', e,1);
     }
     var test = document.getElementById("name-cc");
     if(test.value.length > 0) {
-        var f = document.getElementById("number-cc");
-        createCookie('card', f.value, 1);
+        var f = document.getElementById("zip-cc");
+        var g = document.getElementById("number-cc");
+        var h = document.getElementById("ccv-cc");
+        var i = document.getElementById("exp-cc");
+        var j = test.value + "," + f.value + "," + g.value + "," + h.value + "," + i.value;
+        createCookie('CreditInfo', j, 1);
     }
 }
 
@@ -91,15 +95,65 @@ function loadAddress() {
 
 
 function loadNumber() {
-    var cookies = readCookie('card');
+    var cookies = readCookie('CreditInfo');
     if (cookies != null) {
+        var items = cookies.split(',');
         var a = document.getElementsByTagName("ul");
         var b = document.createElement("p");
         b.className = "userInfo";
-        var number = readCookie('card');
+        var number = items[2];
         number = number.substring(number.length-4, number.length);
         b.innerText = "**** **** **** " +  number;
         a[3].appendChild(b);
+    }
+}
+function loadProfileInfo() {
+    var usr_name = readCookie('username');
+    var node = document.getElementById('user-name-addr');
+    node.value = usr_name;
+    var addressInfo = readCookie('address')
+    if (addressInfo != null){
+        var elements = addressInfo.split(' , ');
+        var temp = elements[0];
+        node = document.getElementById('street-addr');
+        node.value = temp;
+        dict['street-addr'][0] = 0;
+        temp = elements[1];
+        node = document.getElementById('city-addr');
+        node.value = temp;
+        dict['city-addr'][0] = 0;
+        temp = elements[2];
+        node = document.getElementById('state-addr');
+        node.value = temp;
+        dict['state-addr'][0] = 0;
+        temp = elements[3];
+        node = document.getElementById('zip-addr');
+        node.value = temp;
+        dict['zip-addr'][0] = 0;
+    }
+    var CreditInfo = readCookie('CreditInfo');
+    if (CreditInfo != null) {
+        var elements = CreditInfo.split(',');
+        var temp = elements[0];
+        node = document.getElementById('name-cc');
+        node.value = temp;
+        dict['name-cc'][0] = 0;
+        temp = elements[1];
+        node = document.getElementById('zip-cc');
+        node.value = temp;
+        dict['zip-cc'][0] = 0;
+        temp = elements[2];
+        node = document.getElementById('number-cc');
+        node.value = temp;
+        dict['number-cc'][0] = 0;
+        temp = elements[3];
+        node = document.getElementById('ccv-cc');
+        node.value = temp;
+        dict['ccv-cc'][0] = 0;
+        temp = elements[4];
+        node = document.getElementById('exp-cc');
+        node.value = temp;
+        dict['exp-cc'][0] = 0;
     }
 }
 
@@ -112,14 +166,14 @@ $(document).ready(function(){
                                   var submitBtn = document.getElementsByClassName('btn-primary');
                                   // Save current value of element
                                   elem.data('oldVal', elem.val());
-                                  
+
                                   // Look for changes in the value
                                   elem.bind("propertychange change click keyup input paste", function(event){
                                             // If value has changed...
                                             if (elem.data('oldVal') != elem.val()) {
                                             // Updated stored value
                                             elem.data('oldVal', elem.val());
-                                            
+
                                             // Do action
                                             if(id == 'user-name-addr' || id == 'name-cc' || id == 'city-addr') {
                                             flag = checkValue(translation, elem[0].value);
@@ -134,14 +188,13 @@ $(document).ready(function(){
                                             flag = checkValue(translation, elem[0].value);
                                             }
                                             else if (id == 'number-cc') {
-                                            if (elem[0].value.length == 19) {
+                                            if (elem[0].value.length == 16) {
                                             if (!valid_credit_card(elem[0].value)) {
                                             flag = 1;
                                             }
+                                            else {
+                                                flag = 0;
                                             }
-                                            else if (elem[0].value.length == 20) {
-                                            elem[0].value = elem[0].value.substring(0, elem[0].value.length-1);
-                                            flag = checkValue(translation, elem[0].value);
                                             }
                                             }
                                             else if (id =='ccv-cc') {
@@ -211,13 +264,19 @@ function errorMessage(input, id, type) {
             p.innerText = 'CCV only contains 3 digit numbers';
         }
         else if (input == 'exp'){
-            p.innerText = 'Format: MM/YY';
+            p.innerText = 'Format: MMYYYY \n Card Expired';
         }
         id.appendChild(p);
     }
     else {
-        var child = id.children[2];
-        id.removeChild(child);
+        if(input == 'exp') {
+            var child = id.children[3];
+            id.removeChild(child);
+        }
+        else {
+            var child = id.children[2];
+            id.removeChild(child);
+        }
     }
 }
 
@@ -239,8 +298,19 @@ function checkValue(input, value) {
         }
     }
     else if (input == 'exp') {
-        if (/^(0[1-9]|1[0-2])\/\d{2}$/.test(value) == false) {
+        var d = new Date();
+        if (/^(0[1-9]|1[0-2])\d{4}$/.test(value) == false) {
             flag = 1;
+        }
+        else if (value.substring(2,value.length) < d.getFullYear()){
+            flag = 1;
+        }
+        else {
+            if(value.substring(2,value.length) == d.getFullYear()) {
+                if(value.substring(0,2) < d.getMonth()) {
+                    flag = 1;
+                }
+            }
         }
     }
     else if (input == 'ccv') {
@@ -256,33 +326,25 @@ function checkValue(input, value) {
     return flag;
 }
 
-$(document).ready(function(){
-                  $('#number-cc').on('keypress change', function () {
-                                     $(this).val(function (index, value) {
-                                                 return value.replace(/[^0-9]/g, "").replace(/\W/gi, '').replace(/(.{4})/g, '$1 ');
-                                                 });
-                                     });
-                  });
-
 function valid_credit_card(value) {
     // accept only digits, dashes or spaces
     if (/[^0-9-\s]+/.test(value)) return false;
-    
+
     // The Luhn Algorithm. It's so pretty.
     var nCheck = 0, nDigit = 0, bEven = false;
     value = value.replace(/\D/g, "");
-    
+
     for (var n = value.length - 1; n >= 0; n--) {
         var cDigit = value.charAt(n),
         nDigit = parseInt(cDigit, 10);
-        
+
         if (bEven) {
             if ((nDigit *= 2) > 9) nDigit -= 9;
         }
-        
+
         nCheck += nDigit;
         bEven = !bEven;
     }
-    
+
     return (nCheck % 10) == 0;
 }

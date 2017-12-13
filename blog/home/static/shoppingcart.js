@@ -1,314 +1,40 @@
-var totalPrice;
-var itemQty = [];
-var itemName = [];
-var imgSrc = [];
-var itemWeight = [];
-var itemPrice = [];
-var totalQty = [];
-var deleteItems = [];
-
-function getProductTotal(index) {
-    var docNodes = document.getElementsByClassName("qty");
-    //var index = document.getElementById("getProdTotal").innerHTML;
-    var value = docNodes[index].value;
-    docNodes = document.getElementsByClassName("qty-price");
-    if(index == 0) {
-        docNodes = docNodes[1];
-    }
-    else {
-        docNodes = docNodes[1+(index*2)];
-    }
-    var priceText = docNodes.innerText;
-    priceText = priceText.replace(/^\D+|\D+$/g, "");
-    var dollar = "$";
-    var total = priceText * value;
-    total = total.toFixed(2);
-    dollar += total;
-    var pTotal = document.getElementsByClassName("prodTotalCalc");
-    pTotal[index].innerText = dollar;
-    return total
+var dict = {
+    'user-name-addr': [1, 0],
+    'street-addr': [1,0],
+    'city-addr': [1,0],
+    'zip-addr': [1,0],
+    'state-addr': [1,0],
+    'name-cc': [1, 0],
+    'zip-cc': [1, 0],
+    'number-cc': [1, 0],
+    'ccv-cc': [1, 0],
+    'exp-cc': [1, 0]
 }
-
-function getSubTotal() {
-    var prodNodes = document.getElementsByClassName("prodTotalCalc");
-    var len = prodNodes.length;
-    var acc = 0;
-    var dollar = "$";
-    for(i = 0; i < len; i++) {
-        var value = prodNodes[i].innerText;
-        value = value.substr(1);
-        value = parseFloat(value);
-        var temp = acc;
-        acc = temp + value;
-    }
-    var z = acc.toFixed(2);
-    dollar += z;
-    var pNode = document.getElementsByClassName("value");
-    pNode[0].innerText = dollar;
-    return z;
+var translate = {
+    'user-name-addr': 'name',
+    'street-addr': 'street',
+    'city-addr': 'name',
+    'zip-addr': 'zip',
+    'state-addr': 'state',
+    'name-cc': 'name',
+    'zip-cc': 'zip',
+    'number-cc': 'ccnumber',
+    'ccv-cc': 'ccv',
+    'exp-cc': 'exp'
 }
-function getTax() {
-    var subTotal = getSubTotal();
-    var tax = subTotal * .09;
-    var pNode = document.getElementsByClassName("value");
-    var z = tax.toFixed(2);
-    var dollar = "$";
-    dollar += z;
-    pNode[2].innerText = dollar;
-    return z;
-}
-function getFinalTotal() {
-    var pNodes = document.getElementsByClassName("value");
-    var len = pNodes.length;
-    var acc = 0;
-    var dollar = "$"
-    for(i = 0; i < len - 1; i++) {
-        var value = pNodes[i].innerText;
-        value = value.substr(1);
-        value = parseFloat(value);
-        acc = acc + value;
-    }
-    var z = acc.toFixed(2);
-    totalPrice = z;
-    dollar += z;
-    var pNode = document.getElementsByClassName("value");
-    pNode[3].innerText = dollar;
-    return z;
-}
-function getWeight(value) {
-    var weightNode = document.getElementsByClassName("item-weight");
-    var len = weightNode.length;
-    var acc = 0;
-    for(i = 0; i < len; i++) {
-        var text = weightNode[i].innerText;
-        var weight = text.replace(/^\D+|\D+$/g, "");
-        weight = parseFloat(weight);
-        var docNodes = document.getElementsByClassName("qty");
-        var value = docNodes[i].value;
-        value = parseFloat(value);
-        weight = weight * value;
-        acc += weight;
-    }
-    var string = acc + " lbs";
-    var pWeight = document.getElementById("weight");
-    var inText = pWeight.innerText;
-    inText = inText.replace(/^\D+|\D+$/g, "");
-    pWeight.innerText = string;
-    var button = document.getElementsByClassName("checkout");
-    if(acc <= 15) {
-        if (inText > 15) {
-            changeCheckout("green");
-        }
-        pWeight.style.color = '#82ca9c';
-    }
-    else {
-        if (inText <= 15) {
-            changeCheckout("grey");
-        }
-        pWeight.style.color = '#ee2323';
-    }
-    return acc;
-}
-
-function changeCheckout(color) {
-    var button = document.getElementsByClassName("checkout");
-    if (color == "grey") {
-        button[0].style.backgroundColor = "#a19c9a";
-        button[0].setAttribute("href", "javascript: void(0)");
-    }
-    else {
-        button[0].style.backgroundColor = "#82ca9c";
-        button[0].setAttribute("href", "../home/creditcard");
-        
-    }
-    
-}
-function parseIndex(id) {
-    var index = id.replace(/^\D+|\D+$/g, "");
-    index = parseInt(index);
-    return index;
-}
-
-function changeValue(id, values) {
-    var docNodes = document.getElementsByClassName("qty");
-    docNodes[id].setAttribute("value", values);
-    docNodes[id].value = values;
-}
-
-$(document).on('change', 'input', function() {
-               var index = parseIndex(event.target.id);
-               var value = $(this).val();
-               if (parseInt(value) > parseInt(totalQty[index])) {
-               value = totalQty[index];
-               }
-               var status = stockChecker(index, value);
-               var node = document.getElementsByClassName('stock-status');
-               if (status == 'out of stock') {
-               node[index].style.color = '#ee2323';
-               node[index].innerText = 'out of stock';
-               }
-               else {
-               node[index].style.color = '#82ca9c';
-               node[index].innerText = 'in stock';
-               }
-               updateItemCookie(index, value);
-               changeValue(index, value);
-               getProductTotal(index);
-               getSubTotal();
-               getTax();
-               getFinalTotal();
-               getWeight();
-               });
-function updateItemCookie(index, value) {
-    var cookie = readCookie(itemName[index]);
-    if (cookie != "" && cookie != null) //check if that Cookie is empty
+function createCookie(name,value,days)
+{
+    if (days)
     {
-        //alert("MainCookie: " + MainCookie);
-        var array = cookie.split(",");
-        createCookie(itemName[index], value + ',' + array[1] + ',' + array[2] + ',' + array[3] + ',' + array[4], 1);
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+        var expires = "; expires=" + date.toGMTString();
     }
-}
-function getProductList() {
-    for(i = 0; i < itemName.length-1; i++) {
-        var ul = document.createElement("ul");
-        ul.className = 'cartWrap' + " " + i;
-        document.getElementById("myCart").appendChild(ul);
-        
-        var li = document.createElement("li");
-        li.className = 'items';
-        ul.appendChild(li);
-        
-        var div = document.createElement("div");
-        div.id = "info-wrap";
-        li.appendChild(div);
-        
-        var div1 = document.createElement("div");
-        div1.id = "cart-section";
-        div.appendChild(div1);
-        
-        var img = document.createElement("img");
-        img.src = imgSrc[i];
-        img.className = "itemImg";
-        div1.appendChild(img);
-        
-        var div5 = document.createElement("div");
-        div5.className = "prodinfo-container";
-        div1.appendChild(div5);
-        
-        var p = document.createElement("p");
-        p.className = "item-weight";
-        p.innerHTML = "Product Weight: " + itemWeight[i] + "lbs";
-        div5.appendChild(p);
-        
-        var h3 = document.createElement("h3");
-        h3.innerHTML = itemName[i];
-        div5.appendChild(h3);
-        
-        var div4 = document.createElement("div");
-        div4.id = 'pContainer';
-        div5.appendChild(div4);
-        
-        var p2 = document.createElement("p");
-        p2.className = "qty-price";
-        div4.appendChild(p2);
-        
-        var inp = document.createElement("input");
-        inp.type = "number";
-        inp.className = "qty";
-        inp.id = "qtyIn " + i;
-        inp.min = 1;
-        inp.max = totalQty[i];
-        inp.value = itemQty[i];
-        p2.appendChild(inp);
-        
-        
-        var p3 = document.createElement("p");
-        p3.className = "qty-price";
-        p3.id = "qtyPrice";
-        p3.innerText = " x $" + itemPrice[i];
-        div4.appendChild(p3);
-        
-        var p4 = document.createElement("p");
-        p4.className = "stock-status";
-        var status = stockChecker(i, itemQty[i]);
-        p4.innerText = status;
-        if (status == 'in stock') {
-            p4.style.color = '#82ca9c';
-        }
-        else {
-            p4.style.color = '#ee2323';
-        }
-        div4.appendChild(p4);
-        
-        var div2 = document.createElement("div");
-        div2.id = "prodTotal";
-        div.appendChild(div2);
-        
-        var p5 = document.createElement("p");
-        p5.className = "prodTotalCalc";
-        p5.id = "pTotal";
-        
-        var sc = document.createElement("script");
-        sc.innerText = "getProductTotal(" + i + ");";
-        p5.appendChild(sc);
-        div2.appendChild(p5);
-        
-        var button = document.createElement('button');
-        button.className = 'delete-item';
-        div2.appendChild(button);
-        
-        var div3 = document.createElement("div");
-        div3.style.clear = 'both';
-        div.appendChild(div3);
-    }
-}
-
-function stockChecker(index, value) {
-    var status = "out of stock";
-    var inventory = totalQty[index];
-    if (parseInt(inventory)>parseInt(value)){
-        status = "in stock";
-    }
-    return status;
-}
-function parseMainCookie() {
-    var MainCookie = readCookie("MainCookie");
-    if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
+    else
     {
-        //alert("MainCookie: " + MainCookie);
-        var array = MainCookie.split(","); //split that result and turn it into an array with all the items
-        itemName = array;                  //put array into global array
-        for (var i = 0; i < array.length-1; i++)
-        {
-            var targetCookie = readCookie(array[i]);    //retrieve each cookie in string format
-            if (targetCookie != null || targetCookie != "")
-            {
-                targetCookie = targetCookie.split(',');     //split element into array
-                itemQty.push(targetCookie[0]);               //this is amt customer want
-                itemPrice.push(targetCookie[1]);
-                itemWeight.push(targetCookie[2]);
-                totalQty.push(targetCookie[3]);
-                imgSrc.push(targetCookie[4]);
-            }
-            //alert("Current cookie being read\nQty: " + itemQty[i] + "\nPrice: " + itemPrice[i] + "\nWeight: " + itemWeight[i] + "\nTotal Quantity: " + totalQty[i] + "\nImages: " + imgSrc[i] );
-        }
+        var expires = "";
     }
-    else {
-        changeCheckout('grey');
-    }
-}
-
-function setCookie(cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = "Total" + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    return decodedCookie;
+    document.cookie = name + "=" + value + expires + "; path=/";
 }
 
 function readCookie(name) {
@@ -325,85 +51,296 @@ function readCookie(name) {
     }
     return null;
 }
+function getEmail() {
+    var a = readCookie('email');
+    var b = document.getElementById('usrEmail');
+    b.innerText = a;
+}
+function getUsername() {
+    var a = readCookie('name');
+    var b = document.getElementById('usrInfo');
+    b.innerText = a;
+}
+function setCookie() {
+    var test = document.getElementById("user-name-addr");
+    if(test.value.length >0) {
+        var a = document.getElementById("street-addr");
+        var b = document.getElementById("city-addr");
+        var c = document.getElementById("zip-addr");
+        var d = document.getElementById("state-addr");
+        var e = a.value + ", " + b.value + ", " + d.value + ", " + c.value;
+        createCookie('address', e,1);
+    }
+    var test = document.getElementById("name-cc");
+    if(test.value.length > 0) {
+        var f = document.getElementById("number-cc");
+        createCookie('card', f.value, 1);
+    }
+}
 
-$(document).on('click', '.checkout', function() {
-               setCookie(totalPrice, 7);
-               //alert(getCookie("Total"));
-               console.log(getCookie("Total"));
-               });
+function loadAddress() {
+    var cookies = readCookie('address');
+    if (cookies != null) {
+        var a = document.getElementsByTagName("ul");
+        var b = document.createElement("p");
+        b.className = 'userInfo';
+        b.innerText = cookies;
+        a[2].appendChild(b);
+    }
+}
 
-$(document).on('click', '.goback', function() {
-               
-               createCookie("MainCookie", newItems, 1);
-               setCookie(totalPrice, 7);
-               //alert(getCookie("Total"));
-               console.log(getCookie("Total"));
-               });
 
-$(document).on('click', 'a', function() {
-               if (deleteItems.length >0){
-               for (var i = 0; i < deleteItems.length; i++) {
-               createCookie(deleteItems[i], "", -1);
-               }
-               }
-               
-               });
-$(document).on('click', '.delete-item', function() {
-               var parent = $(this).parent().parent().parent().parent();
-               var cart = parent.parent();
-               var index = parseInt(parent[0].className.replace ( /[^\d.]/g, '' ));
-               cart[0].removeChild(parent[0]);
-               deleteUpdate(index);
-               });
+function loadNumber() {
+    var cookies = readCookie('CreditInfo');
+    if (cookies != null) {
+        var items = cookies.split(',');
+        var a = document.getElementsByTagName("ul");
+        var b = document.createElement("p");
+        b.className = "userInfo";
+        var number = items[2];
+        number = number.substring(number.length-4, number.length);
+        b.innerText = "**** **** **** " +  number;
+        a[3].appendChild(b);
+    }
+}
+function loadProfileInfo() {
+    var usr_name = readCookie('username');
+    var node = document.getElementById('user-name-addr');
+    node.value = usr_name;
+    var addressInfo = readCookie('address')
+    if (addressInfo != null){
+        var elements = addressInfo.split(',');
+        var temp = elements[0];
+        node = document.getElementById('street-addr');
+        node.value = temp;
+        dict['street-addr'][0] = 1;
+        temp = elements[1];
+        node = document.getElementById('city-addr');
+        node.value = temp;
+        dict['city-addr'][0] = 1;
+        temp = elements[2];
+        node = document.getElementById('state-addr');
+        node.value = temp;
+        dict['state-addr'][0] = 1;
+        temp = elements[3];
+        node = document.getElementById('zip-addr');
+        node.value = temp;
+        dict['zip-addr'][0] = 1;
+    }
+    var CreditInfo = readCookie('CreditInfo');
+    if (CreditInfo != null) {
+        var elements = addressInfo.split(',');
+        var temp = elements[0];
+        node = document.getElementById('name-cc');
+        node.value = temp;
+        dict['name-cc'][0] = 1;
+        temp = elements[1];
+        node = document.getElementById('zip-cc');
+        node.value = temp;
+        dict['zip-cc'][0] = 1;
+        temp = elements[2];
+        node = document.getElementById('number-cc');
+        node.value = temp;
+        dict['number-cc'][0] = 1;
+        temp = elements[3];
+        node = document.getElementById('ccv-cc');
+        node.value = temp;
+        dict['ccv-cc'][0] = 1;
+        temp = elements[4];
+        node = document.getElementById('exp-cc');
+        node.value = temp;
+        dict['exp-cc'][0] = 1;
+    }
+}
 
-function deleteUpdate(index) {
-    deleteItems[deleteItems.length] = itemName[index];
-    createCookie(itemName[index], "", -1);
-    console.log(
-                [itemQty.splice(index, 1),
-                 itemName.splice(index, 1),
-                 imgSrc.splice(index,1),
-                 itemWeight.splice(index,1),
-                 itemPrice.splice(index,1),
-                 totalQty.splice(index,1)]
-                );
-    createCookie("MainCookie", itemName.join(), 1);
-    getSubTotal();
-    getTax();
-    getFinalTotal();
-    getWeight();
-    checkCookie();
+$(document).ready(function(){
+                  $("input").each(function() {
+                                  var elem = $(this);
+                                  var flag = 1;
+                                  var id = elem[0].id;
+                                  var translation = translate[id];
+                                  var submitBtn = document.getElementsByClassName('btn-primary');
+                                  // Save current value of element
+                                  elem.data('oldVal', elem.val());
+                                  
+                                  // Look for changes in the value
+                                  elem.bind("propertychange change click keyup input paste", function(event){
+                                            // If value has changed...
+                                            if (elem.data('oldVal') != elem.val()) {
+                                            // Updated stored value
+                                            elem.data('oldVal', elem.val());
+                                            
+                                            // Do action
+                                            if(id == 'user-name-addr' || id == 'name-cc' || id == 'city-addr') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if(id == 'street-addr') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if (id == 'zip-addr' || id == 'zip-cc') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if (id == 'state-addr') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if (id == 'number-cc') {
+                                            if (elem[0].value.length == 16) {
+                                            if (!valid_credit_card(elem[0].value)) {
+                                            flag = 1;
+                                            }
+                                            else {
+                                                flag = 0;
+                                            }
+                                            }
+                                            }
+                                            else if (id =='ccv-cc') {
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            else if (id == 'exp-cc'){
+                                            flag = checkValue(translation, elem[0].value);
+                                            }
+                                            }
+                                            if (flag == 1) {
+                                            submitBtn[1].disabled = true;
+                                            submitBtn[1].style.backgroundColor = '#beddff';
+                                            submitBtn[1].style.borderColor = '#beddff';
+                                            elem[0].style.border = '2px solid red';
+                                            dict[id][0] = 1;
+                                            if(dict[id][1] == 0) {
+                                            errorMessage(translation, elem.parent()[0], 1);
+                                            dict[id][1] = 1;
+                                            }
+                                            }
+                                            else {
+                                            if (dict[id][1] == 1) {
+                                            errorMessage(translation, elem.parent()[0], 0);
+                                            dict[id][1] = 0;
+                                            }
+                                            dict[id][0] = 0;
+                                            elem[0].style.border = "";
+                                            }
+                                            var isComplete = 0;
+                                            for (let key in dict) {
+                                            let val = dict[key][0];
+                                            if (val == 1) {
+                                            isComplete = 1;
+                                            }
+                                            }
+                                            if (isComplete == 0) {
+                                            submitBtn[1].disabled = false;
+                                            submitBtn[1].style.backgroundColor = '#007bff';
+                                            submitBtn[1].style.borderColor = '#007bff';
+                                            }
+                                            });
+                                  });
+                  });
+
+function errorMessage(input, id, type) {
+    if (type == 1) {
+        var p = document.createElement('p');
+        p.className = 'errorText';
+        p.id = 'child';
+        p.align = 'left';
+        if (input == 'street') {
+            p.innerText = 'Please enter a valid street address. Format: #### Name Street.';
+        }
+        else if (input == 'name') {
+            p.innerText = 'That is not a real name';
+        }
+        else if (input == 'state') {
+            p.innerText = 'Format: CA, NV, etc...';
+        }
+        else if (input == 'zip') {
+            p.innerText = 'Please enter a valid zip code. Format: 11111';
+        }
+        else if (input == 'ccnumber') {
+            p.innerText = 'Please enter a valid credit card number.';
+        }
+        else if (input == 'ccv') {
+            p.innerText = 'CCV only contains 3 digit numbers';
+        }
+        else if (input == 'exp'){
+            p.innerText = 'Format: MMYYYY \n Card Expired';
+        }
+        id.appendChild(p);
+    }
+    else {
+        if(input == 'exp'){
+            var child = id.children[3];
+            id.removeChild(child);
+        }
+        else {
+            var child = id.children[2];
+            id.removeChild(child);
+        }
+    }
+}
+
+function checkValue(input, value) {
+    var flag = 0;
+    if (input == "state"){
+        if (/^[A-Za-z]{2}$/.test(value) == false) {
+            flag = 1;
+        }
+    }
+    else if (input == 'name') {
+        if (/\d/.test(value) == true) {
+            flag = 1;
+        }
+    }
+    else if (input == 'zip') {
+        if (/^[0-9]{5}?$/.test(value) == false) {
+            flag = 1;
+        }
+    }
+    else if (input == 'exp') {
+        var d = new Date();
+        if (/^(0[1-9]|1[0-2])\d{4}$/.test(value) == false) {
+            flag = 1;
+        }
+        else if (value.substring(2,value.length) < d.getFullYear()){
+            flag = 1;
+        }
+        else {
+            if(value.substring(2,value.length) == d.getFullYear()) {
+                if(value.substring(0,2) < d.getMonth()) {
+                    flag = 1;
+                }
+            }
+        }
+    }
+    else if (input == 'ccv') {
+        if (/^[0-9]{3}?$/.test(value) == false) {
+            flag = 1;
+        }
+    }
+    else if (input == 'street') {
+        if (/^\s*\S+(?:\s+\S+){2}/.test(value) == false) {
+            flag = 1;
+        }
+    }
+    return flag;
+}
+
+function valid_credit_card(value) {
+    // accept only digits, dashes or spaces
+    if (/[^0-9-\s]+/.test(value)) return false;
     
-}
-
-function createCookie(name,value,days)
-{
-    if (days)
-    {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
-        var expires = "; expires=" + date.toGMTString();
+    // The Luhn Algorithm. It's so pretty.
+    var nCheck = 0, nDigit = 0, bEven = false;
+    value = value.replace(/\D/g, "");
+    
+    for (var n = value.length - 1; n >= 0; n--) {
+        var cDigit = value.charAt(n),
+        nDigit = parseInt(cDigit, 10);
+        
+        if (bEven) {
+            if ((nDigit *= 2) > 9) nDigit -= 9;
+        }
+        
+        nCheck += nDigit;
+        bEven = !bEven;
     }
-    else
-    {
-        var expires = "";
-    }
-    document.cookie = name + "=" + value + expires + "; path=/";
+    
+    return (nCheck % 10) == 0;
 }
-function checkCookie() {
-    var MainCookie = readCookie("MainCookie");
-    if (MainCookie == "") {
-        changeCheckout('grey');
-    }
-}
-// function checkAmountOfItems()
-// {
-//   var MainCookie = readCookie("MainCookie");
-//   if(MainCookie != "" and MainCookie != null)
-//   {
-//     window.location.href = '/home/creditcard';
-//   }
-//   else {
-//     alert("No items currently in the cart");
-//   }
-// }

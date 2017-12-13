@@ -68,13 +68,17 @@ function setCookie() {
         var b = document.getElementById("city-addr");
         var c = document.getElementById("zip-addr");
         var d = document.getElementById("state-addr");
-        var e = a.value + ", " + b.value + ", " + d.value + ", " + c.value;
+        var e = a.value + " , " + b.value + " , " + d.value + " , " + c.value;
         createCookie('address', e,1);
     }
     var test = document.getElementById("name-cc");
     if(test.value.length > 0) {
-        var f = document.getElementById("number-cc");
-        createCookie('card', f.value, 1);
+        var f = document.getElementById("zip-cc");
+        var g = document.getElementById("number-cc");
+        var h = document.getElementById("ccv-cc");
+        var i = document.getElementById("exp-cc");
+        var j = test.value + "," + f.value + "," + g.value + "," + h.value + "," + i.value;
+        createCookie('CreditInfo', j, 1);
     }
 }
 
@@ -109,23 +113,23 @@ function loadProfileInfo() {
     node.value = usr_name;
     var addressInfo = readCookie('address')
     if (addressInfo != null){
-        var elements = addressInfo.split(',');
+        var elements = addressInfo.split(' , ');
         var temp = elements[0];
         node = document.getElementById('street-addr');
         node.value = temp;
-        dict['street-addr'][0] = 1;
+        dict['street-addr'][0] = 0;
         temp = elements[1];
         node = document.getElementById('city-addr');
         node.value = temp;
-        dict['city-addr'][0] = 1;
+        dict['city-addr'][0] = 0;
         temp = elements[2];
         node = document.getElementById('state-addr');
         node.value = temp;
-        dict['state-addr'][0] = 1;
+        dict['state-addr'][0] = 0;
         temp = elements[3];
         node = document.getElementById('zip-addr');
         node.value = temp;
-        dict['zip-addr'][0] = 1;
+        dict['zip-addr'][0] = 0;
     }
     var CreditInfo = readCookie('CreditInfo');
     if (CreditInfo != null) {
@@ -133,23 +137,23 @@ function loadProfileInfo() {
         var temp = elements[0];
         node = document.getElementById('name-cc');
         node.value = temp;
-        dict['name-cc'][0] = 1;
+        dict['name-cc'][0] = 0;
         temp = elements[1];
         node = document.getElementById('zip-cc');
         node.value = temp;
-        dict['zip-cc'][0] = 1;
+        dict['zip-cc'][0] = 0;
         temp = elements[2];
         node = document.getElementById('number-cc');
         node.value = temp;
-        dict['number-cc'][0] = 1;
+        dict['number-cc'][0] = 0;
         temp = elements[3];
         node = document.getElementById('ccv-cc');
         node.value = temp;
-        dict['ccv-cc'][0] = 1;
+        dict['ccv-cc'][0] = 0;
         temp = elements[4];
         node = document.getElementById('exp-cc');
         node.value = temp;
-        dict['exp-cc'][0] = 1;
+        dict['exp-cc'][0] = 0;
     }
 }
 
@@ -260,13 +264,19 @@ function errorMessage(input, id, type) {
             p.innerText = 'CCV only contains 3 digit numbers';
         }
         else if (input == 'exp'){
-            p.innerText = 'Format: MM/YY';
+            p.innerText = 'Format: MMYYYY \n Card Expired';
         }
         id.appendChild(p);
     }
     else {
-        var child = id.children[2];
-        id.removeChild(child);
+        if(input == 'exp') {
+            var child = id.children[3];
+            id.removeChild(child);
+        }
+        else {
+            var child = id.children[2];
+            id.removeChild(child);
+        }
     }
 }
 
@@ -288,8 +298,19 @@ function checkValue(input, value) {
         }
     }
     else if (input == 'exp') {
-        if (/^(0[1-9]|1[0-2])\/\d{2}$/.test(value) == false) {
+        var d = new Date();
+        if (/^(0[1-9]|1[0-2])\d{4}$/.test(value) == false) {
             flag = 1;
+        }
+        else if (value.substring(2,value.length) < d.getFullYear()){
+            flag = 1;
+        }
+        else {
+            if(value.substring(2,value.length) == d.getFullYear()) {
+                if(value.substring(0,2) < d.getMonth()) {
+                    flag = 1;
+                }
+            }
         }
     }
     else if (input == 'ccv') {

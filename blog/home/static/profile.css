@@ -104,11 +104,11 @@ ul{
     margin-bottom: 1em;
     text-transform: uppercase;
 }
-.dashbtn:hover {
-    transition: all 0.2s linear;
-    background-color: #333;
-    color: #FFFFFF;
-}
+/*.dashbtn:hover {*/
+/*    transition: all 0.2s linear;*/
+/*    background-color: #333;*/
+/*    color: #FFFFFF;*/
+/*}*/
 .btn-logout {
     margin-top:2em;
     padding: 10px;
@@ -117,10 +117,10 @@ ul{
     color: #FFFFFF;
     border:none;
 }
-.btn-logout:hover {
-    transition: all 0.2s linear;
-    background-color: #94d9e6
-}
+/*.btn-logout:hover {*/
+/*    transition: all 0.2s linear;*/
+/*    background-color: #94d9e6*/
+/*}*/
 .right-container {
     display: table-cell;
     float: right;
@@ -187,10 +187,10 @@ ul{
     background: #f5f5f5;
     padding: 0;
 }
-.info-title:hover {
-    transition: all 0.2s linear;
-    color: #94d9e6;
-}
+/*.info-title:hover {*/
+/*    transition: all 0.2s linear;*/
+/*    color: #94d9e6;*/
+/*}*/
 .column-wrapper {
     margin-bottom: 30px;
 }
@@ -226,7 +226,14 @@ button:focus {
 #editbutton:focus {
     outline: 0;
 }
-.
+:-webkit-autofill {
+    animation-name: onAutoFillStart;
+    transition: background-color 50000s ease-in-out 0s;
+}
+:not(:-webkit-autofill) {
+    animation-name: onAutoFillCancel;
+}
+
 /*
 .pheader-container {
     padding-top: 5em;

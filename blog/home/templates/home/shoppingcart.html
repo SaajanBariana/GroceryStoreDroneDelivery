@@ -128,7 +128,7 @@
 
         var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
         var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
-        alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
+       // alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
       }
       else {
         obj.style.background = 'red'; //if the value of the input is 0, set the color of the button to red
@@ -152,7 +152,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
+      //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
     }
     /*
     Display the URL for the items' pictures
@@ -173,7 +173,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
+      //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
     }
     /*
     Display the total amount of items you have selected
@@ -194,7 +194,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
+      //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
     }
     /*
     Display the total amount of each item that is curently available in the Database
@@ -215,7 +215,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
     }
     /*
     Display all the weights per Item
@@ -236,7 +236,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
+      //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
     }
     /*
     Display all the costs for each item
@@ -257,7 +257,7 @@
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
     }
     /*
     delete all of the cookies currently held by MainCookie while also removing them from MainCookie
@@ -277,7 +277,7 @@
         createCookie("MainCookie", "", 1); //reset the MainCookie
 
       }
-      alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+     // alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
     }
     /*
     creates a cookie with a given name, a value, and a number of days that it is active for
@@ -384,7 +384,7 @@
         </form>
 
         <li class="nav-item" style="">
-          <a class="nav-link" href="http://127.0.0.1:8000/admin/">Admin Page</a>
+          <a class="nav-link" href="/admin/">Admin Page</a>
         </li>
 
         <li class="nav-item">
@@ -407,6 +407,7 @@
                   var name = readCookie("username");
                   document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + name + '</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
                   // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
+                  document.write(' <a class="dropdown-item" href="/home/profile">Profile</a>');
                   document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
                 //  document.write('</div></li>');
                 }

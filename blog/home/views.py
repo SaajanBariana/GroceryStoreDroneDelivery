@@ -13,23 +13,49 @@ from rest_framework.response import Response
 import MySQLdb
 import time
 import pymysql
+from six.moves import input
 
-dbpswd = "9872476129Mm"
+import urllib.request
+import json
+
+# f = open('../blog/SQLSetup.txt', "r")
+# usernameLine = f.readline()
+# usernameArray = usernameLine.split(":")
+# SQL_username = str(usernameArray[1]).strip()
+# if SQL_username.startswith("\"") and SQL_username.endswith("\""):
+#     SQL_username = SQL_username[1:len(SQL_username) - 1]
+SQL_username = str(input("What is your MySQL username: "))
+SQL_username = SQL_username.strip();
+# passwordLine = f.readline()
+# passwordArray = passwordLine.split(":")
+# # SQL_password = str(passwordArray[1]).strip()
+# if SQL_password.startswith("\"") and SQL_password.endswith("\""):
+#     SQL_password = SQL_password[1:len(SQL_password) - 1]
+SQL_password = str(input("What is your MySQL password: "))
+SQL_password = SQL_password.strip()
+f = open('../blog/SQLSetup.txt', "w")
+f.write(SQL_username + "\n")
+f.write(SQL_password)
+
+f.close()
+
+dbuser = SQL_username
+dbpswd = SQL_password
 tracking_number=[]
-tracking_number_string=""
+tracking_number_string = []
 
 
 
 def get_item():
     items = []
-    db = MySQLdb.connect(host="localhost", user="root", passwd= dbpswd, db="grocery_store")   # name of the database
+    db = MySQLdb.connect(host="localhost", user=dbuser, passwd= dbpswd, db="grocery_store")   # name of the database
 
     cur = db.cursor() # creates a cursor to execute queries
 
     cur.execute("SELECT * FROM Items")
     for row in cur.fetchall():
         if (row[4] > 0):
-            item = {"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
+            item = {"itemID": str(row[0]),"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
             items.append(item)
     
     db.close()
@@ -75,7 +101,8 @@ def index(request):
 
         elif(tuple_response[0] == "2"):
             card = tuple_response[1][5]+","+tuple_response[1][6] +","+tuple_response[1][7]+","+tuple_response[1][8]+","+tuple_response[1][9]
-            print("string - >"+tracking_number_string)
+            
+            delete = "yes"
             context = {
                 'username': tuple_response[1][0],
                 'u_id':tuple_response[1][1],
@@ -84,9 +111,11 @@ def index(request):
                 'address':tuple_response[1][4],
                 'payment':card,
                 'tracking_number':tracking_number_string,
+                'deleteCookies' : delete,
                 "items" : items
 
             }
+           
             template = loader.get_template('home/index.html')
             #return HttpResponse(template.render(context, request))
             response = HttpResponse(template.render(context, request))
@@ -121,8 +150,17 @@ def hiSaajan(request):
         message.append("Number: " + str(row[0]) + " Name: " + str(row[1]) + " Weight: " + str(row[2]) + " Cost: " + str(row[3]) + " Quantity: " + str(row[4]) + " Description: " + str(row[5]) + "\n")
     return HttpResponse(message)
 
+def handle404(request, somethingElse):
+    template = loader.get_template('home/404.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+
+
+
+
 def get_user_info_from_db(username,password):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
     #query = 'SELECT name,userid,email  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
     #query = 'select u.name,u.userid,u.email,u.token,t.destination from tracking t left join register_user u on t.user_id = u.userid where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
@@ -139,7 +177,7 @@ def get_user_info_from_db(username,password):
     return result
 
 def get_user_login_result_from_db(username,password):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
     query = 'SELECT name,userid,email  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
     #query = 'select u.name,u.userid,u.email,u.token,t.destination from tracking t left join register_user u on t.user_id = u.userid where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
@@ -155,6 +193,12 @@ def get_user_login_result_from_db(username,password):
     conn.close()
 
     return name
+
+# this function will return all tracking information related to given id
+def get_track_record_for_id(user_id):
+    query = 'select track_id,status,last_update from tracking_update where user_id= "' + str(user_id) + '"'
+    print('get_track_record_for_id() ............... ')
+    return select_track_query(query)
 
 def login_controller(request):
     username = request.POST['Username']
@@ -172,20 +216,26 @@ def login_controller(request):
         else:
             return ("1",result)
     else:
-        track_id = result_from_1st[1]
-        query = 'select track_id from tracking where user_id= "' + str(track_id) + '"'
-        print(query)
-        result = select_track_query(query)
-        if(result[0] == "1"):
-            tracking_number = result[1]
-            tracking_number_string = ','.join(map(str, tracking_number)) 
-            print(tracking_number)
-            print(tracking_number_string)
+        user_id = result_from_1st[1]
+        query = 'select track_id from tracking where user_id= "' + str(user_id) + '"'
+        print('login_controller() ---------- getting track package data')
+        #result = select_track_query(query)
+        
+        # if(result[0] == "1"):
+        #     tracking_number = result[1]
+        #     tracking_number_string = ','.join(map(str, tracking_number)) 
+        #     print(tracking_number)
+        #     print("-----------------------------")
+        #     print(tracking_number_string)
+        tracking_number_string = get_track_record_for_id(str(user_id))[1]
+        print('printing full array ------------')
+        
         return ("2",result_from_1st)
     
 
-# Login controller if request is login then
 
+
+# This method will handle sign up part and insert usr info in db
 def sign_up_controller(request):
     email = request.POST['email']
     t_email = email
@@ -205,10 +255,12 @@ def sign_up_controller(request):
 
         #first_person = Person.objects.raw("SELECT * FROM register_user where userid = 'username' ")[0]
 
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
 
-    #query = 'SELECT name  FROM register_user where email = "' + str(username) +  '" AND password = "' + str(password) + '"'
+#    query = 'SELECT name  FROM register_user where email = "' + str(email) +  '" '
+
+
     query = "INSERT INTO register_user (name,email,password,token) VALUES ( " + name +","+ email +","+ password+","+ token + ")"
     #return HttpResponse(query)
 
@@ -234,26 +286,76 @@ def sign_up_controller(request):
 
     return response
 
+    # This method will check which store is close to destination and then set that address
+def set_startpoint(des):
+    
+    key = 'AIzaSyCq3WKK9u3RkP7UMDwh4_UWtz6h_PIoK3Q'
+    destination= des.replace(' ','+')
+
+    san_mateo_store="100 S San Mateo Dr, San Mateo, CA 94401".replace(' ','+')
+    san_Jose_store="907 N 9th st ,San Jose, CA 95112".replace(' ','+') 
+    
+   
+    url1 = "https://maps.googleapis.com/maps/api/directions/json?origin="+san_mateo_store+"&destination="+destination+"&key=" + key 
+    url2 = "https://maps.googleapis.com/maps/api/directions/json?origin="+san_Jose_store+"&destination="+destination+"&key=" + key
+    
+    response = urllib.request.urlopen(url1).read()
+    result = json.loads(response)
+    result = result['routes'][0]['legs'][0]['distance']['value']
+
+    response = urllib.request.urlopen(url2).read()
+    result1 = json.loads(response)
+    result1 = result1['routes'][0]['legs'][0]['distance']['value']
+    
+    print('Distance from ' +san_Jose_store+ ' to ' + destination + " : ",  result1)
+    print('Distance from ' +san_mateo_store+ ' to ' + destination + " : ",  result)
+
+    if(result1 > result):
+       
+        return ", '37.564749', '37.564749', '-122.325749', '-122.325749', '0' )"
+    else:
+       
+        return ", '37.357740', '37.357740', '-121.894369', '-121.894369', '0' )"
+
+
+def get_tracking_by_user_id(request):
+    if request.method == 'POST':
+
+         if(request.POST['user_id'] != ""):
+            user_id = request.POST['user_id']
+            data = get_track_record_for_id(str(user_id))[1]
+            template = loader.get_template('home/tracking_home.html')
+            context = {"track_list":data}
+            return HttpResponse(template.render(context, request))
+           
+
+    else:
+        template = loader.get_template('home/tracking_home.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
+
 
 def tracking_home(request):
 
     # render simple static page
-
+    
 
     if request.method == 'POST':
 
          if(request.POST['tracking_number'] != ""):
-            if(tracking_controller(request)[0] == "1"): # if no error mean is 1 then return that result
-                result_set = tracking_controller(request)[1];
+            tracking_result = tracking_controller(request.POST['tracking_number'])
+            if(tracking_result[0] == "1"): # if no error mean is 1 then return that result
+                result_set = tracking_result[1];
                 template = loader.get_template('home/tracking.html')
                 context = {"destination":result_set[0],
                 "current_lang":result_set[1],
                 "current_lat":result_set[2],
                 "status":result_set[5],
                 "track_id":result_set[6],
+                "time_stamp":result_set[6],
                 }
 
-                update_tracking_record(str(result_set[6]))
+                #update_tracking_record(str(result_set[6]))
                 #return HttpResponse("Not valid tracking number")
                 return HttpResponse(template.render(context, request))
                
@@ -281,15 +383,15 @@ def tracking_home(request):
 #request will contain post request from tracking page
 # check tracking number with database
 #
-def tracking_controller(request):
-    tracking_number = request.POST['tracking_number']
+def tracking_controller(tracking_number):
+    
 
         #first_person = Person.objects.raw("SELECT * FROM register_user where userid = 'username' ")[0]
 
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
 
-    query = 'SELECT destination,current_lat,current_long,start_lat,start_long,status,track_id  FROM tracking_update where track_id = "' + str(tracking_number) +  '" '
+    query = 'SELECT destination,current_lat,current_long,start_lat,start_long,status,track_id,last_update  FROM tracking_update where track_id = "' + str(tracking_number) +  '" '
     #return HttpResponse(query)
     cur.execute(query)
 
@@ -314,7 +416,7 @@ def tracking_controller(request):
 #update tracking table 
 # take tracking number as argument
 def update_tracking_record(tracking_num):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()   
     query = 'UPDATE `grocery_store`.`tracking_update` SET `status`=1 WHERE `track_id`='+tracking_num+';'
     #return HttpResponse(query)
@@ -377,7 +479,7 @@ def navigation_bar(request):
     return HttpResponse(template.render(context, request))
 #for run insert,update statment
 def update_tracking_database(query):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
     try:
         cur.execute(query)
@@ -412,15 +514,15 @@ def creditcard(request):
                 Street_Name = request.POST['Street_Name']
                 destination = Street_Name
                 StreetName = "'" + Street_Name + "'"
-                City = request.POST['City']
-                destination =  destination + " , " + City
-                City =  "'" + City + "'"
-                State = request.POST['State']
-                destination = destination + " , " + State
-                State = "'" + State + "'"
-                Zip_Code = request.POST['Zip_Code']
-                destination = destination + " , " + Zip_Code
-                Zip_Code = "'" + Zip_Code + "'"
+                # City = request.POST['City']
+                # destination =  destination + " , " + City
+                # City =  "'" + City + "'"
+                # State = request.POST['State']
+                # destination = destination + " , " + State
+                # State = "'" + State + "'"
+                # Zip_Code = request.POST['Zip_Code']
+                # destination = destination + " , " + Zip_Code
+                # Zip_Code = "'" + Zip_Code + "'"
                 StoreID = request.POST['user_id']
                 ExpirationDate = request.POST['exp_date']
 
@@ -446,7 +548,10 @@ def creditcard(request):
             print(result2)
 
             if(result2[0] == "1"):
-                query_temp = ", '37.324240', '37.324240', '-121.882652', '-121.882652', '0' )"
+                query_temp = set_startpoint(destination)
+                if(query_temp == None):
+                    query_temp = ", '37.324240', '37.324240', '-121.882652', '-121.882652', '0' )"
+
                 query = 'INSERT INTO `grocery_store`.`tracking_update` (`track_id`, `user_id`, `destination`, `current_lat`, `start_lat`, `current_long`, `start_long`, `status`) VALUES ("' + ran + '", "' + user_id+ '", "' + destination + '" ' + query_temp
                 result3 = update_tracking_database(query)
                 if(result3[0]  == 0):
@@ -458,7 +563,7 @@ def creditcard(request):
            
 
             template = loader.get_template('home/index.html')
-            context = {"tracking_id" : ran}
+            context = {"tracking_id" : ran, "deleteCookies" : "yes"}
             return HttpResponse(template.render(context, request))
     elif request.method == 'GET':
         return HttpResponse(template.render(context, request))
@@ -468,33 +573,32 @@ def creditcard(request):
 
 
 def confirmation(request):
-    template = loader.get_template('home/confirmation.html')
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
-    cur = conn.cursor()
+    print('Alert from tracking')
+    update_tracking_record(request.POST['tracking_number'])
 
-    ran = (str(int(time.time())))
-    query = "INSERT INTO tracking (track_id, ) VALUES (" + ran +  ")"
-    try:
-        cur.execute(query)
-        conn.commit()
-        response = ("1",UserID)
+    tracking_result = tracking_controller(request.POST['tracking_number'])
+    
+    if(tracking_result[0] == "1"): # if no error mean is 1 then return that result
+        result_set = tracking_result[1];
+        template = loader.get_template('home/tracking.html')
+        context = {"destination":result_set[0],
+                "current_lang":result_set[1],
+                "current_lat":result_set[2],
+                "status":result_set[5],
+                "track_id":result_set[6],
+                "time_stamp":result_set[6],
+        }
 
-    except Exception as e:
-        response = ("0",e)
-        #raise
-    items = [];
-    i = 0
-    cur.execute("SELECT * FROM tracking")
-    for row in cur.fetchall():
-        items.append(("name" + str(i), str(row[4])))
-        i = i + 1
-
-    context = dict(items)
-    # return HttpResponse(template.render(context, request))
-    return HttpResponse("Random Value: " + ran)
-
-
-
+                #update_tracking_record(str(result_set[6]))
+                #return HttpResponse("Not valid tracking number")
+        return HttpResponse(template.render(context, request))
+    
+    template = loader.get_template('home/index.html')
+    context = {}
+            #return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request))
+            #response.set_cookie('login_username', tuple_response[1])
+    
 
 
 def shoppingcart(request):
@@ -507,7 +611,7 @@ def shoppingcart(request):
 def search(request):
     if request.method == 'GET':
         # password1234 HelloThisIsAnAI
-        conn = pymysql.connect(host='localhost', port=3306, user='root', passwd= dbpswd, db='grocery_store')
+        conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd= dbpswd, db='grocery_store')
         cur = conn.cursor()
 
         # user_filter_choice = request.POST['drop_down_filter']
@@ -542,7 +646,7 @@ def search(request):
         """ Hello """
         for row in cur.fetchall():
             if(row[4] > 0):
-                item = {"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
+                item = {"itemID": str(row[0]),"name": str(row[1]), "weight": str(row[2]), "cost": str(row[3]), "quantity": str(row[4]), "tags": str(row[5]), "image": str(row[6]), "description": str(row[7])}
                 items.append(item)
 
         if(actual_input == ""):
@@ -574,7 +678,7 @@ def search(request):
 #
 
 def run_db_query(query):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
     try:
         cur.execute(query)
@@ -588,7 +692,8 @@ def run_db_query(query):
     return ret
 
 def select_track_query(query):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    print('select_track_query() ------------ getting data from tracking_update table')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
     try:
         cur.execute(query)
@@ -596,9 +701,11 @@ def select_track_query(query):
         ret = (1,"success")
         result = []
 
-        for r in cur:
-            print(r[0])
-            result.append(r[0])
+        for row in cur:
+            
+            item = {"trackID": str(row[0]),"status": str(row[1]), "time": str(row[2])}
+            
+            result.append(item)
         ret = ("1",result)
         cur.close()
         conn.close()
@@ -608,7 +715,7 @@ def select_track_query(query):
     return ret
 
 def select_db_query(query):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd=dbpswd, db='grocery_store')
+    conn = pymysql.connect(host='localhost', port=3306, user=dbuser, passwd=dbpswd, db='grocery_store')
     cur = conn.cursor()
     try:
         cur.execute(query)
@@ -631,29 +738,41 @@ def select_db_query(query):
 def profile(request):
     if request.method == 'POST':
         if (request.POST['update_type'] == "update"):
-            name = request.POST['name-addr']
-            street = request.POST['street-addr']
-            city = request.POST['city-addr']
-            zipcode = request.POST['zip-addr']
-            state = request.POST['state-addr']
-            c_name = request.POST['name-cc']
-            c_name = "'" + c_name+ "'"
-            c_zipcode = request.POST['zip-cc']
-            c_zipcode = "'" + c_zipcode+ "'"
             
-            c_cardnumber = request.POST['number-cc']
-            c_cardnumber = "'" + c_cardnumber+ "'"
+            user_id = -1;
+            try:
 
-            c_csv = request.POST['ccv-cc']
-            user_id = request.POST['user_id']
-            Expiration_Date = request.POST['exp-cc']
+                name = request.POST['name-addr']
+                street = request.POST['street-addr']
+                city = request.POST['city-addr']
+                zipcode = request.POST['zip-addr']
+                state = request.POST['state-addr']
+                c_name = request.POST['name-cc']
+                c_name = "'" + c_name+ "'"
+                c_zipcode = request.POST['zip-cc']
+                c_zipcode = "'" + c_zipcode+ "'"
+                
+                c_cardnumber = request.POST['number-cc']
+                c_cardnumber = "'" + c_cardnumber+ "'"
+
+                c_csv = request.POST['ccv-cc']
+                user_id = request.POST['user_id']
+                Expiration_Date = request.POST['exp-cc']
+            except Exception as e:
+                print(e)
 
             string = name +" , "+ street +" , "+ city +" , "+ zipcode +" , "+ state +" , "+ c_name +" , "+ c_zipcode +" , "+ c_cardnumber +" , "+ c_csv +" , "+ user_id
             address = street +" , "+ city +" , "+ zipcode +" , "+ state
             
-            query = 'select * from user_profile where user_id = "' + user_id + '"'
+            try:
+                val = int(user_id)
+                query = 'select * from user_profile where user_id = "' + user_id + '"'
 
-            select_result = select_db_query(query)
+                select_result = select_db_query(query)
+            except ValueError:
+                print("That's not an int!")
+
+                
 
             if(select_result[0] == "1" and select_result[1] != "" ):
 
@@ -699,6 +818,11 @@ def profile(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
-
+# this method get call when to update delivery status
+def update_delivery(request):
+    print('Ajax Request coming in python')
+    username = request.POST['username']
+    update_tracking_record('1511439120');
+    return JsonResponse(data)
 
 # Create your views here.

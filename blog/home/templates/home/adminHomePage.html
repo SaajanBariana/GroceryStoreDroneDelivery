@@ -1,4 +1,28 @@
 <!DOCTYPE html>
+<style>
+#item_table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#item_table td, #item_table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#item_table tr:nth-child(even){background-color: #f2f2f2; }
+
+#item_table tr:hover {background-color: #ddd;}
+
+#item_table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #5c6166;
+    color: white;
+}
+</style>
 <style type="text/css">
             #search_bar{
                 border: 1px solid #000000;
@@ -66,12 +90,119 @@
 <script src="../../static/popper.min.js"></script>
 <script src="../../static/bootstrap.min.js"></script>
 
+<script>
+    function checkAdmin()
+    {
+      var result = readCookie("admin");
+      console.log("RESULT: " + result);
+      if (result != "yes")
+      {
+        console.log("ON OTHER PAGE");
+        window.location.href = '/admin';
+      }
+    }
+
+    function getItems(){
+        var table = document.getElementById('item_table');
+        var itemArray = [];
+        var item = "";
+        for (var r = 1, n = table.rows.length; r < n; r++) { //Start r at 1, don't need table header values
+            // get updated table values
+            var id = table.rows[r].cells[0].innerText;
+            var name = table.rows[r].cells[1].innerText;
+            var weight = table.rows[r].cells[2].innerText;
+            var cost = table.rows[r].cells[3].innerText;
+            var quantity = table.rows[r].cells[4].innerText;
+            var category = table.rows[r].cells[5].innerText;
+            var url = table.rows[r].cells[6].innerText;
+            var desc = table.rows[r].cells[7].innerText;
+
+            // put item properties into an object to  put into array
+            //var item = {"name":name, "weight":weight, "cost":cost, "quantity": quantity,
+            //    "category":category, "url":url, "description":desc};
+            item += id+"<>"+name+"<>"+weight+"<>"+cost+"<>"+quantity+"<>"+category+"<>"+url+"<>"+desc+" , ";
+        }
+        document.getElementById('item_array').value = item;
+
+        setTimeout(function()
+        {
+
+        }, 1000);
+
+        window.location.href = '/home/admin/';
+
+    }
+
+    function deleting(id)
+    {
+        //<!--var deleteinput = document.getElementById("deleteinput");-->
+        //<!--deleteinput.value = id;-->
+        //<!--console.log("ID: " + deleteinput.value);-->
+        createCookie("Deleting", id, 1);
+    }
+
+    function refreshDelete()
+    {
+        <!--var deleteinput = document.getElementById("deleteinput");-->
+        <!--deleteinput.value = "";-->
+        eraseCookie("Deleting");
+
+    }
+
+    /*
+creates a cookie with a given name, a value, and a number of days that it is active for
+*/
+function createCookie(name,value,days)
+{
+  if (days)
+  {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+      var expires = "; expires=" + date.toGMTString();
+  }
+  else
+  {
+      var expires = "";
+  }
+  document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+/*
+recieve information from a cookie
+*/
+function readCookie(name)
+{
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') {
+          c = c.substring(1,c.length);
+      }
+      if (c.indexOf(nameEQ) == 0) {
+          return c.substring(nameEQ.length,c.length);
+      }
+  }
+  return null;
+}
+
+/*
+erase a cookie
+*/
+function eraseCookie(name)
+{
+  createCookie(name,"",-1);
+}
+
+
+</script>
+
 <script type="text/javascript">
     function toggleDropDown() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function(e) {
+    window.onclick = function(e){
   if (!e.target.matches('.dropbtn')) {
     var myDropdown = document.getElementById("myDropdown");
       if (myDropdown.classList.contains('show')) {
@@ -283,7 +414,7 @@
         createCookie("MainCookie", "", 1); //reset the MainCookie
 
       }
-      alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+      //alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
     }
     /*
     creates a cookie with a given name, a value, and a number of days that it is active for
@@ -324,15 +455,31 @@
     function eraseCookie(name){
       createCookie(name,"",-1);
     }
-    function logout() {
-     eraseCookie("username");
-     eraseCookie("email");
-     eraseCookie("tracking_id");
-     DeleteAllCookies();
+    function isNumberKey(evt)
+       {
+          var charCode = (evt.which) ? evt.which : evt.keyCode;
+          if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+             return false;
 
-      window.location.href = '/home/';
+          return true;
+       }
+       function logout() {
+        eraseCookie("username");
+        eraseCookie("email");
+        eraseCookie("tracking_id");
+        DeleteAllCookies();
+        eraseCookie("Destination");
+        
+        eraseCookie("Total");
+        eraseCookie("Store");
+        eraseCookie("gsScrollPos-794");
+        eraseCookie("tracking_number");
+        eraseCookie("admin");
 
-    }
+         window.location.href = '/home/';
+
+       }
 </script>
 
 <html lang="en">
@@ -344,7 +491,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Page</title>
+    <title>Group 1 Grocery Delivery</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../static/bootstrap.min.css" rel="stylesheet">
@@ -353,10 +500,28 @@
     <link href="../../static/modern-business.css" rel="stylesheet">
 
 
-
-
   </head>
-
+  <script>
+  function checkAdmin()
+  {
+    var result = readCookie("admin");
+    if (result != "yes")
+    {
+      window.location.href = '/admin';
+    }
+    eraseCookie("username");
+    eraseCookie("email");
+    eraseCookie("tracking_id");
+    DeleteAllCookies();
+    eraseCookie("Destination");
+    
+    eraseCookie("Total");
+    eraseCookie("Store");
+    eraseCookie("gsScrollPos-794");
+    eraseCookie("tracking_number");
+  }
+  checkAdmin();
+  </script>
   <!-- <body onload = "addElement()"> -->
 
     <!-- Navigation -->
@@ -371,6 +536,7 @@
         </script>
         {% endif %}
 
+
         {% if username %}
 
         <script type="text/javascript">
@@ -380,13 +546,14 @@
 
           createCookie("username", username_server, 365);
           createCookie("email", '{{email}}', 365);
+          alert(readCookie("username"));
 
         </script>
 
+
         {% endif %}
 
-          <a class="navbar-brand" href="/home/"> Admin Page</a>
-
+          <a class="navbar-brand" href="/admin/home">Admin Page</a>
 
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -394,201 +561,108 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
 
-            <!--- Search Bar --->
-             <form action="search.html" type="get">
-                 <select id="drop_down_filter" name="drop_down_filter">
-                     <option value="Categories">Categories</option>
-                     <option value="Fruit">Disgusting Fruit</option>
-                     <option value="Vegetable">Dirty Vegetables</option>
-                     <option value="Meat">Spoiled Meat</option>
-                     <option value="Dairy">Some Dairy</option>
-                 </select>
-                 <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
-                 <button id="search_submit" type="submit">Go</button>
-             </form>
-
-            <li class="nav-item" style="">
-              <a class="nav-link" >  </a>
-            </li>
-            <li class="nav-item" style="">
-              <a class="nav-link" >  </a>
-            </li>
-            <li class="nav-item" style="">
-              <a class="nav-link" >  </a>
-            </li>
-            <li class="nav-item" style="">
-              <a class="nav-link" >  </a>
-            </li>
-            <li class="nav-item" style="">
-              <a class="nav-link" >  </a>
-            </li>
-            <li class="nav-item" style="">
-              <a class="nav-link" >  </a>
-            </li>
-
-
-            <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Portfolio
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-              </div>
-            </li> -->
-
-
-
-
             <li class="nav-item dropdown">
 
                   <script type="text/javascript">
-                    if(readCookie("username") != "" && readCookie("username")  != null){
-                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                    if(readCookie("username") != "" && readCookie("username") != null){
+                      var name = readCookie("username");
+                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
                       // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
                       document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
                     //  document.write('</div></li>');
                     }
                     else {
-                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                      document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
+                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                      document.write(' <a class="dropdown-item" onclick="logout()" href="/home">Log Out</a>');
                       // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
                     }
 
-                  </script>
-
-          </li>
-
+              </script>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <!-- Add if statement here -->
 
-    <header>
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-          <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('http://www.dnc.ie/wp-content/uploads/2014/08/chopping-board1.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Wanna eat some pears and apples?</h3>
-              <p>WE GOT THAT</p>
-            </div>
-          </div>
-          <!-- Slide Two - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>We got some beans and some more apples</h3>
-              <p>You know you want them</p>
-            </div>
-          </div>
-          <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Ever tried chopping tomatoes and bellpeppers with wooden spoons?</h3>
-              <p>Me neither</p>
-            </div>
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
-    </header>
+
+
 
     <!-- Page Content -->
     <div class="container">
 
-      <h1 class="my-4">Welcome to Group 1's Grocery Service</h1>
+      <h1 class="my-4">Welcome to Group 1's Grocery Service Admin Page</h1>
 
-      <!-- Marketing Icons Section -->
-      <div class="row">
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Groceries</h4>
-            <div class="card-body">
-              <p class="card-text">Want some of the best groceries you've ever eaten? We got them all!! Click here!!!</p>Í
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Shipping</h4>
-            <div class="card-body">
-              <p class="card-text">We got some crazy shipping. We use DRONES!!!</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Registration</h4>
-            <div class="card-body">
-              <p class="card-text">Want us to store your credit card information? ;) Click here!!
-              white space
-            white space
-          white space white space
-        white space shhh, we are not here</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /.row -->
+      <body onload="refreshDelete()">
 
-      <!-- Portfolio Section -->
-      <h2>Featured Products</h2>
+<form action ="/admin/home" type ="post">
+  <div class = "row">
+    <p style="padding-top:10px; padding-right:30px; padding-left:15px;"> Once you have finished changing the data below, click this button:</p>
+    <button class="btn btn-primary" style="background-color: #167FFC; border-color: #167FFC "id = "click" href ="/admin/home" type="post" onclick="getItems()">Update Database</button>
+  </div>
+    <input id = "item_array" type ="hidden" name = "item_array" value = ""/>
+</form>
 
-      <div class="row">
-      {% for item in items %}
-          <div id = "item.name" class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-              <img class="card-img-top" src = "{{item.image}}">
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">{{item.name}}</a>
-                </h4>
-                <p> Cost : {{item.cost}} each</p>
-                <p> Weight : {{item.weight}} pounds </p>
-                <p> Amount Left : {{item.quantity}} </p>
-                <p> {{item.description}} </p>
-              </div>
-              <div class="card-footer">
-                <div>
-                  Quantity:
-                  <input id="{{item.name}}" type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 5em; height: 40px; font-size: 18px; padding-top = 100px" >
-                  <button class="btn btn-primary" onclick= "openWindow(this, '{{item.name}}', '{{item.cost}}', '{{item.weight}}', '{{item.quantity}}', '{{item.image}}')" >
-                    Add to Cart
-                </button>
-              </div>
 
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-      <!-- /.row -->
+
+<form action ="/admin/home" method ="post">
+  <div class = "row" style="width:100%; padding:10px; padding-left:15px;">
+    <input name="add_name_field"  type = "text" placeholder="Name" maxlength="95" style = " text-align: center; width: 15%; padding:10px; padding-right:5px;">
+    <input name="add_weight_field" onkeypress="return isNumberKey(event)" type = "text" maxlength="3" placeholder="Weight"style = " text-align: center; width: 10%">
+    <input name="add_cost_field" onkeypress="return isNumberKey(event)" type = "text" maxlength="3" placeholder="Cost"style = " text-align: center; width: 10%">
+    <input name="add_quantity_field"  onkeypress="return isNumberKey(event)" type = "text" maxlength="3" placeholder="Amount"style = " text-align: center; width: 10%">
+    <input name="add_category_field" type = "text" list="categories" placeholder="Category"style = " text-align: center; width: 10%">
+    <input name="add_image_field" type = "text" maxlength="195" placeholder="Picture URL"style = " text-align: center; width: 18%">
+    <input name="add_desc_field" type = "text" maxlength="95" placeholder="Description"style = " text-align: center; width: 18%">
+    <button class = "btn btn-primary"  style="background: #09A64D; border-color: #09A64D;" name = "add_item"  >Add Item</button>
+    <datalist id="categories">
+      <option value="Fruit">
+      <option value="Vegtable">
+      <option value="Meat">
+      <option value="Dairy">
+      <option value="Seafood">
+      <option value="Grains">
+    </datalist>
+    {% csrf_token %}
+  </div>
+</form>
+
+<table id = "item_table" style="width:100%; ">
+    <tr>
+        <th> ID# </th>
+        <th> Name </th>
+        <th> Weight </th>
+        <th> Cost </th>
+        <th> Quantity </th>
+        <th> Category </th>
+        <th> Image </th>
+        <th> Description </th>
+        <th> Delete Item</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{item.id}}</td>
+        <td><div contenteditable value = "{{item.name}}"> {{item.name}}</div></td>
+        <td><div contenteditable> {{item.weight}}</div></td>
+        <td><div contenteditable> {{item.cost}}</div></td>
+        <td><div contenteditable> {{item.quantity}}</div></td>
+        <td><div contenteditable> {{item.tags}}</div></td>
+        <td><div contenteditable style="width:150px;"> {{item.image}} </div></td>
+        <td><div contenteditable> {{item.description}}</div></td>
+        <form value = "DELETE" name = "DELETE" method = "post">
+            <td align="center">
+              <button style="background-color:red; border-color:red " class = "btn btn-primary" onclick="deleting({{item.id}})" name = "Delete {{item.name}}">Delete {{item.name}}</button>
+            </td>
+                <input type="hidden" id="deleteinput" name="deleteinput" value = "" />
+            {% csrf_token %}
+        </form>
+
+
+    </tr>
+    {% endfor %}
+
+</table>
+</body >
 
 
       <!-- /.row -->

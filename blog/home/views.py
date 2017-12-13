@@ -352,7 +352,7 @@ def tracking_home(request):
                 "current_lat":result_set[2],
                 "status":result_set[5],
                 "track_id":result_set[6],
-                "time_stamp":result_set[6],
+                "time_stamp":result_set[7],
                 }
 
                 #update_tracking_record(str(result_set[6]))

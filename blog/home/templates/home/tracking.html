@@ -343,6 +343,24 @@
         
     }
 
+    function get_tracking_data() {
+
+         var user_id = readCookie('user_id');
+         console.log(user_id);
+
+         if(user_id == "") {
+            window.location.href = 'tracking';
+         }
+
+          console.log("Creating form for tracking");
+          document.write('<form method="Post" id="user_id_form" action="get_tracking_by_user_id">');
+           document.write('<input type="hidden"  name="csrfmiddlewaretoken" value="{{ csrf_token }}" >');
+           var value = "value="+user_id+" >'"
+           document.write('<input type="hidden"  name="user_id" ' + value);
+           document.write('</form>');
+           document.getElementById('user_id_form').submit();
+    }
+
     function create_form_for_post_tracking(tracking) {
       console.log("Creating form for tracking");
       document.write('<form method="Post" id="tracking_id_form" action="confirmation">');
@@ -419,7 +437,7 @@
                         </li>
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="tracking_home">Tracking</a>
+                            <a class="nav-link" onclick="get_tracking_data()">Tracking</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="contact_us">Contact</a>
@@ -467,7 +485,7 @@
           <p>Status : <span id="delivery_status">Item Dispatched</span></p>
         </div>
         <div class="content2-header1">
-          <p>Expected Date : <span id="delivery_date">7-NOV-2015</span></p>
+          <p>Expected Date : <span id="delivery_date">{{time_stamp}}</span></p>
         </div>
         <div class="clear"></div>
       </div>
@@ -548,6 +566,7 @@
 
       var delivery_status = '{{status}}';
       var track_id = '{{track_id}}';
+
       var time_stamp_db = track_id;
 
     </script>

@@ -1,0 +1,140 @@
+DROP SCHEMA IF EXISTS `grocery_store`;
+CREATE SCHEMA `grocery_store` ;
+	CREATE TABLE `grocery_store`.`Items` (
+	 `itemID` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NULL,
+ `weight` decimal(5,2) NULL,
+ `cost` decimal(5,2) NULL,
+ `quantity` INT NULL,
+ `Categories` VARCHAR(100) NULL,
+ `image` VARCHAR(200) NULL,
+ `description` VARCHAR(100) NULL,
+  PRIMARY KEY (`itemID`));
+	CREATE TABLE `grocery_store`.`register_user` (
+	 `userID` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NULL,
+ `email` VARCHAR(100) NULL,
+ `password` VARCHAR(100) NULL,
+ `token` VARCHAR(100) NULL,
+  PRIMARY KEY (`userID`));
+CREATE TABLE `grocery_store`.`tracking`  (
+ track_id int(11) NOT NULL,
+ destination varchar(100) NOT NULL,
+ user_id int(20) DEFAULT NULL,
+ PRIMARY KEY (track_id)
+);
+CREATE TABLE `grocery_store`.`tracking_update` (
+	 `track_id` INT NOT NULL,
+ `user_id` INT NOT NULL,
+ `destination` VARCHAR(100) NULL,
+ `current_lat` VARCHAR(100) NULL,
+ `start_lat` VARCHAR(100) NULL,
+ `current_long` VARCHAR(100) NULL,
+ `start_long` VARCHAR(100) NULL,
+  `status` TINYINT (4) NULL,
+ `last_update` DATETIME NULL,
+  PRIMARY KEY (`track_id`),
+FOREIGN KEY (`user_id`)
+    REFERENCES `grocery_store`.`register_user` (`userid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+CREATE TABLE `grocery_store`.`UserAddress` (
+  `UserID` INT NOT NULL,
+  `Address` VARCHAR(100) NULL,
+     FOREIGN KEY (`UserID`)
+    REFERENCES `grocery_store`.`register_user` (`userid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+	CREATE TABLE `grocery_store`.`Payments` (
+	 `PaymentID` INT NOT NULL AUTO_INCREMENT,
+  `UserID` INT NOT NULL,
+  `Credit_Card_Number` VARCHAR(100) NULL,
+ `CSV` INT NULL,
+ `Expiration_Date` VARCHAR(100) NULL,
+ `Name_on_Card` VARCHAR(100) NULL,
+ `Card_Zipcode` INT NULL,
+  PRIMARY KEY (`PaymentID`),
+     FOREIGN KEY (`UserID`)
+    REFERENCES `grocery_store`.`register_user` (`userid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Apple", 1, 1.50, 95,  "Fruit", "https://qph.ec.quoracdn.net/main-qimg-9da8a03415319f50782a1a7a48d9828b-c", "Bright, red, juicy apples");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Banana", 1, 1, 100,  "Fruit", "https://wikihomenutrition.com/wp-content/uploads/2016/06/banana-4.jpg", "Bright, yellow, sweet bananas");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Grapes", 1, 2, 65,  "Fruit", "https://steptohealth.com/wp-content/uploads/2014/12/Red-grapes.jpg", "Sweet, juicy grapes");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Oranges", 2, 1.25, 70,  "Fruit", "https://producemadesimple.ca/wp-content/uploads/2015/01/orange-web-1024x768.jpg", "Sweet, full oranges");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Cherry", 0.5, 3.00, 90,  "Fruit", "https://www.bbcgoodfood.com/sites/default/files/guide/guide-image/2017/07/health-benefits-of-cherries-main-image-700-350.jpg", "Sweet, red cherries");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Carrots", 1, 2.50, 100,  "Vegetable", "http://images6.fanpop.com/image/photos/36500000/Carrots-image-carrots-36525016-955-503.jpg", "Crunchy carrots");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Cauliflower", 3, 1.50, 85,  "Vegetable", "http://www.well-beingsecrets.com/wp-content/uploads/Cauliflower-Contains-High-Amounts-Of-Vitamin-K.jpg", "Crunchy Cauliflower");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Milk", 1, 1.50, 75,  "Dairy", "http://cdn.ahchealthenews.com/wp-content/uploads/2015/01/Mooove-over-organic-milk-Conventional-milk-is-just-as-good.jpg", "Sweet, Refreshing Milk");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Cheese", 1.50, 1, 50,  "Dairy", "http://www.eatwisconsincheese.com/images/cheese/Emmentaler-w.jpg", "Tasty Cheese");
+insert into `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) values ("Beef", 3, 3, 50,  "Meat", "http://www.seriouseats.com/images/2016/01/20160116-american-beef-stew-recipe-10.jpg", "Delicious Beef");
+INSERT INTO `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) VALUES ( 'Durian', '5', '10', '40', 'Fruit', 'https://qph.ec.quoracdn.net/main-qimg-82eaa34cbf7a9e19fe7babbfe7d25b09-c', 'Smelly durian');
+INSERT INTO `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) VALUES ( 'Watermelon', '5', '5', '30', 'Fruit', 'https://www.organicfacts.net/wp-content/uploads/2013/05/watermelon2.jpg', 'Sweet Watermelon');
+INSERT INTO `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) VALUES ( 'Jackfruit', '2', '6', '20', 'Fruit', 'http://www.specialtyproduce.com/sppics/693.png', 'Tangy Jackfruit');
+INSERT INTO `grocery_store`.`items` (name, weight, cost, quantity, categories, image, description) VALUES ('Chicken', '2', '2', '60', 'Meat', 'https://img.buzzfeed.com/buzzfeed-static/static/2016-03/21/15/enhanced/webdr01/enhanced-15994-1458588428-10.jpg', 'Medium-rare chicken');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Pork', '2', '2', '40', 'Meat', 'http://ecofriendly.com/wp-content/uploads/2014/07/porkchops.jpg', 'Pork straight from the pig in the back');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Lamb', '2', '3', '80', 'Meat', 'https://previews.123rf.com/images/chiyacat/chiyacat1111/chiyacat111100079/11498490-Raw-Lamb-Chops-Stock-Photo.jpg', 'Lamb chops');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Yogurt', '1', '1', '30', 'Dairy', 'http://cdn-img.health.com/sites/default/files/styles/medium_16_9/public/image/bowl-of-yogurt-620x360.jpg?itok=J4nCdm-n', 'Creamy yogurt');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Fish', '2', '2', '20', 'Meat', 'https://atmedia.imgix.net/9f5919ccf66f61826d0e476ceed28e619b54378f?auto=format&q=45&w=600.0&h=800.0&fit=max&cs=strip', 'Fresh caught fish');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Eggs', '1', '1', '10', 'Meat', 'http://thesrpskatimes.com/wp-content/uploads/2017/08/eggs.jpg', 'Eggs caught from wild hens');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Strawberry', '1', '2', '100', 'Fruit', 'http://demandware.edgesuite.net/sits_pod32/dw/image/v2/BBBW_PRD/on/demandware.static/-/Sites-jss-master/default/dw997e9a76/images/products/fruit/03969g_01_elan.jpg?sw=1120', 'So sweet, the dentist hates these strawberries!');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Oyster', '1', '3', '20', 'Meat', 'https://cdn.vox-cdn.com/thumbor/hu4D7Z2GTw_HBmheU7kKt9BERvM=/28x0:472x333/1200x900/filters:focal(28x0:472x333)/cdn.vox-cdn.com/uploads/chorus_image/image/46724562/oyster_2.0.0.jpg', 'Nice smelly oysters');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Raspberry', '1', '2', '40', 'Fruit', 'https://driscolls.imgix.net/-/media/images/pages/berries/raspberry/rasp-cluster-09011701.ashx?ixlib=imgixjs-3.1.0', 'Tiny little red thingys');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ( 'Bok Choy', '2', '4', '15', 'Vegetable', 'http://www.simplyscratch.com/wp-content/uploads/2015/07/Grilled-Baby-Bok-Choy-Ginger-Chili-Sauce-l-SimplyScratch.com-3.jpg', 'Bright green vegetables');
+INSERT INTO `grocery_store`.`items` ( name, weight, cost, quantity, categories, image, description) VALUES ('Spinach', '3', '3', '20', 'Vegetable', 'https://draxe.com/wp-content/uploads/2015/02/spinach-in-a-bowl-480x320.jpg', 'Spinach that\'ll make your teeth feel hella gritty');
+INSERT INTO `grocery_store`.`items` (`name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Celery', '2', '2', '50', 'Vegetable', 'https://draxe.com/wp-content/uploads/2015/04/bigstock-Fresh-green-celery-isolated-on-52080031.jpg', 'Super juicy celery');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Beets', '1', '1', '20', 'Vegetable', 'https://www.organicfacts.net/wp-content/uploads/2013/07/beetroot.jpg', 'Fresh Beets by Schrute');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Carrots', '1', '2', '60', 'Vegetable', 'https://media.istockphoto.com/photos/heap-of-carrots-isolated-on-a-white-background-picture-id465095412?k=6&m=465095412&s=612x612&w=0&h=KGCVy6Wbf3d1lIkuPtaWuCZRqUIciUIOxBh8eEoRLDA=', 'Crisp carrots that are super orange');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Brussel Sprouts', '1', '4', '30', 'Vegetable', 'http://www.well-beingsecrets.com/wp-content/uploads/Brussels-Sprouts-and-Manganese.jpg', 'Mini cabbages that you can put in your mouth');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Cabbage', '3', '2', '32', 'Vegetable', 'http://www.cheatsheet.com/wp-content/uploads/2016/01/Cabbage.jpg', 'Brussel sprouts that survived Chernobyl');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Asparagus', '2', '5', '50', 'Vegetable', 'http://cdn.schwans.com/media/images/products/60421-1-1540.jpg', 'It\'ll poke your throat if you stick it far enough in your mouth');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Zucchini', '3', '2', '55', 'Vegetable', 'https://www.organicfacts.net/wp-content/uploads/zucchini.jpg', 'Bright green zucchini stocked every 6 months');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ('Leek', '2', '3', '48', 'Vegetable', 'https://www.collinsdictionary.com/images/thumb/leek_258417383_250.jpg', 'Don\'t put them in the sink or you\'ll get a LEEK ');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Turnip', '2', '2', '31', 'Vegetable', 'https://www.organicfacts.net/wp-content/uploads/turnips.jpg', 'They\'re purple on the outside, but white on the inside');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Radish', '4', '1', '52', 'Vegetable', 'http://s3.amazonaws.com/finecooking.s3.tauntonclud.com/app/uploads/2017/04/24171905/ING-radish-thumb1x1.jpg', 'Horses need to eat something I guess');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Eggplant', '3', '3', '19', 'Vegetable', 'https://www.organicfacts.net/wp-content/uploads/2013/06/Eggplant-1020x765.jpg', 'Oblong purple vegetables ');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Yam', '2', '2', '70', 'Vegetable', 'http://www.foodsubs.com/Photos/garnetyam.jpg', 'Sweet orange potatoes, basically sweet potatoes');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Lettuce', '3', '3', '25', 'Vegetable', 'http://ghk.h-cdn.co/assets/cm/15/11/480x552/54ff047238f22-green-leaf-lettuce-0707-xl.jpg', 'Green lettuce, fresh from the farms');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Fennel', '2', '4', '34', 'Vegetable', 'http://s3.amazonaws.com/finecooking.s3.tauntonclud.com/app/uploads/2017/04/24171131/ING-fennel-thumb1x1.jpg', 'Bitter kind of celery');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Cucumber', '2', '2', '64', 'Vegetable', 'https://www.organicfacts.net/wp-content/uploads/2013/06/Cucumber.jpg', 'Crisp, crunchy, non-salted pickles');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Kale', '3', '3', '12', 'Vegetable', 'http://weightlossgroove.com/wp-content/uploads/2017/07/Cabecera_1440x660.jpg', 'You can make kale chips out of this');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Shrimp', '2', '4', '50', 'Seafood', 'https://images.fastcompany.net/image/upload/w_1280,f_auto,q_auto,fl_lossy/fc/3044190-poster-p-1-are-shrimp-shells-the-future-of-solar-cells.jpg', 'Sweet, pink shrimp');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Lobster', '6', '20', '10', 'Seafood', 'https://media.istockphoto.com/photos/red-lobster-isolated-on-white-background-picture-id148792864?k=6&m=148792864&s=612x612&w=0&h=ezDIbC19-cUYam7_Sx5GNydiyrCGnOOpHFiAH2Rc7ts=', 'Fresh-caught Maine lobster from the Pacific Ocean');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Clam', '2', '5', '20', 'Seafood', 'https://www.ldoceonline.com/media/english/illustration/clams.jpg', 'So fresh that you can smell the ocean in the shells');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Salmon', '4', '10', '60', 'Seafood', 'http://www.shopfreshseafood.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/s/c/scottish_salmon_raw.jpg', 'Fatty salmon, good for grilling or roasting with your firends');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Scallop', '2', '12', '40', 'Seafood', 'https://www.brownetrading.com/uploads/maine-diver-scallops.jpg', 'Bright white scallops to eat');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Catfish', '4', '6', '30', 'Seafood', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmjvrLZt6oz52OR4xjc7Hih3ZC-zrMXLeLEdDkpIvvu2xdXDss', 'It\'s a fish, but it\'s not a cat');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Sardine', '1', '3', '100', 'Seafood', 'http://photos.demandstudios.com/getty/article/189/216/78460014.jpg', 'Good fish bait, or serve on top of pizzas');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Tuna', '5', '10', '9', 'Seafood', 'http://cdn.shopify.com/s/files/1/1349/1385/products/Tuna-Steak_grande.jpg?v=1467380198', 'Fresh caught red tuna');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Snail', '1', '2', '45', 'Seafood', 'https://cdn6.bigcommerce.com/s-ul1e48c1/products/209/images/541/yhst_61230524414527_2271_286195__54126.1443461482.500.750.jpg?c=2', 'Great for escargot or a pet');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Mussel', '2', '4', '20', 'Seafood', 'https://media.istockphoto.com/photos/seafood-mussels-picture-id182747060?k=6&m=182747060&s=612x612&w=0&h=YS65WKC2Nv94VSv-G0k_KE4Eb0ih-v_2vu9dM6--SV8=', 'Seafood pasta goes well with these');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Halibut', '4', '7', '30', 'Seafood', 'http://edengourmet.com/wp-content/uploads/2014/09/Halibut_Fillet_Garden_of_Eden.jpg', 'Halibut filet, good to smoke or sear');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Abalone', '3', '15', '5', 'Seafood', 'https://media.istockphoto.com/photos/raw-abalones-picture-id500511446?k=6&m=500511446&s=612x612&w=0&h=_VABI3PETJL5-VPxKGKD6kZ6A2ZkwL5tS9tOvK5W8mQ=', 'Divers retreive this treasure on the ocean floor');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Mahi Mahi', '5', '12', '10', 'Seafood', 'https://www.marxfoods.com/images/Mahi-Mahi-Fillet_MahiMahiFillets-1.jpg?resizeid=14&resizeh=600&resizew=600', 'Fish Taco Tuesday?');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Mackrel', '2', '5', '25', 'Seafood', 'https://i0.wp.com/food-in-japan.com/wp-content/uploads/2014/04/IMG_2117.jpg?resize=640%2C480', 'Super pungent fish, best grilled or barbequed');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Crab', '4', '15', '15', 'Seafood', 'https://mm.aiircdn.com/258/59dd65d894b74.jpg', 'Fresh crab straight from the pond');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Cod', '4', '7', '30', 'Seafood', 'https://thecornishfishmonger.co.uk/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/c/o/cod_fillet.jpg', 'Great fish-n-chips choice');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Swordfish', '5', '18', '10', 'Seafood', 'https://myfishdelivery.com/images/stories/virtuemart/product/210065.jpg', 'Eat this pan-fried with a lemon');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Trout', '3', '8', '40', 'Seafood', 'https://images.heb.com/is/image/HEBGrocery/prd-small/fish-market-rainbow-trout-fillet-000373282.jpg', 'Fresh from the farms');
+UPDATE `grocery_store`.`items` SET `categories`='Seafood' WHERE `itemID`='19';
+UPDATE `grocery_store`.`items` SET `categories`='Seafood' WHERE `itemID`='22';
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Italian Bread', '2', '2', '43', 'Grains', 'http://pabakery.com/wp-content/uploads/2015/07/italian_bread.jpg', 'Italian bread baked in France');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'French Bread', '2', '2', '65', 'Grains', 'https://images-na.ssl-images-amazon.com/images/I/41kESUHJJUL._SX355_.jpg', 'French bread baked in Italy');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Corn Tortilla', '1', '3', '3', 'Grains', 'http://www.blanco-nino.com/wp-content/uploads/2015/08/10cm-soft-tortilla.jpg', 'Tortillas made from corn and a bit of flour');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Flour Tortilla', '1', '3', '12', 'Grains', 'https://assets.bonappetit.com/photos/57e1b4c57c2b8d7760781ffe/master/w_1200,c_limit/ttar_flourtortillas_h.jpg', 'Tortillas made from flour and no corn');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Spinach Tortilla', '1', '3', '45', 'Grains', 'http://www.forkandbeans.com/wp-content/uploads/2015/03/Homemade-Spinach-Tortillas.jpg', 'Tortillas that hipsters eat to be \"healthy\"');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Quinoa', '3', '6', '25', 'Grains', 'https://www.bbcgoodfood.com/sites/default/files/quinoa-man.jpg', 'Very trendy grain, supposedly has lots of benefits');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'White Bean', '2', '2', '89', 'Grains', 'https://foodassets.com/7313/rainy-day-small-white-navy.jpg', 'Beans that are white, I guess');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Black Bean', '2', '2', '36', 'Grains', 'https://images-na.ssl-images-amazon.com/images/I/41pTOfWj0lL._SY355_.jpg', 'Beans that are black, I guess');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ('Pinto Bean', '2', '2', '45', 'Grains', 'http://michiganbean.org/wp-content/uploads/2013/09/MichiganBean_Pinto.png', 'Beans that are pinto, I guess');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Refried Bean', '3', '2', '21', 'Grains', 'http://bitesofbri.com/wp-content/uploads/2014/01/Healthy-Refried-Beans-Bites-of-Bri.jpg', 'Beans that are refried, I guess (cheese not included)');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Polenta', '4', '4', '83', 'Grains', 'http://brightcove.vo.llnwd.net/d21/unsecured/media/1033249144001/1033249144001_2710553510001_video-still-for-video-2707975929001.jpg?pubId=1033249144001', 'My mom thought this was placenta, they\'re different');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'White Rice', '5', '2', '53', 'Grains', 'https://target.scene7.com/is/image/Target/13274155?wid=520&hei=520&fmt=pjpeg', 'Rece that is white, I guess');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ('Brown Rice', '5', '4', '64', 'Grains', 'https://s-i.huffpost.com/gen/2102444/images/o-BROWN-RICE-facebook.jpg', 'Rice that is brown, I guess');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Wild Rice', '5', '3', '32', 'Grains', 'http://cdn.shopify.com/s/files/1/0764/3961/products/Wild_Rice_North_American_Superfood_-_Native_Foods_grande.jpeg?v=1479327029', 'Rice Gone Wild, but not too wild, I guess');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Oat', '3', '3', '51', 'Grains', 'https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/3/4/5/3/263543-3-eng-GB/Could-oats-be-the-next-gluten-free-star.jpg', 'Great for oatmeal raisin cookies');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Popcorn', '4', '2', '42', 'Grains', 'https://images-na.ssl-images-amazon.com/images/I/71unRiZ4tuL._SL1500_.jpg', 'Makes great popcorn, or tooth breakers');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ('Rye Bread', '2', '2', '83', 'Grains', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Mischbrot-1.jpg/1200px-Mischbrot-1.jpg', 'Rye bread, great for pastrami sandwiches');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Whole Wheat Bread', '2', '2', '45', 'Grains', 'http://food.fnr.sndimg.com/content/dam/images/food/fullset/2012/9/11/0/HE_whole-wheat-bread_s4x3.jpg.rend.hgtvcom.1280.960.suffix/1371609761646.jpeg', 'Bread made from whole grains');
+INSERT INTO `grocery_store`.`items` ( `name`, `weight`, `cost`, `quantity`, `categories`, `image`, `description`) VALUES ( 'Lentils', '4', '3', '35', 'Grains', 'http://img-aws.ehowcdn.com/350x235p/photos.demandstudios.com/237/16/fotolia_2714170_XS.jpg', 'Great to eat for you middle-aged adults ');
+UPDATE `grocery_store`.`items` SET `image`='http://cdn.shopify.com/s/files/1/0206/9470/products/Eggplant__baby_eb64eca5-fd42-4db6-9238-ead8fe34572b_grande.jpeg?v=1477037957' WHERE `itemID`='37';

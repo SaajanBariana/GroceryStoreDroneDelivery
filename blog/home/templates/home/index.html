@@ -61,391 +61,26 @@
             }
 
 </style>
-<!--- Drop down bar JS --->
-<script>
-function toggleDropDown() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(e) {
-  if (!e.target.matches('.dropbtn')) {
-    var myDropdown = document.getElementById("myDropdown");
-      if (myDropdown.classList.contains('show')) {
-        myDropdown.classList.remove('show');
-      }
-  }
-}
-function getFilter() {
-    document.getElementById("");
-}
-</script>
+
+<script src="../../static/jquery.min.js"></script>
+<script src="../../static/popper.min.js"></script>
+<script src="../../static/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-
-function DeleteAllCookies(){
-
-  var MainCookie = readCookie("MainCookie"); //read the MainCookie
-  if (MainCookie != "" && MainCookie != null)
-  {
-    var array = MainCookie.split(","); //split that result and turn it into an array with all the items
-
-    //for each item in the array of the MainCookie
-    for (var i = 0; i < array.length-1; i++)
-    {
-      eraseCookie(array[i]); //delete that item
-    }
-    createCookie("MainCookie", "", 1); //reset the MainCookie
-
-  }
-  //alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
-}
-
-function logout() {
- delete_cookie("username");
- delete_cookie("email");
- delete_cookie("tracking_id");
- DeleteAllCookies();
-
-window.location.href = '/home/';
-
-}
-
-//1510278213
-
-function setCookie(cname, cvalue, exdays) {
-    //alert("setting" + cvalue);
-var d = new Date();
-d.setTime(d.getTime() + (exdays*24*60*60*1000));
-var expires = "expires="+ d.toUTCString();
-document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-var name = cname + "=";
-var decodedCookie = decodeURIComponent(document.cookie);
-var ca = decodedCookie.split(';');
-for(var i = 0; i <ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-    }
-}
-return "";
-}
-
-var delete_cookie = function(name) {
-document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-function checkCookie() {
-//delete_cookie("username");
-var username = getCookie("username");
-if (username != "") {
-    //alert("Welcome " + username);
-} else {
-    // username = prompt("Please enter your name:", "");
-    // if (username != "" && username != null) {
-    //     setCookie("username", username, 365);
-    // }
-    //alert("No cookies found");
-}
-}
-
-</script>
-
-<html lang="en">
-
-  <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Group 1 Grocery Delivery</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="../../static/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="../../static/modern-business.css" rel="stylesheet">
-
-
-
-
-  </head>
-
-  <!-- <body onload = "addElement()"> -->
-
-    <!-- Navigation -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-
-
-        {% if tracking_id %}
-
-        <script type="text/javascript">
-        alert("Tracking ID: " + {{tracking_id}})
-        </script>
-        {% endif %}
-
-
-        {% if username %}
-
-        <script type="text/javascript">
-
-          var username_server = '{{username}}';
-         // alert("data from server :" + username_server);
-
-          setCookie("username", username_server, 365);
-          setCookie("email", '{{email}}', 365);
-
-        </script>
-
-        <a class="navbar-brand" href="/home/"> Hi {{ username }}</a>
-
-        {% else %}
-        <a class="navbar-brand" href="/home/">Hello</a>
-        {% endif %}
-
-
-
-
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-
-            <!--- Search Bar --->
-             <form action="search.html" type="get">
-                 <select id="drop_down_filter" name="drop_down_filter">
-                     <option value="Categories">Categories</option>
-                     <option value="Fruit">Disgusting Fruit</option>
-                     <option value="Vegetable">Dirty Vegetables</option>
-                     <option value="Meat">Spoiled Meat</option>
-                     <option value="Dairy">Some Dairy</option>
-                 </select>
-                 <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
-                 <button id="search_submit" type="submit">Go</button>
-             </form>
-
-            <li class="nav-item" style="">
-              <a class="nav-link" href="about.html">About</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="tracking_home">Tracking</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact_us">Contact</a>
-            </li>
-
-            <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Portfolio
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-              </div>
-            </li> -->
-
-            <li class="nav-item">
-              <a class="nav-link" href="shoppingcart">
-              <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
-              </a>
-
-            </li>
-
-            <li class="nav-item dropdown">
-
-                  <script type="text/javascript">
-                    if(getCookie("username") != "" && getCookie("username")  != null){
-                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                      // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
-                      document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
-                    //  document.write('</div></li>');
-                    } else {
-
-                       document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
-                      document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
-                      // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
-
-
-                    }
-
-                  </script>
-
-          </li>
-
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <header>
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-          <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('http://www.dnc.ie/wp-content/uploads/2014/08/chopping-board1.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Wanna eat some pears and apples?</h3>
-              <p>WE GOT THAT</p>
-            </div>
-          </div>
-          <!-- Slide Two - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>We got some beans and some more apples</h3>
-              <p>You know you want them</p>
-            </div>
-          </div>
-          <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Ever tried chopping tomatoes and bellpeppers with wooden spoons?</h3>
-              <p>Me neither</p>
-            </div>
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
-    </header>
-
-    <!-- Page Content -->
-    <div class="container">
-
-      <h1 class="my-4">Welcome to Group 1's Grocery Service</h1>
-
-      <!-- Marketing Icons Section -->
-      <div class="row">
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Groceries</h4>
-            <div class="card-body">
-              <p class="card-text">Want some of the best groceries you've ever eaten? We got them all!! Click here!!!</p>Í
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Shipping</h4>
-            <div class="card-body">
-              <p class="card-text">We got some crazy shipping. We use DRONES!!!</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Registration</h4>
-            <div class="card-body">
-              <p class="card-text">Want us to store your credit card information? ;) Click here!!
-              white space
-            white space
-          white space white space
-        white space shhh, we are not here</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <!-- Portfolio Section -->
-      <h2>Featured Products</h2>
-
-      <div class="row">
-      {% for item in items %}
-
-
-        {% if item.quantity > 0 %}
-          <div id = "item.name" class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-              <img class="card-img-top" src = "{{item.image}}">
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="#">{{item.name}}</a>
-                </h4>
-                <p> Cost : {{item.cost}} each</p>
-                <p> Weight : {{item.weight}} pounds </p>
-                <p> Amount Left : {{item.quantity}} </p>
-                <p> {{item.description}} </p>
-              </div>
-              <div class="card-footer">
-                <div>
-                  Quantity:
-                  <input id="{{item.name}}" type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 5em; height: 40px; font-size: 18px; padding-top = 100px" >
-                  <button class="btn btn-primary" onclick= "openWindow(this, '{{item.name}}', '{{item.cost}}', '{{item.weight}}', '{{item.quantity}}', '{{item.image}}')" >
-                    Add to Cart
-                </button>
-              </div>
-
-              </div>
-            </div>
-          </div>
-        {% endif %}
-
-
-        {% endfor %}
-      </div>
-
-
-      <!-- /.row -->
-
-
-      <!-- /.row -->
-    </div>
-    <!-- /.container -->
-
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Group 1 CS 160 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <script>
-
+ 
     /*
     Creates a new cookies or updates an old one when you click on the add to cart button
     Also updates the MainCookie to include this cookie we just added
     */
-    function openWindow(obj, name, cost, weight, quantity, image){
+    function openWindow(obj, name, cost, weight, quantity, image ){
 
-      var result = document.getElementById(name).value //recieves the input value for how many of that item we want to add to the cart
+    
+      var result = document.getElementById(name).value; //recieves the input value for how many of that item we want to add to the cart
       document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
       console.log("Clicked on the button"); //check to make sure that this function is working
       if(result > 0) //make sure that you have given a quantity for that item
       {
+       
         obj.style.background = 'green'; //change the color of the button to green to confirm that it submitted
 
         //creating the new cookie for that item
@@ -487,14 +122,13 @@ if (username != "") {
 
         var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
         var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
-        alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
+        //alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
       }
       else {
         obj.style.background = 'red'; //if the value of the input is 0, set the color of the button to red
         alert("Please enter a value and click again"); //display that they need to enter a value
       }
     }
-
     /*
     Display all the cookies for the items we currently have selected
     */
@@ -512,9 +146,8 @@ if (username != "") {
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
     }
-
     /*
     Display the URL for the items' pictures
     */
@@ -534,9 +167,8 @@ if (username != "") {
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
+    //  alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
     }
-
     /*
     Display the total amount of items you have selected
     */
@@ -556,9 +188,8 @@ if (username != "") {
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
     }
-
     /*
     Display the total amount of each item that is curently available in the Database
     */
@@ -578,9 +209,8 @@ if (username != "") {
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
     }
-
     /*
     Display all the weights per Item
     */
@@ -600,9 +230,8 @@ if (username != "") {
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
     }
-
     /*
     Display all the costs for each item
     */
@@ -622,9 +251,8 @@ if (username != "") {
         }
 
       }
-      alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
+     // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
     }
-
     /*
     delete all of the cookies currently held by MainCookie while also removing them from MainCookie
     */
@@ -643,9 +271,8 @@ if (username != "") {
         createCookie("MainCookie", "", 1); //reset the MainCookie
 
       }
-      alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+     // alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
     }
-
     /*
     creates a cookie with a given name, a value, and a number of days that it is active for
     */
@@ -662,7 +289,6 @@ if (username != "") {
       }
       document.cookie = name + "=" + value + expires + "; path=/";
     }
-
     /*
     recieve information from a cookie
     */
@@ -680,21 +306,311 @@ if (username != "") {
       }
       return null;
     }
-
     /*
     erase a cookie
     */
     function eraseCookie(name){
       createCookie(name,"",-1);
     }
+    function logout() {
+     eraseCookie("username");
+     eraseCookie("email");
+     eraseCookie("tracking_id");
+     eraseCookie("user_id");
+     DeleteAllCookies();
+     eraseCookie("Destination");
+     eraseCookie("csrftoken");
+     eraseCookie("Total");
+     eraseCookie("Store");
+     eraseCookie("card");
+     eraseCookie("Total");
+     eraseCookie("CreditInfo");
+     eraseCookie("gsScrollPos-794");
+     eraseCookie("tracking_number");
 
-    </script>
+      window.location.href = '/home/';
 
-    <script src="../../static/jquery.min.js"></script>
-    <script src="../../static/popper.min.js"></script>
-    <script src="../../static/bootstrap.min.js"></script>
+    }
+</script>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Group 1 Grocery Delivery</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../static/modern-business.css" rel="stylesheet">
 
 
+
+
+  </head>
+
+  <!-- <body onload = "addElement()"> -->
+
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+
+
+        {% if tracking_id %}
+
+        <script type="text/javascript">
+        alert("Tracking ID: " + {{tracking_id}})
+        createCookie("tracking_number", '{{tracking_id}}', 7);
+        DeleteAllCookies();
+        alert("Deleted all cookies");
+        
+        
+        </script>
+        {% endif %}
+
+
+        {% if username %}
+
+        <script type="text/javascript">
+
+          var username_server = '{{username}}';
+         // alert("data from server :" + username_server);
+         var expiration_days = 7
+          createCookie("username", username_server, expiration_days);
+          createCookie("email", '{{email}}', expiration_days);
+          createCookie("address", '{{address}}', expiration_days);
+          createCookie("Destination",'{{address}}', expiration_days);
+          createCookie("CreditInfo", '{{payment}}', expiration_days);
+          createCookie("user_id", '{{u_id}}', expiration_days);
+          createCookie("tracking_number", '{{tracking_number}}', expiration_days);
+          
+
+        </script>
+
+
+        {% endif %}
+
+      
+    
+
+          <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
+
+
+
+
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+
+            
+            <form action="/home/search.html" type="get">
+                <select id="drop_down_filter" name="drop_down_filter">
+                    <option value="Categories">Categories</option>
+                    <option value="Fruit">Fruits</option>
+                    <option value="Vegetable">Vegetables</option>
+                    <option value="Meat">Meats</option>
+                    <option value="Dairy">Dairies</option>
+                    <option value="Seafood">Seafood</option>
+                    <option value="Grains">Grains</option>
+                </select>
+                <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                    <button id="search_submit" type="submit">Go</button>
+                    </form>
+
+            <li class="nav-item" style="">
+              <a class="nav-link" href="/admin/">Admin Page</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="tracking_home">Tracking</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact_us">Contact</a>
+            </li>
+
+            <!-- <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Portfolio
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
+              </div>
+            </li> -->
+
+
+            <li class="nav-item">
+              <a class="nav-link" href="shoppingcart">
+              <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
+              </a>
+
+            </li>
+
+            <li class="nav-item dropdown">
+
+                  <script type="text/javascript">
+                    if(readCookie("username") != "" && readCookie("username") != null){
+                      var name = readCookie("username");
+                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + name + '</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                       document.write(' <a class="dropdown-item" href="/home/profile">Profile</a>');
+                      document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
+                    //  document.write('</div></li>');
+                    }
+                    else {
+                      document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                      document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
+                      // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
+                    }
+
+                  </script>
+
+          </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <!-- Slide One - Set the background image for this slide in the line below -->
+            <div class="carousel-item active" style="background-image: url('http://www.dnc.ie/wp-content/uploads/2014/08/chopping-board1.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Looking for some fresh ingredients for new recipes?</h3>
+                    <p>We provide organic fruits and vegtables grown from local farms</p>
+                </div>
+            </div>
+            <!-- Slide Two - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('https://wallpaperscraft.com/image/fruit_bags_food_cereals_87857_1920x1080.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Daily shipments to ensure the freshest produce</h3>
+                    <p>Top of the line groceries</p>
+                </div>
+            </div>
+            <!-- Slide Three - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('http://mapinstitute.org/data/wallpapers/189/im58268560.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Take a look at our new products</h3>
+                    <p>Guaranteed fresh groceries for all orders</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <h1 class="my-4">Welcome to Group 1's Grocery Service</h1>
+
+      <!-- Marketing Icons Section -->
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Groceries</h4>
+            <div class="card-body">
+              <p class="card-text">Want some of the best groceries you've ever eaten? Click here to take a look at our total inventory!</p>
+            </div>
+            <div class="card-footer">
+              <a href="search.html" type="get" class="btn btn-primary">Inventory</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Shipping</h4>
+            <div class="card-body">
+              <p class="card-text">Have you ever had your food delivered to you by drones? Click here to track your current delivery!</p>
+            </div>
+            <div class="card-footer">
+              <a href="tracking_home" class="btn btn-primary">Tracking</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Registration</h4>
+            <div class="card-body">
+              <p class="card-text">Want to log in or create a new account? Click here!</p>
+            </div>
+            <div class="card-footer">
+              <a href="login_register" class="btn btn-primary">Login/Registration</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <!-- Portfolio Section -->
+      <h2>Featured Products</h2>
+
+      <div class="row">
+      {% for item in items %}
+          <div  class="col-lg-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+              <img class="card-img-top" src = "{{item.image}}">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="{{item.image}}">{{item.name}}</a>
+                </h4>
+                <p> Cost : {{item.cost}} each</p>
+                <p> Weight : {{item.weight}} pounds </p>
+                <p> Amount Left : {{item.quantity}} </p>
+                <p> {{item.description}} </p>
+              </div>
+              <div class="card-footer">
+                <div>
+                  Quantity:
+                  <input id="{{item.itemID}}" type="number" min="1" max="{{item.quantity}}" name = "quantity" font-size = "16px" style="width: 5em; height: 40px; font-size: 18px; padding-top = 100px" >
+                  <button class="btn btn-primary" onclick= 'openWindow(this,  "{{item.itemID}}" , "{{item.cost}}", "{{item.weight}}", "{{item.quantity}}", "{{item.image}}")' >
+                    Add to Cart
+                </button>
+              </div>
+
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <!-- /.row -->
+
+
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Group 1 CS 160 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
 
   </body>
 

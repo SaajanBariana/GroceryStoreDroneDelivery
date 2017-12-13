@@ -11,11 +11,11 @@ var dict = {
 }
 /*$(".info-item .btn").click(function(){
   $(".container").toggleClass("log-in");
-  
-  
+
+
 });
 
-//THis is old line 
+//THis is old line
 // $(".container-form .btn").click(function(){
 //  // $(".container").addClass("active");
 
@@ -33,7 +33,7 @@ function login() {
   //console.log(y);
 
   var username = x.value;
-  
+
   $.ajax({
         url: 'login_register_request/',
         data: {
@@ -52,7 +52,7 @@ function login() {
         }
       });
 
-  
+
 };
 
 
@@ -60,7 +60,7 @@ function login() {
 // This function trigger after click on "Sign up" button
 function sign_up() {
   alert("Hi sign_up");
-  
+
 };*/
 
 function buttonCreate() {

@@ -40,59 +40,85 @@ def adminHomePage(request):
 
     if request.method == 'POST':
         delete_input = request.COOKIES.get("Deleting")
-        if delete_input == "" or delete_input is None:
-            name = str(request.POST.get('add_name_field'))
-            weight = str(request.POST.get('add_weight_field'))
-            cost = str(request.POST.get('add_cost_field'))
-            quantity = str(request.POST.get('add_quantity_field'))
-            category = str(request.POST.get('add_category_field'))
-            image = str(request.POST.get('add_image_field'))
-            desc = str(request.POST.get('add_desc_field'))
+        update_input = str(request.COOKIES.get("Updating"))
+        if delete_input == "" or delete_input is None:              # Not Deleting
+            if update_input != "":                                  # Updating
+                name = str(request.COOKIES.get("Name"))
+                weight = str(request.COOKIES.get("Weight"))
+                cost = str(request.COOKIES.get("Cost"))
+                quantity = str(request.COOKIES.get("Quantity"))
+                category = str(request.COOKIES.get("Category"))
+                image = str(request.COOKIES.get("Image"))
+                desc = str(request.COOKIES.get("Desc"))
 
-            add_item_to_db(name, weight, cost, quantity, category, image, desc)
-            template = loader.get_template("home/adminHomePage.html")
-            context = getQuery()
-            return HttpResponse(template.render(context, request))
+                update_db(name, weight, cost, quantity, category, image, desc, update_input)
+                print("In updating statement")
+                template = loader.get_template("home/adminHomePage.html")
+                context = getQuery()
+                return HttpResponse(template.render(context, request))
+
+            elif update_input == "" or update_input is None:        # Adding
+                name = str(request.POST.get('add_name_field'))
+                weight = str(request.POST.get('add_weight_field'))
+                cost = str(request.POST.get('add_cost_field'))
+                quantity = str(request.POST.get('add_quantity_field'))
+                category = str(request.POST.get('add_category_field'))
+                image = str(request.POST.get('add_image_field'))
+                desc = str(request.POST.get('add_desc_field'))
+
+                add_item_to_db(name, weight, cost, quantity, category, image, desc)
+                template = loader.get_template("home/adminHomePage.html")
+                context = getQuery()
+                return HttpResponse(template.render(context, request))
+
         elif delete_input != "":
             delete_from_db(int(delete_input))
             print("In deleting statement")
-    array = request.GET.get('item_array');
+    array = request.GET.get('item_array')
 
-    if array is not None:
-        the_items = array.split(" , ")
-        the_items = the_items[0:len(the_items) - 1]
-        i = 1
-        the_array = []
-        for theItem in the_items:
-            item_stuff = theItem.split("<>")
-            the_array.append(item_stuff)
-            i += 1
-        print("the_array length: : "+ str(len(the_array)))
-        for item in the_array:
-            if "'" in str(item[7]):
-                desc = str(item[7]).replace("'", "")
-            else:
-                desc = item[7]
-                
-            conn = pymysql.connect(host='localhost', port=3306, user=SQL_username, passwd=SQL_password, db='grocery_store')
-            cur = conn.cursor()
-            query = "UPDATE items " \
-                    "SET name = '" + item[1] + "' , weight = '" + item[2] + \
-                    "' , cost = '"+ (item[3]) + \
-                    "' , quantity = '" + (item[4]) + \
-                    "' , categories = '" + item[5] + \
-                    "' , image = '" + item[6] + \
-                    "' , description = '" + desc + \
-                    "' WHERE itemID = " + item[0] + ";"
-            print(query)
-            try:
-                cur.execute(query)
-                conn.commit()
-                cur.close()
-                conn.close()
-                
-            except Exception as e:
-                print(e)
+    #
+            #update_db(name, weight, cost, quantity, category, image, desc, idNo)if array is not None:
+    #     the_items = array.split(" , ")
+    #     the_items = the_items[0:len(the_items) - 1]
+    #     i = 1
+    #     the_array = []
+    #     for theItem in the_items:
+    #         item_stuff = theItem.split("<>")
+    #         the_array.append(item_stuff)
+    #         i += 1
+    #     print("the_array length: : " + str(len(the_array)))
+    #     for item in the_array:
+    #         if "'" in str(item[7]):
+    #             desc = str(item[7]).replace("'", "")
+    #         else:
+    #             desc = str(item[7])
+    #
+    #         name = str(item[1])
+    #         weight = str(item[2])
+    #         cost = str(item[3])
+    #         quantity = str(item[4])
+    #         category = str(item[5])
+    #         image = str(item[6])
+    #         idNo = str(item[0])
+            # query = "UPDATE grocery_store.items " + \
+            #         "SET name = " + str(item[1]) + \
+            #         " , weight = " + str(item[2]) + \
+            #         " , cost = " + str(item[3]) + \
+            #         " , quantity = " + str(item[4]) + \
+            #         " , categories = " + str(item[5]) + \
+            #         " , image = " + str(item[6]) + \
+            #         " , description = " + str(desc) + \
+            #         " WHERE itemID = " + str(item[0]) + ";"
+            # print(query)
+            # try:
+            #     cur.execute(query)
+            #     conn.commit()
+            #     cur.close()
+            #     conn.close()
+            #
+            # except Exception as e:
+            #     print(e)
+
     context = getQuery()
     return HttpResponse(template.render(context, request))
 
@@ -110,6 +136,21 @@ def getQuery():
     cur.close()
     conn.close()
     return context
+
+def update_db(name, weight, cost, quantity, category, image, desc, idNo):
+    query = "UPDATE items SET name = '" + name + "' , weight = '" + weight + "', cost = '" + cost + \
+            "', quantity = '" + quantity + "', categories = '" + category + "', image = '" + image + \
+            "', description = '" + desc + "' WHERE itemID = " + idNo + ";"
+    print(query)
+    conn = pymysql.connect(host='localhost', port=3306, user=SQL_username, passwd=SQL_password, db='grocery_store')
+    cur = conn.cursor()
+    cur.execute(query)
+    conn.commit()
+    cur.close()
+    conn.close()
+    # delete_from_db(idNo)
+    # add_item_to_db(name, weight, cost, quantity, category, image, desc)
+
 
 def  add_item_to_db(name, weight, cost, quantity, category, image, desc):
     query = "INSERT INTO items " \

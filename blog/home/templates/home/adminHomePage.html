@@ -149,6 +149,63 @@
 
     }
 
+    function updating(id)
+    {
+        var table = document.getElementById('item_table');
+        var row = 0;
+        while(parseInt(id) != (parseInt(table.rows[row].cells[0].innerText))){
+            row++;
+        }
+
+
+
+        var name = table.rows[row].cells[1].innerText;
+        var weight = table.rows[row].cells[2].innerText;
+        var cost = table.rows[row].cells[3].innerText;
+        var quantity = table.rows[row].cells[4].innerText;
+        var category = table.rows[row].cells[5].innerText;
+        var image = table.rows[row].cells[6].innerText;
+        var desc = table.rows[row].cells[7].innerText;
+
+        createCookie("Row", row, 1);
+        createCookie("Name", name, 1);
+        createCookie("Weight", weight, 1);
+        createCookie("Cost", cost, 1);
+        createCookie("Quantity", quantity, 1);
+        createCookie("Category", category, 1);
+        createCookie("Image", image, 1);
+        createCookie("Desc", desc, 1);
+        createCookie("Updating", id, 1);
+
+          <!--createCookie("Row", row, 1);-->
+        <!--createCookie("Name", "Apple", 1);-->
+        <!--createCookie("Weight", "3", 1);-->
+        <!--createCookie("Cost", "3", 1);-->
+        <!--createCookie("Quantity", "5", 1);-->
+        <!--createCookie("Category", "Fruit", 1);-->
+        <!--createCookie("Image", "Hello", 1);-->
+        <!--createCookie("Desc", "HELLO", 1);-->
+        <!--createCookie("Updating", id, 1);-->
+    }
+
+    function refreshUpdate()
+    {
+        eraseCookie("Row");
+        eraseCookie("Updating");
+        eraseCookie("Name");
+        eraseCookie("Weight");
+        eraseCookie("Cost");
+        eraseCookie("Quantity");
+        eraseCookie("Category");
+        eraseCookie("Image");
+        eraseCookie("Desc");
+    }
+
+    function start()
+    {
+        refreshUpdate();
+        refreshDelete();
+    }
     /*
 creates a cookie with a given name, a value, and a number of days that it is active for
 */
@@ -591,7 +648,7 @@ function eraseCookie(name)
 
       <h1 class="my-4">Welcome to Group 1's Grocery Service Admin Page</h1>
 
-      <body onload="refreshDelete()">
+      <body onload="start()">
 
 <form action ="/admin/home" type ="post">
   <div class = "row">
@@ -635,6 +692,7 @@ function eraseCookie(name)
         <th> Category </th>
         <th> Image </th>
         <th> Description </th>
+        <th> Update Item</th>
         <th> Delete Item</th>
     </tr>
     {% for item in items %}
@@ -647,13 +705,26 @@ function eraseCookie(name)
         <td><div contenteditable> {{item.tags}}</div></td>
         <td><div contenteditable style="width:150px;"> {{item.image}} </div></td>
         <td><div contenteditable> {{item.description}}</div></td>
+
+
+
+        <form value = "UPDATE" name = "UPDATE" method = "post">
+            <td align="center">
+              <button style="background-color:green; border-color:green; width: 200px" class = "btn btn-primary" onclick= "updating({{item.id}})"
+                      name = "Update {{item.name}}">Update {{item.name}}</button>
+            </td>
+                <input type="hidden" id="updateitem" name="updateitem" value = "" />
+            {% csrf_token %}
+        </form>
+
         <form value = "DELETE" name = "DELETE" method = "post">
             <td align="center">
-              <button style="background-color:red; border-color:red " class = "btn btn-primary" onclick="deleting({{item.id}})" name = "Delete {{item.name}}">Delete {{item.name}}</button>
+              <button style="background-color:red; border-color:red; width: 200px " class = "btn btn-primary" onclick="deleting({{item.id}})" name = "Delete {{item.name}}">Delete {{item.name}}</button>
             </td>
                 <input type="hidden" id="deleteinput" name="deleteinput" value = "" />
             {% csrf_token %}
         </form>
+
 
 
     </tr>

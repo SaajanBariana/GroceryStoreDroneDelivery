@@ -1,0 +1,202 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+.main {
+  padding-top: 5em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #D0D0D0;
+}
+
+.cartContainer {
+  width: 75%;
+  max-width: 960px;
+}
+
+h1 {
+  font-size: 2em;
+  float:left
+}
+
+a.continue {
+  padding: 1em;
+  font-size: .75em;
+  font-weight: bold;
+  color: #fff;
+  background: #82ca9c;
+  border-radius: 50px;
+  letter-spacing: -.015em;
+  text-decoration: none;
+  float: right;
+  max-width: 250px;
+}
+
+.cart {
+  padding-bottom: 2em;
+  border-bottom: 1px solid #D0D0D0;
+}
+
+ul {
+  list-style-type: none;
+  margin-bottom: 0;
+}
+
+.itemImg {
+  width: 110px;
+  height: 110px;
+  float: left;
+}
+
+#info-wrap {
+  padding-top: 1em;
+  display: flex;
+}
+
+#cart-section {
+  float: left;
+  width: 60%;
+}
+
+.prodinfo-container{
+  padding-left: 125px;
+}
+
+#prodTotal {
+  flex: 1;
+  float: right;
+  width: 40%;
+  text-align: center;
+  color: #777;
+}
+
+.prodTotalCalc {
+  padding-top: 43px;
+  font-size: 1.3em;
+  display:inline-block;
+  position: relative;
+  left: 50px;
+}
+.delete-item {
+  display:inline-block;
+  position: relative;
+  left: 100px;
+  border: none;
+}
+.delete-item:focus {
+  outline: none;
+}
+.delete-item:before {
+  font-family: FontAwesome;
+  content: "\f014";
+}
+.delete-item:active {
+  transform: translateY(1.5px);
+}
+.item-weight {
+  margin-bottom: 0;
+  font-size: .75em;
+  color: #777;
+}
+
+h3 {
+  font-size: 1em;
+  padding-bottom: 1.25em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.qty {
+  font-weight: bold;
+  font-size: 1em;
+  width: 45px;
+  height: 25px;
+  text-align: right;
+}
+
+.qty-price {
+  display:inline-block;
+  font-weight: bold;
+  font-size: 1.25em;
+    color: #777777;
+}
+
+#qtyPrice {
+  padding-left: 10px;
+}
+
+.stock-status {
+  display: inline-block;
+  padding-left: 2em;
+  text-transform: uppercase;
+}
+
+.weightChecker {
+  float: left;
+}
+
+.subtotal {
+  float: right;
+  width: 50%;
+}
+
+.totalRow {
+  padding: .25em;
+  text-align: right;
+}
+
+.label {
+  font-family: fontSans;
+  font-size: .85em;
+  text-transform: uppercase;
+  color: #777;
+}
+
+.value {
+  display: inline-block;
+  padding: 0 0 0 1em;
+  width: 50%;
+  max-width: 140px;
+  text-align: right;
+}
+
+.final {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.checkout {
+  width: 70%;
+  text-align: center;
+}
+
+.weightChecker {
+  margin-top: 10px;
+  margin-left: 10px;
+  border:2px solid #efefef;
+  float: left;
+  width: 25%;
+  max-width: 175px;
+  padding: 2%;
+  padding-bottom: 25px;
+  text-align: center;
+}
+
+label[for=w] {
+  display: block;
+  width: 100%;
+  font-style: italic;
+  font-size: 1.15em;
+  letter-spacing: -.025em;
+}
+
+#weight {
+  font-size: 1em;
+  padding: .5em;
+  width: 75px;
+  margin: auto;
+  border: 1px solid #dadada;
+  text-align: center;
+  margin-bottom: 10px;
+}

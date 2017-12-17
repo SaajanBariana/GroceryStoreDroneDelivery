@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+
+<script type="text/javascript">
+    function toggleDropDown() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+    if (!e.target.matches('.dropbtn')) {
+        var myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+            myDropdown.classList.remove('show');
+        }
+    }
+}
+function getFilter() {
+    document.getElementById("");
+}
+</script>
+
+<script type="text/javascript">
+    function readCookie(name){
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') {
+                c = c.substring(1,c.length);
+            }
+            if (c.indexOf(nameEQ) == 0) {
+                return c.substring(nameEQ.length,c.length);
+            }
+        }
+        return null;
+    }
+function eraseCookie(name){
+    createCookie(name,"",-1);
+}
+function logout() {
+    eraseCookie("username");
+    eraseCookie("email");
+    eraseCookie("tracking_id");
+    eraseCookie("Destination");
+    eraseCookie("Total");
+    eraseCookie("Store");
+    eraseCookie("gsScrollPos-794");
+    window.location.href = '/home/';
+}
+function check_login_for_payment() {
+    // alert("This works");
+    if(readCookie("user_id") != null) {
+
+        document.getElementById('username_id').value=readCookie("user_id");
+    } else {
+        //alert("No cookes found line at 133 in profile.html")
+    }
+}
+if (readCookie("username") != "" && readCookie("username") != null) {
+    document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+    // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
+    document.write(' <a class="dropdown-item" href="/home/profile">Profile</a>');
+    document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
+    //  document.write('</div></li>');
+} else {
+    document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+    document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
+    // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
+}
+</script>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://use.fontawesome.com/1335577d55.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link href="../../static/profile.css" rel="stylesheet">
+    <script src="../../static/profile.js"></script>
+    <title>{{ Username }}</title>
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+
+            <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <!--- Search Bar --->
+                    <form action="/home/search.html" type="get">
+                        <select id="drop_down_filter" name="drop_down_filter">
+                            <option value="Categories">Categories</option>
+                            <option value="Fruit">Fruits</option>
+                            <option value="Vegetable">Vegetables</option>
+                            <option value="Meat">Meats</option>
+                            <option value="Dairy">Dairies</option>
+                            <option value="Seafood">Seafood</option>
+                            <option value="Grains">Grains</option>
+                        </select>
+                        <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                            <button id="search_submit" type="submit">Go</button>
+                            </form>
+
+                    <li class="nav-item" style="">
+                        <a class="nav-link" href="/admin/">Admin Page</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/tracking_home">Tracking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/contact_us">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/shoppingcart">
+                            <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
+                                </a>
+
+                    </li>
+
+                    <li class="nav-item dropdown">
+
+                        <script type="text/javascript">
+                            if(readCookie("username") != "" && readCookie("username") != null){
+                                var name = readCookie("username");
+                                document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + name + '</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                                // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
+                                document.write(' <a class="dropdown-item" href="profile">Profile</a>');
+                                document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
+                                //  document.write('</div></li>');
+                            }
+                        else {
+                            document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                            document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
+                            // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
+                        }
+
+                            </script>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<div class="fullContainer">
+    <div class="inform-container">
+        <div class="left-container">
+            <h3 class="dash-title">Dashboard</h3>
+            <ul>
+                <li class="dash">
+                    <button class="dashbtn">My Account</button>
+                </li>
+
+            </ul>
+        </div>
+        <div class="right-container">
+            <div class="content-container">
+                <!--Needs to get name from backend -->
+                <h3 class="name-title">Overview</h3>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="editbutton" onclick="loadProfileInfo()">Edit</button>
+                <div style="clear: both;"></div>
+                <p class="desc">From your dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.</p>
+                <div class="column-wrapper">
+                    <div class="acc-column">
+                        <h3 class="column-title">Account Information</h3>
+                        <h4 class="info-title">Contact Information</h4>
+                        <!--Needs to get name from backend -->
+                        <p class="userInfo" id="usrInfo"><script>getUsername()</script></p>
+                        <p class="userInfo" id="usrEmail"><script>getEmail()</script></p>
+
+                    </div>
+                    <div class="address-column">
+                        <h3 class="column-title">Address Book</h3>
+
+
+                        <!--Needs to get info from backend -->
+                        <button class="info-title addrbook">Manage Address</button>
+                        <ul>
+                            <script>loadAddress()</script>
+                        </ul>
+
+
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+                <div class="payment-row">
+                    <h3 class="column-title">Payment Information</h3>
+
+                    <!--Needs to get name from backend -->
+                    <button class="info-title payment">Manage Wallet</button>
+                    <ul>
+                        <li>
+                            <script>loadNumber()</script>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Contact Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/home/profile/">
+                        {% csrf_token %}
+                        <div class="page-header">
+                            <h5>Address Information</h5>
+                            <br>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-info-name" class="form-control-label">Name:</label>
+                            <input type="text" class="form-control" id="user-name-addr" name="name-addr">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="form-control-label">Street Address:</label>
+                            <input type="text" class="form-control" id="street-addr" name="street-addr">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="form-control-label">City:</label>
+                            <input type="text" class="form-control" id="city-addr" name="city-addr">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="form-control-label">Zipcode:</label>
+                            <input type="text" class="form-control" id="zip-addr" name="zip-addr">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="form-control-label">State (ex: CA):</label>
+                            <input type="text" class="form-control" id="state-addr" name="state-addr">
+                        </div>
+                        <div class="page-header">
+                            <h5>Payment Information</h5>
+                            <br>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-info-name" class="form-control-label">Name:</label>
+                            <input type="text" class="form-control" id="name-cc" name="name-cc">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="form-control-label">Zipcode:</label>
+                            <input type="text" class="form-control" id="zip-cc" name="zip-cc">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-info-name" class="form-control-label">Credit Card Number:</label>
+                            <input type="text" class="form-control" id="number-cc" name="number-cc" maxlength="16">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-info-name" class="form-control-label">CCV:</label>
+                            <input type="text" class="form-control" id="ccv-cc" name="ccv-cc">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-info-name" class="form-control-label">EXP:</label>
+                            <input type="text" class="form-control" id="exp-cc" name="exp-cc">
+                            <input id="username_id" type="hidden" name="user_id" value="" />
+                        </div>
+                        <script type="text/javascript">check_login_for_payment();</script>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="update_type" value="update" onclick="setCookie()">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

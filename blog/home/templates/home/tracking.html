@@ -1,79 +1,915 @@
-
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="../../static/jquery.min.js"></script>
     <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <style>
       /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+      * element that contains the map. */
       #map {
-        height: 90%;
+      height: 60%;
+      width: 100%;
+      margin-bottom: 5%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
-        height: 100%;
-        margin: 1%;
-        padding: 1%;
+      height: 100%;
+      margin: 1%;
+      padding: 1%;
       }
-
-      input[type=text], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
+      .input_tracking {
+      width: 60%;
+      margin:1% auto 0 auto;
+      }
+      #fname {
+      width: 100%;
+      padding: 12px 20px;
+      margin:1% auto 0 auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      }
+      .delivery .imgcircle, .dispatch span.line   {
+      background-color:#98D091;
+      }
+      body{background-color: #fff;}
+      .social-icon {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      }
+      .social-icon li{
+      display: inline-block;
+      text-align: center;
+      }
+      .social-icon a {
+      display: block;
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      border-radius: 50%;
+      margin-right: 5px;
+      }
+      .social-icon a {
+      background: rgba(255, 255, 255, 0.85); /* social icon background color */
+      color: #000; /* social icon color */
+      }
+      .social-icon a:hover {
+      background: rgba(255, 255, 255, 0.25); /* social icon hover background color */
+      color: #fff; /* social icon hover color */
+      }
+      .footer {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      padding: 1rem;
+      background-color: #343a40;
+      }
     </style>
+    <script type="text/javascript">
+        function toggleDropDown() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(e) {
+        if (!e.target.matches('.dropbtn')) {
+            var myDropdown = document.getElementById("myDropdown");
+            if (myDropdown.classList.contains('show')) {
+                myDropdown.classList.remove('show');
+            }
+        }
+    }
+    function getFilter() {
+        document.getElementById("");
+    }
+    /*
+     Creates a new cookies or updates an old one when you click on the add to cart button
+     Also updates the MainCookie to include this cookie we just added
+     */
+    function openWindow(obj, name, cost, weight, quantity, image){
+
+        var result = document.getElementById(name).value //recieves the input value for how many of that item we want to add to the cart
+        document.getElementById(name).value = 0; //resets the value back to 0 for the amount we want from that item
+        console.log("Clicked on the button"); //check to make sure that this function is working
+        if(result > 0) //make sure that you have given a quantity for that item
+        {
+            obj.style.background = 'green'; //change the color of the button to green to confirm that it submitted
+
+            //creating the new cookie for that item
+            var oldCookie = readCookie(name);
+            if (oldCookie != "") //check to see if you have a previous cookie with this name
+            {
+                if(oldCookie == null)
+                {
+                    var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
+                }
+                else
+                {
+                    var array = oldCookie.split(","); //if you do have an old one, split it and turn it into an array
+                    var amount = array[0]; //receive the amount that you previously have for that item
+                    var newCookie = createCookie(name, (Number(result) + Number(amount)) + "," + cost + "," + weight + "," + quantity + "," + image, 1); //add the current amount with the previous value to update the total amount of items you want to purchase
+                }
+
+            }
+            else {
+                var newCookie = createCookie(name, result + "," + cost + "," + weight + "," + quantity + "," + image, 1); //if you don't have a previous cookie, create a new one with all its values
+            }
+
+            //updating the MainCookie
+            var oldMainCookie = readCookie("MainCookie"); //retrieves the MainCookie
+            if (oldMainCookie != "" && oldMainCookie != null) //checks if it is currently empty
+            {
+
+                var list = oldMainCookie; //if it is not empty, store the previous value into list
+                if(list.indexOf(name) == -1) //check to see if the item already exists in the list
+                {
+                    list += name + ","; //if it does not exist, add it into the list
+                    var newCookie = createCookie("MainCookie",list, 1); //update the MainCookie with the new value
+                }
+
+            }
+            else {
+                var MainCookie = createCookie("MainCookie", name + ",", 1); //if it is empty, creates a new MainCookie with the new item stored into it
+            }
+
+            var tempMainCookie = readCookie("MainCookie"); //read the new updated value in MainCookie
+            var tempCurrentCookie = readCookie(name); //read the new updated value for that item cookie
+            // alert("MainCookie: " + tempMainCookie + "\nJust Added Cookie\n" + name + " : " + tempCurrentCookie); //create an alert that displays this information
+        }
+        else {
+            obj.style.background = 'red'; //if the value of the input is 0, set the color of the button to red
+            alert("Please enter a value and click again"); //display that they need to enter a value
+        }
+    }
+    /*
+     Display all the cookies for the items we currently have selected
+     */
+    function ShowAllCookies(){
+
+        var MainCookie = readCookie("MainCookie"); //read the MainCookie
+        if (MainCookie != "" && MainCookie != null) //check if that Cookie is empty
+        {
+            var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+            var message = "";
+            //for each item in the array of the MainCookie, add its value to message
+            for (var i = 0; i < array.length-1; i++)
+            {
+                message += array[i] + ": " + readCookie(array[i]) + "\n";
+            }
+
+        }
+        //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all of the cookies
+    }
+    /*
+     Display the URL for the items' pictures
+     */
+    function ShowAllImages(){
+        var MainCookie = readCookie("MainCookie"); //read the MainCookie
+        if (MainCookie != "")
+        {
+            var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+            var message = "";
+
+            //for each item in the array of the MainCookie
+            for (var i = 0; i < array.length-1; i++)
+            {
+                var currentCookie = readCookie(array[i]); //read that cookie
+                var innerArray = currentCookie.split(","); //split it by the commas
+                message += array[i] + ": " + innerArray[4] + "\n"; //grab the URL in position 4 of the array for this cookie
+            }
+
+        }
+        //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the URLs
+    }
+    /*
+     Display the total amount of items you have selected
+     */
+    function ShowAllCurrentTotal(){
+        var MainCookie = readCookie("MainCookie"); //read the MainCookie
+        if (MainCookie != "")
+        {
+            var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+            var message = "";
+
+            //for each item in the array of the MainCookie
+            for (var i = 0; i < array.length-1; i++)
+            {
+                var currentCookie = readCookie(array[i]); //read that cookie
+                var innerArray = currentCookie.split(","); //split it by the commas
+                message += array[i] + ": " + innerArray[0] + "\n"; //grab the current count in position 0 of the array for this cookie
+            }
+
+        }
+        //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the count counts
+    }
+    /*
+     Display the total amount of each item that is curently available in the Database
+     */
+    function ShowAllQuantities(){
+        var MainCookie = readCookie("MainCookie"); //read the MainCookie
+        if (MainCookie != "")
+        {
+            var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+            var message = "";
+
+            //for each item in the array of the MainCookie
+            for (var i = 0; i < array.length-1; i++)
+            {
+                var currentCookie = readCookie(array[i]); //read that cookie
+                var innerArray = currentCookie.split(","); //split it by the commas
+                message += array[i] + ": " + innerArray[3] + "\n"; //grab the total amount in the database in position 3 of the array for this cookie
+            }
+
+        }
+        // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the total amounts from the database
+    }
+    /*
+     Display all the weights per Item
+     */
+    function ShowAllWeights(){
+        var MainCookie = readCookie("MainCookie"); //read the MainCookie
+        if (MainCookie != "")
+        {
+            var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+            var message = "";
+
+            //for each item in the array of the MainCookie
+            for (var i = 0; i < array.length-1; i++)
+            {
+                var currentCookie = readCookie(array[i]); //read that cookie
+                var innerArray = currentCookie.split(","); //split it by the commas
+                message += array[i] + ": " + innerArray[2] + "\n"; //grab the weight per item in position 2 of the array for this cookie
+            }
+
+        }
+        //alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the weights
+    }
+    /*
+     Display all the costs for each item
+     */
+    function ShowAllCosts(){
+        var MainCookie = readCookie("MainCookie"); //read the MainCookie
+        if (MainCookie != "")
+        {
+            var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+            var message = "";
+
+            //for each item in the array of the MainCookie
+            for (var i = 0; i < array.length-1; i++)
+            {
+                var currentCookie = readCookie(array[i]); //read that cookie
+                var innerArray = currentCookie.split(","); //split it by the commas
+                message += array[i] + ": " + innerArray[1] + "\n"; //grab the cost per item in position 1 of the array for this cookie
+            }
+
+        }
+        // alert("MainCookie: " + readCookie("MainCookie") + "\n" + "Rest of the cookies: \n" + message); //display all the costs
+    }
+    /*
+     delete all of the cookies currently held by MainCookie while also removing them from MainCookie
+     */
+    function DeleteAllCookies(){
+
+        var MainCookie = readCookie("MainCookie"); //read the MainCookie
+        if (MainCookie != "" && MainCookie != null)
+        {
+            var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+
+            //for each item in the array of the MainCookie
+            for (var i = 0; i < array.length-1; i++)
+            {
+                eraseCookie(array[i]); //delete that item
+            }
+            createCookie("MainCookie", "", 1); //reset the MainCookie
+
+        }
+        // alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+    }
+    /*
+     creates a cookie with a given name, a value, and a number of days that it is active for
+     */
+    function createCookie(name,value,days){
+        if (days)
+        {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+            var expires = "; expires=" + date.toGMTString();
+        }
+        else
+        {
+            var expires = "";
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    /*
+     recieve information from a cookie
+     */
+    function readCookie(name){
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') {
+                c = c.substring(1,c.length);
+            }
+            if (c.indexOf(nameEQ) == 0) {
+                return c.substring(nameEQ.length,c.length);
+            }
+        }
+        return null;
+    }
+    /*
+     erase a cookie
+     */
+    function eraseCookie(name){
+        createCookie(name,"",-1);
+    }
+    function logout() {
+        eraseCookie("username");
+        eraseCookie("email");
+        eraseCookie("tracking_id");
+        DeleteAllCookies();
+        eraseCookie("Destination");
+        eraseCookie("Total");
+        eraseCookie("Store");
+        eraseCookie("gsScrollPos-794");
+
+        window.location.href = '/home/';
+
+    }
+
+
+    function get_tracking_data() {
+         var user_id = readCookie('user_id');
+         console.log(user_id);
+         if(user_id == "") {
+            window.location.href = 'tracking';
+         }
+          console.log("Creating form for tracking");
+          document.write('<form method="Post" id="user_id_form" action="get_tracking_by_user_id">');
+           document.write('<input type="hidden"  name="csrfmiddlewaretoken" value="{{ csrf_token }}" >');
+           var value = "value="+user_id+" >'"
+           document.write('<input type="hidden"  name="user_id" ' + value);
+           document.write('</form>');
+           document.getElementById('user_id_form').submit();
+    }
+
+    function create_form_for_post_tracking(tracking) {
+      console.log("Creating form for tracking");
+      document.write('<form method="Post" id="tracking_id_form" action="confirmation">');
+       document.write('<input type="hidden"  name="csrfmiddlewaretoken" value="{{ csrf_token }}" >');
+       var value = "value="+tracking+" >'"
+       document.write('<input type="hidden"  name="tracking_number" ' + value);
+       document.write('</form>');
+    }
+    function post_method_tracking_update(tracking) {
+        console.log("Post method called from tracking");
+
+       document.getElementById('tracking_id_form').submit();
+
+}
+    </script>
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../../static/modern-business.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../../static/modern-business.css" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link href="../../static/style2.css" rel="stylesheet" type="text/css" media="all" />
   </head>
   <body>
-  	<div>
-  		<form action="/action_page.php">
-    <label for="fname">Tracking Page</label>
-    <input type="text" id="fname" name="firstname" placeholder="Enter Tracking Number">
+    {% if tracking_error %}
+    <script type="text/javascript">
+      alert('{{tracking_error}}');
+      window.location.replace('tracking');
+    </script>
+    {% endif %}
+    <!-- <div class="input_tracking">
+      <form method="Post" action="tracking_home">
+        {% csrf_token %}
 
-</div>
+      <input type="text" id="fname" name="firstname" placeholder="Enter Tracking Number">
+
+      </div> -->
+    <!--Navigation bar-->
+    <script></script>
+    <!-- Navigation -->
+    <link href="../../static/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/bootstrap.min.css" rel="stylesheet">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/home/">Group 1 Grocery Store</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
 
 
-    <div id="map"></div>
+                        <form action="/home/search.html" type="get">
+                            <select id="drop_down_filter" name="drop_down_filter">
+                                <option value="Categories">Categories</option>
+                                <option value="Fruit">Fruits</option>
+                                <option value="Vegetable">Vegetables</option>
+                                <option value="Meat">Meats</option>
+                                <option value="Dairy">Dairies</option>
+                                <option value="Seafood">Seafood</option>
+                                <option value="Grains">Grains</option>
+                            </select>
+                            <input id="search_bar" type="text" name="search_bar" placeholder="Search..." class="round">
+                                <button id="search_submit" type="submit">Go</button>
+                                </form>
+
+                        <li class="nav-item" style="">
+                            <a class="nav-link" href="/admin/">Admin Page</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="get_tracking_data()">Tracking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact_us">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="shoppingcart">
+                                <img src= "http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/empty-cart-light.png" style="vertical-align: initial;" height="35" width="35">
+                                    </a>
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            <script type="text/javascript">
+                                if(readCookie("username") != "" && readCookie("username") != null){
+                                    var name = readCookie("username");
+                                    document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + name + '</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                                    // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a>');
+                                    document.write(' <a class="dropdown-item" href="/home/profile">Profile</a>');
+                                    document.write(' <a class="dropdown-item" onclick="logout()">Log out</a></div>');
+                                    //  document.write('</div></li>');
+                                }
+                            else {
+                                document.write('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a><div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">');
+                                document.write(' <a class="dropdown-item" href="login_register">Log in/Register</a>');
+                                // document.write(' <a class="dropdown-item" href="shoppingcart">Shopping Cart</a></div>');
+                            }
+
+                                </script>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    <!--end of Navigation bar-->
+    <div class="content">
+      <div class="content1">
+        <h2 id="track_id">Tracking No:</h2>
+      </div>
+      <div class="content2">
+        <div class="content2-header1">
+          <p>Estimate time : <span id="estimate_time"></span></p>
+        </div>
+        <div class="content2-header1">
+          <p>Status : <span id="delivery_status">Item Dispatched</span></p>
+        </div>
+        <div class="content2-header1">
+          <p>Expected Date : <span id="delivery_date">{{time_stamp}}</span></p>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="content3">
+        <div class="shipment">
+          <div class="confirm">
+            <div class="imgcircle">
+              <img src="../../static/img/confirm.png" alt="confirm order">
+            </div>
+            <span class="line"></span>
+            <p>Confirmed </p>
+          </div>
+          <div class="process">
+            <div class="imgcircle">
+              <img src="../../static/img/process.png" alt="process order">
+            </div>
+            <span class="line"></span>
+            <p>Processing </p>
+          </div>
+          <div class="quality">
+            <div class="imgcircle">
+              <img src="../../static/img/quality.png" alt="quality check">
+            </div>
+            <span class="line"></span>
+            <p>Quality Check</p>
+          </div>
+          <div class="dispatch">
+            <div class="imgcircle">
+              <img src="../../static/img/drone.png" alt="dispatch product">
+            </div>
+            <span class="line"></span>
+            <p>Dispatched </p>
+          </div>
+          <div class="delivery" >
+            <div class="imgcircle" id="delivery_id">
+              <img src="../../static/img/delivery.png" alt="delivery">
+            </div>
+            <p> Delivered</p>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div id="map" "></div>
+    </div>
+    {% if destination %}
+
+      <form method="Post" id="tracking_id_form" action="confirmation">
+       <input type="hidden"  name="csrfmiddlewaretoken" value="{{ csrf_token }}" >
+
+       <input type="hidden"  name="tracking_number" value="{{track_id}}" >
+       </form>
+    <script type="text/javascript">
+        // global variables
+
+        var i = 0, howManyTimes;
+        var marker;
+        var map = null;
+        var totalTime;
+        var expectedTime;
+        var interval_update;
+        var interval_flag = 0;
+        var sleep_time = 1;
+        var check_d_time;
+        var total_time_seconds;
+        var temp_past_time;
+
+
+      var destination = '{{destination}}';
+      //destination = "alameda,ca";
+      var current_lang = '{{current_lang}}';
+
+      var cordinate = current_lang;
+      current_lang = Number(current_lang);
+      // alert(current_lang);
+      var current_lat = '{{current_lat}}';
+      cordinate = cordinate +","+ current_lang;
+      current_lat = Number(current_lat);
+
+      var delivery_status = '{{status}}';
+      var track_id = '{{track_id}}';
+      var time_stamp_db = track_id;
+
+    </script>
+    {% endif %}
+
+
     <script>
-       function initMap() {
-        var chicago = {lat: 37.324240, lng: -121.882652};
-        var indianapolis = {lat: 37.556315, lng: -122.005726};
+      // creating form for tracking update
+      //create_form_for_post_tracking(tracking);
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: chicago,
-          zoom: 7
-        });
+// This function will set cordinates of drone according to time left
+      function set_cordinate_drone(total_cordinates, total_time, time_left) {
+        // total_cordinates -> this is total number of cordinates from google map api (origin to destination )
+        // total_time (how much time will take in seconds)  (origin to destination )
+        // time_left (how much time left for delivery in second) ( total time - (order time - current time))
 
-        var directionsDisplay = new google.maps.DirectionsRenderer({
-          map: map
-        });
+        var temp1 = total_time/ total_cordinates; // how many second to go one corinate to other
+        var temp2 = total_time - time_left; // time gone from order to now
 
-        // Set destination, origin and travel mode.
-        var request = {
-          destination: indianapolis,
-          origin: chicago,
-          travelMode: 'DRIVING'
-        };
+        return temp2/temp1; // cordinate number based on second (where from drone will start whne user open tracking page agian)
 
-        // Pass the directions request to the directions service.
-        var directionsService = new google.maps.DirectionsService();
-        directionsService.route(request, function(response, status) {
-          if (status == 'OK') {
-            // Display the route on the map.
-            directionsDisplay.setDirections(response);
-          }
-        });
       }
 
 
-    
+      function check_delivery_status() {
+        check_d_time = parseInt(Math.floor(Date.now()) / 1000) - time_stamp_db;
+        console.log("Total second from order deliver: "+check_d_time);
+
+      }
+
+      check_delivery_status();
+
+      function send_ajax() {
+        console.log("Ajax request sending .....")
+            $.ajax({
+            type:'POST',
+            url: 'home/update_delivery/',
+            data: {
+              'deliver_update': '1', 'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function (data) {
+              console.log('delivery update');
+            },
+            error: function (data) {
+              console.log(data);
+            },
+          });
+      }
+      send_ajax();
+      //
+            function getDate() {
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if(dd<10) {
+                  dd = '0'+dd
+                }
+
+                    if(mm<10) {
+                        mm = '0'+mm
+                    }
+
+                return mm + '/' + dd + '/' + yyyy;
+
+            }
+
+
+
+      /*
+      This function wil set marker at particular location and remove  marker from map
+      which will show as marker is moving
+    */
+
+    var myAudio = new Audio('../../static/sound/sound.mp3');
+    var myAudio2 = new Audio('../../static/sound/drop.mp3');
+
+
+
+    if(delivery_status == 1 ) {
+
+      document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
+      document.getElementById("delivery_status").textContent = 'Delivered';
+      document.getElementById("estimate_time").textContent = '0 min';
+      document.getElementById("track_id").textContent = 'Tracking No: ' + track_id;
+
+
+      function initMap() {
+
+            // Create a map object and specify the DOM element for display.
+            map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: 37.324240, lng: -121.882652},
+              zoom: 8
+            });
+      }
+    } else {
+      document.getElementById("delivery_id").setAttribute("style"," background-color: lightgray;");
+      document.getElementById("delivery_status").textContent = 'Dispatched';
+      document.getElementById("estimate_time").textContent = Math.celi((total_time_seconds - check_d_time)/60);
+      console.log("Item is not deliver yet ");
+    }
+
+/**
+This function is moving icon on map
+**/
+
+
+
+
+      function f() {
+
+        if (i > 0) {
+              marker.setMap(null);
+              expectedTime = expectedTime - interval_update;
+              document.getElementById("estimate_time").textContent = parseInt(expectedTime) +  ' min';
+              myAudio.play();
+              temp_past_time = parseInt(Math.floor(Date.now()) / 1000) - time_stamp_db;
+              console.log("Passed time : ", temp_past_time);
+              console.log("Total time will took: ", total_time_seconds);
+              console.log("Time left : ", total_time_seconds - temp_past_time);
+
+
+        }
+
+          console.log(" location : " + i + " (" + locations[i].lat()+" , "+locations[i].lng() + " )")
+        marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i].lat(),locations[i].lng()),
+                        map: map,
+                        icon: new google.maps.MarkerImage(
+             // URL
+                                                          '../../static/img/drone.png',
+                                                          // (width,height)
+                                                          new google.maps.Size(50, 50),
+                                                          // The origin point (x,y)
+                                                          new google.maps.Point(0, 0),
+                                                          // The anchor point (x,y)
+                                                          new google.maps.Point(22, 32))
+                                                                  });
+
+          marker.id = i;
+          i++;
+
+          if( i < howManyTimes ){
+            // alert(howManyTimes +" , "+ totalTime +" , "+ expectedTime +  " , " + interval_flag+","+ interval_update);
+
+              setTimeout( f, sleep_time );
+          } else {
+            document.getElementById("delivery_status").textContent = 'Delivered';
+            document.getElementById("estimate_time").textContent = '0 min';
+            document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
+            setTimeout(3000);
+
+            post_method_tracking_update(track_id);
+
+             myAudio.pause();
+             myAudio2.play();
+
+
+          }
+      }
+
+             function initMap() {
+
+
+              var from = {lat: current_lang, lng: current_lat};
+
+               map = new google.maps.Map(document.getElementById('map'), {
+                center: from,
+                zoom: 7
+              });
+
+              var directionsDisplay = new google.maps.DirectionsRenderer({
+                suppressMarkers: true,map:map
+              });
+
+              // Set destination, origin and travel mode.
+            // alert(destination);
+              var request = {
+                destination: destination,
+                origin: from,
+                travelMode: 'DRIVING'
+              };
+      // Making marker here with given position, icon, title and map
+
+      function makeMarker(position, icon, title, map) {
+              new google.maps.Marker({
+                  position: position,
+                  map: map,
+                  icon: icon,
+                  title: title
+              });
+          }
+      // set icons
+          var icons = {
+              start: new google.maps.MarkerImage(
+              // URL
+              '../../static/img/store.png',
+              // (width,height)
+              new google.maps.Size(50, 50),
+              // The origin point (x,y)
+              new google.maps.Point(0, 0),
+              // The anchor point (x,y)
+              new google.maps.Point(22, 32))
+              // The origin point (x,y)
+             ,
+              end: new google.maps.MarkerImage(
+              // URL
+              'http://maps.google.com/mapfiles/ms/micons/green.png',
+              // (width,height)
+              new google.maps.Size(44, 32),
+              // The origin point (x,y)
+              new google.maps.Point(0, 0),
+              // The anchor point (x,y)
+              new google.maps.Point(22, 32)),
+              start_1: new google.maps.MarkerImage(
+              // URL
+            '../../static/img/store.png',
+              // (width,height)
+              new google.maps.Size(50, 50),
+              // The origin point (x,y)
+              new google.maps.Point(0, 0),
+              // The anchor point (x,y)
+              new google.maps.Point(22, 32))
+              // The origin point (x,y)
+             ,
+          };
+
+              // Pass the directions request to the directions service.
+              var directionsService = new google.maps.DirectionsService();
+              directionsService.route(request,  function(response, status) {
+                if (status == 'OK') {
+                  // Display the route on the map.
+                  var distance = response.routes[0].legs[0].distance.value * 0.00062137119223733; // for convert to miles
+                  var duration = response.routes[0].legs[0].duration.value;
+                  total_time_seconds = Math.ceil(duration);
+                  console.log("Total ditance time in seconds" + total_time_seconds);
+                  duration = Math.ceil(duration / 60); // time in minute
+                  totalTime = Math.ceil(duration);
+                  expectedTime = Math.ceil(totalTime);
+
+
+                  //var paths = response.routes[0].overview_path;
+                  // var legs = response.routes[0].legs;
+                  // alert(legs);
+                  distance = distance.toFixed(2);
+
+                  document.getElementById("delivery_date").textContent = getDate() ;
+                  document.getElementById("track_id").textContent = 'Tracking No: ' + track_id;
+                  if(delivery_status == 0) {
+                    document.getElementById("delivery_id").setAttribute("style"," background-color: lightgray;");
+                    document.getElementById("delivery_status").textContent = 'Dispatched';
+                    document.getElementById("estimate_time").textContent = duration;
+
+                  } else if(delivery_status == 1){
+
+                    document.getElementById("delivery_id").setAttribute("style"," background-color: green;");
+                    document.getElementById("delivery_status").textContent = 'Delivered';
+                    document.getElementById("estimate_time").textContent = '0 min';
+                    console.log("This status updating from internal status check");
+
+                  }
+
+                  //span.textContent = duration;
+
+                //  alert(distance +"miles , "+ duration); // the distance in metres
+                  directionsDisplay.setDirections(response);
+                  var leg = response.routes[0].legs[0];
+                   makeMarker(leg.start_location, icons.start, "destination", map);
+                   makeMarker(leg.end_location, icons.end, 'title', map);
+
+                    locations = response.routes[0].overview_path;
+
+                   howManyTimes = locations.length;
+
+                   if(howManyTimes > totalTime) {
+                     //  interval_update = Math.ceil(howManyTimes/totalTime);
+                        interval_update = totalTime/howManyTimes;
+                   } else {
+                       interval_update = howManyTimes/totalTime;
+                   }
+
+
+      // Calling function to move marker on map
+                    console.log(" No of cordinates : "+howManyTimes);
+
+
+
+                    if(total_time_seconds > howManyTimes) {
+                      sleep_time = (total_time_seconds / howManyTimes) * 1000;
+                    } else {
+                      sleep_time = (howManyTimes/total_time_seconds ) * 1000;
+                    }
+
+                    temp_past_time = parseInt(Math.floor(Date.now()) / 1000) - time_stamp_db;
+                    expectedTime = Math.ceil((total_time_seconds-temp_past_time)/60);
+                    console.log(" sleep time for icon: "+ sleep_time);
+                    console.log(howManyTimes);
+                    console.log(total_time_seconds);
+                    console.log((total_time_seconds - temp_past_time));
+                    i = Math.ceil(set_cordinate_drone(howManyTimes,total_time_seconds, (total_time_seconds - temp_past_time)));
+                    console.log("Cordinate will start from position : " + i);
+
+
+                    //check if delivery time has been over than order time or not
+                    // if not then set marker according to position
+                    if((total_time_seconds - temp_past_time) > 0 ) {
+
+                        marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i].lat(),locations[i].lng()),
+                        map: map,
+                        icon: new google.maps.MarkerImage(
+             // URL
+                                                          '../../static/img/drone.png',
+                                                          // (width,height)
+                                                          new google.maps.Size(50, 50),
+                                                          // The origin point (x,y)
+                                                          new google.maps.Point(0, 0),
+                                                          // The anchor point (x,y)
+                                                          new google.maps.Point(22, 32))
+                                                                  });
+
+                    } else {
+                      // product hass been deliverd
+                      console.log("post request sending for tracking id : " + track_id);
+                      post_method_tracking_update(track_id);
+
+                    }
+
+                    f();
+
+                } else {
+                  alert("Google map fail");
+                }
+              });
+            }
+
+
+
+
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCq3WKK9u3RkP7UMDwh4_UWtz6h_PIoK3Q&callback=initMap"
-    async defer></script>
+
+    <script src="../../static/popper.min.js"></script>
+    <script src="../../static/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCq3WKK9u3RkP7UMDwh4_UWtz6h_PIoK3Q&callback=initMap" async defer></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../static/cookies_handler.js"></script>
   </body>
 </html>

@@ -1,151 +1,304 @@
-<form>
 
-    <div class="form-group"> <!-- Full Name -->
-        <label for="full_name_id" class="control-label">Full Name</label>
-        <input type="text" class="form-control" id="full_name_id" name="full_name" placeholder="John Deer">
-    </div>
+<!DOCTYPE html>
 
-    <div class="form-group"> <!-- Street 1 -->
-        <label for="street1_id" class="control-label">Street Address 1</label>
-        <input type="text" class="form-control" id="street1_id" name="street1"
-               placeholder="Street address, P.O. box, company name, c/o">
-    </div>
+<html>
+<head>
+    <script src="../../static/jquery.min.js"></script>
+</head>
+    <link rel="stylesheet" href="../../static/credit_card_div.css">
 
-    <div class="form-group"> <!-- Street 2 -->
-        <label for="street2_id" class="control-label">Street Address 2</label>
-        <input type="text" class="form-control" id="street2_id" name="street2"
-               placeholder="Apartment, suite, unit, building, floor, etc.">
-    </div>
+<!-- Google api key AIzaSyBShRAptz8wAkaa-iIIfbY6OOhsF-8_GUg
 
-    <div class="form-group"> <!-- City-->
-        <label for="city_id" class="control-label">City</label>
-        <input type="text" class="form-control" id="city_id" name="city" placeholder="Smallville">
-    </div>
+ -->
+ <!-- <input type="text" id="location"> -->
+ <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBShRAptz8wAkaa-iIIfbY6OOhsF-8_GUg&libraries=places"></script>
+ <script type="text/javascript">
 
-    <div class="form-group"> <!-- State Button -->
-        <label for="state_id" class="control-label">State</label>
-        <select class="form-control" id="state_id">
-            <option value="AL">Alabama</option>
-            <option value="AK">Alaska</option>
-            <option value="AZ">Arizona</option>
-            <option value="AR">Arkansas</option>
-            <option value="CA">California</option>
-            <option value="CO">Colorado</option>
-            <option value="CT">Connecticut</option>
-            <option value="DE">Delaware</option>
-            <option value="DC">District Of Columbia</option>
-            <option value="FL">Florida</option>
-            <option value="GA">Georgia</option>
-            <option value="HI">Hawaii</option>
-            <option value="ID">Idaho</option>
-            <option value="IL">Illinois</option>
-            <option value="IN">Indiana</option>
-            <option value="IA">Iowa</option>
-            <option value="KS">Kansas</option>
-            <option value="KY">Kentucky</option>
-            <option value="LA">Louisiana</option>
-            <option value="ME">Maine</option>
-            <option value="MD">Maryland</option>
-            <option value="MA">Massachusetts</option>
-            <option value="MI">Michigan</option>
-            <option value="MN">Minnesota</option>
-            <option value="MS">Mississippi</option>
-            <option value="MO">Missouri</option>
-            <option value="MT">Montana</option>
-            <option value="NE">Nebraska</option>
-            <option value="NV">Nevada</option>
-            <option value="NH">New Hampshire</option>
-            <option value="NJ">New Jersey</option>
-            <option value="NM">New Mexico</option>
-            <option value="NY">New York</option>
-            <option value="NC">North Carolina</option>
-            <option value="ND">North Dakota</option>
-            <option value="OH">Ohio</option>
-            <option value="OK">Oklahoma</option>
-            <option value="OR">Oregon</option>
-            <option value="PA">Pennsylvania</option>
-            <option value="RI">Rhode Island</option>
-            <option value="SC">South Carolina</option>
-            <option value="SD">South Dakota</option>
-            <option value="TN">Tennessee</option>
-            <option value="TX">Texas</option>
-            <option value="UT">Utah</option>
-            <option value="VT">Vermont</option>
-            <option value="VA">Virginia</option>
-            <option value="WA">Washington</option>
-            <option value="WV">West Virginia</option>
-            <option value="WI">Wisconsin</option>
-            <option value="WY">Wyoming</option>
-        </select>
-    </div>
+   google.maps.event.addDomListener(window, 'load', doGeocode);
 
-    <div class="form-group"> <!-- Zip Code-->
-        <label for="zip_id" class="control-label">Zip Code</label>
-        <input type="text" class="form-control" id="zip_id" name="zip" placeholder="#####">
-    </div>
+// function initialize() {
+//     var input = document.getElementById('Location');
+//     var autocomplete = new google.maps.places.Autocomplete(input);
+// }
+
+function doGeocode() {
+  var input = document.getElementById('Location');
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  //var addr = document.getElementById("address");
+  // Get geocoder instance
+  var geocoder = new google.maps.Geocoder();
+
+  // Geocode the address
+  geocoder.geocode({'Location': input.value}, function(results, status)
+  {
+    if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+
+      // set it to the correct, formatted address if it's valid
+      input.value = results[0].formatted_address;;
+
+      // show an error if it's not
+    } else alert("Invalid address" + status);
+  })
+}
+
+</script>
 
 
-</form>
+        <script type="text/javascript">
 
-<style>
-.credit-card-div  span { padding-top:10px; }
-.credit-card-div img { padding-top:30px; }
-.credit-card-div .small-font { font-size:9px; }
-.credit-card-div .pad-adjust { padding-top:10px; }
+            function AutofillCreditCard()
+            {
+
+                var input = readCookie("CreditInfo");
+                alert("Click Check Box: " + input);
+                if(input != "" && input != null)
+                {
+                    var array = input.split(",");
+                    var NameonCard1 = array[0];
+                    var zipcode1 = array[1];
+                    var CreditCardNumber= array[2];
+                    var ccv = array[3];
+                    var NameonCardInput = document.getElementById("Name");
+                    NameonCardInput.value = NameonCard1;
+                    var zipcodeinput = document.getElementById("ZipCode1");
+                    zipcodeinput.value = zipcode1;
+                    var CreditCardNumberinput = document.getElementById("CreditCardNum");
+                    CreditCardNumberinput.value = CreditCardNumber;
+                    var ccvinput = document.getElementById("ccv");
+                    document.getElementById("exp_date").value = array[4];
+                    ccvinput.value = ccv;
+
+                }
+            }
+
+        function ShowAutofillCreditCardCookie()
+        {
+            alert("CreditInfo: " + readCookie("CreditInfo"));
+        }
+        function DeleteAutofillCreditCardCookie()
+        {
+            createCookie("CreditInfo", "", -1);
+        }
+        function CreateAutofillCreditCardCookie()
+        {
+            //createCookie("Destination", "1234 Main Street, San Jose, CA, 94521 ", 1);
+            // createCookie("CreditInfo", "Test,9342,92830284,8345 ", 1);
+            //alert(readCookie("CreditInfo"));
+        }
 
 
-</style>
 
-<form action="/home/confirmation/" method="post" class="credit-card-div">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+        function Autofill()
+        {
 
-            <div class="row ">
-                <div class="col-md-12">
-                    <input type="text" class="form-control" placeholder="Enter Card Number"/>
-                </div>
+            var input = readCookie("Destination");
+            alert("Click Check Box: " + input);
+            if(input != "" && input != null)
+            {
+                var array = input.split(",");
+                var streetname1 = array[0];
+                // var cityname = array[1];
+                // var statename= array[2];
+                // var zipcode1 = array[3];
+
+                var streetinput = document.getElementById("Location");
+                streetinput.value = streetname1;
+                // var citynameinput = document.getElementById("City");
+                // citynameinput.value = cityname;
+                // var statenameinput = document.getElementById("State");
+                // statenameinput.value = statename;
+                // var zipcodeinput = document.getElementById("ZipCode");
+                // zipcodeinput.value = zipcode1;
+
+
+
+            }
+        }
+
+        function ShowAutofillCookie()
+        {
+            alert("Store Cookie: " + readCookie("Destination"));
+        }
+        function DeleteAutofillCookie()
+        {
+            createCookie("Destination", "", -1);
+        }
+        function CreateAutofillCookie()
+        {
+            //createCookie("Destination", "1234 Main street, San Jose, CA,94521", 1);
+            //alert(readCookie("Destination"));
+        }
+
+        function DeleteAllCookies(){
+
+            var MainCookie = readCookie("MainCookie"); //read the MainCookie
+            if (MainCookie != "" && MainCookie != null)
+            {
+                var array = MainCookie.split(","); //split that result and turn it into an array with all the items
+
+                //for each item in the array of the MainCookie
+                for (var i = 0; i < array.length-1; i++)
+                {
+                    eraseCookie(array[i]); //delete that item
+                }
+                createCookie("MainCookie", "", 1); //reset the MainCookie
+
+            }
+            alert(readCookie("MainCookie")); //display current MainCookie, which should be empty
+        }
+
+        function SetStoreID()
+        {
+            var input = document.getElementById("store");
+            input.value = readCookie("Store");
+        }
+        function ShowStoreCookie()
+        {
+            alert("Store Cookie: " + readCookie("Store"));
+        }
+        function DeleteStoreCookie()
+        {
+            createCookie("Store", "", -1);
+        }
+        function CreateStoreCookie()
+        {
+            createCookie("Store", "1", 1);
+        }
+        function createCookie(name,value,days)
+        {
+            if (days)
+            {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 *1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else
+            {
+                var expires = "";
+            }
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+        function readCookie(name)
+        {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') {
+                    c = c.substring(1,c.length);
+                }
+                if (c.indexOf(nameEQ) == 0) {
+                    return c.substring(nameEQ.length,c.length);
+                }
+            }
+            return null;
+        }
+        function check_login_for_payment() {
+            // alert("This works");
+            if(readCookie("user_id") != null) {
+                //alert(readCookie("user_id")  + " login");
+                document.getElementById('username_id').value=readCookie("user_id");
+            } else {
+                alert("Login required before purchase");
+                window.location.replace('login_register');
+            }
+        }
+        check_login_for_payment();
+
+        function sendToHomePage()
+        {
+            DeleteAllCookies();
+            window.location.href = '/home/';
+        }
+
+        function logout()
+        {
+            eraseCookie("username");
+            eraseCookie("email");
+            eraseCookie("tracking_id");
+            DeleteAllCookies();
+            eraseCookie("Destination");
+            eraseCookie("Total");
+            eraseCookie("Store");
+            eraseCookie("gsScrollPos-794");
+
+            window.location.href = '/home/';
+
+        }
+        </script>
+        <script src="../../home/creditcardvalidator.js" type="text/javascript"></script>
+
+        <head>
+            <meta charset="UTF-8">
+                <title>Credit card validation with card</title>
+
+                </head>
+
+
+        <!-- <script src="../../static/Total_Amount_Payment_Cookie.js"></script> -->
+
+
+        <body onload="CreateAutofillCreditCardCookie()">
+
+
+            <div class="body-text">Please enter Shipping and Payment Information.</div>
+            <form action="/home/creditcard" method="post"  class="credit-card-div">
+
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-container">
+                    <div class="personal-information">
+                        <h1>Shipping Information</h1>
+                    </div> <!-- end of personal-information -->
+                    <input type="checkbox" name="destination" value="Destination" onclick="Autofill()"> To use existing address<br>
+                        <!-- <input id="input-field" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/> -->
+                        <!-- <input id="column-left" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
+                         <input id="column-right" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
+                         <input id="input-field" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
+                         <input id="input-field" type="email" name="email" required="required" autocomplete="email" maxlength="40" placeholder="Email Address"/> -->
+
+                        <input onchange="doGeocode()" id="Location" type="text" name="Street_Name" required="required" autocomplete="Street_Name" maxlength="45" placeholder="Street Address"/>
+                        <!-- <input id="City" type="text" name="City" required="required" autocomplete="City" maxlength="40" placeholder="City"/>
+                        <input id="ZipCode" type="text" name="Zip_Code" required="required" autocomplete="Zip_Code" pattern="[0-9\s]*" maxlength="5" placeholder="ZIP code"/>
+                        <input id="State" type="text" name="State" required="required" autocomplete="State" minlength="2" maxlength="2" placeholder="State - Ex CA"/>
+ -->
+
+
+                        <div class="personal-information">
+                            <h1>Credit Card Information</h1>
+                        </div> <!-- end of Credit Card-information -->
+                        <input type="checkbox" name="creditcard" value="CreditInfo" onclick="AutofillCreditCard()"> To use existing Credit Card<br>
+                            <input id="Name" type="text" name="NameOnCard" required="required" placeholder="Name"/>
+                            <input id="ZipCode1" type="text" name="Card_Zipcode" required="required" pattern="[0-9\s]*" minlength="4" maxlength="5" placeholder="Zip Code"/>
+                            <input id="CreditCardNum" type="text" size ="19" required="required" minlength="8" maxlength="16" pattern="[0-9\s]*" name="Credit_Card_Number" placeholder="1234567890123456"/>
+                            <input id="ccv" type="text" name="CSV" pattern="[0-9\s]*" required="required" minlength="3" maxlength="5" placeholder="CCV"/>
+                            <input id="exp_date" type="text" name="exp_date" pattern="[0-9\s]*" required="required" minlength="6" maxlength="6" placeholder="mmyyyy"/>
+
+                            <input id="input-button" type="submit" href="/home" onclick="sendToHomePage()" name = "submit_payment" value="Submit"/>
+
+                            <!-- <input id="store" type="hidden" name="store_id" required="required" autocomplete="on" pattern=[0-9]* placeholder="store id, Select 1 or 2" -->
+                            <input id="store_id" type="hidden" name="store_id" value="1" />
+                            <input id="username_id" type="hidden" name="user_id" value="" />
+
+                            </form>
+            <!-- <button onclick="CreateStoreCookie()"> CLICK TO CREATE COOKIE </button>
+             <button onclick="ShowStoreCookie()"> CLICK TO SHOW COOKIE </button>
+             <button onclick="DeleteStoreCookie()"> CLICK TO DELETE COOKIE </button> -->
             </div>
-            <div class="row ">
-                <div class="col-md-3 col-sm-3 col-xs-3">
-                    <span class="help-block text-muted small-font"> Expiry Month</span>
-                    <input type="text" class="form-control" placeholder="MM"/>
-                </div>
-                <div class="col-md-3 col-sm-3 col-xs-3">
-                    <span class="help-block text-muted small-font">  Expiry Year</span>
-                    <input type="text" class="form-control" placeholder="YY"/>
-                </div>
-                <div class="col-md-3 col-sm-3 col-xs-3">
-                    <span class="help-block text-muted small-font">  CCV</span>
-                    <input type="text" class="form-control" placeholder="CCV"/>
-                </div>
-                <div class="col-md-3 col-sm-3 col-xs-3">
-                    <img src="assets/img/1.png" class="img-rounded"/>
-                </div>
-            </div>
-            <div class="row ">
-                <div class="col-md-12 pad-adjust">
 
-                    <input type="text" class="form-control" placeholder="Name On The Card"/>
-                </div>
-            </div>
-            <div class="row">
-                <!---<div class="col-md-12 pad-adjust">
-                    <div class="checkbox">
-                    <label>
-                      <input type="checkbox" checked class="text-muted"> Save details for fast payments <a href="#"> learn how ?</a>
-                    </label>
-                  </div>
-                </div>--->
-            </div>
-            <div class="row ">
-                <form action="http://127.0.0.1:8000/home/shopping_cart.html">
-                    <input type="submit" value="Cancel"/>
-                </form>
-                <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust">
-                    <input type="submit" class="btn btn-warning btn-block" value="Pay now"/>
-                </div>
-            </div>
+            <script type="text/javascript">
+                check_login_for_payment();
+                </script>
 
-        </div>
-    </div>
-</form>
+
+            <script src="../../static/jquery.min.js"></script>
+            <script src="../../static/popper.min.js"></script>
+            <script src="../../static/bootstrap.min.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+        </body>
+</html>
+
+
+<!-- THIS IS FOR THE SCRIPT -->
+<!-- <script src="../../static/creditcardvalidation.js"></script> -->
